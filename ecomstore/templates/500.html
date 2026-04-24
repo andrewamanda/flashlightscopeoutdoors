@@ -1,0 +1,15 @@
+
+
+{% extends "base.html" %}
+
+{% block site_wrapper %}
+<h1>500 - Internal Server Error</h1>
+
+<p>We're sorry, but the site you are trying to access is currently experiencing problems.
+<br /><br />
+We apologize for any inconvenience. Please try back again later.
+.</p>
+
+<p><a href="http://{{ site_url }}">Go back to {{ site_name }}</a>. </p>
+
+  {% endblock %}

@@ -1,0 +1,89 @@
+{% load catalog_tags %}
+
+{% current_domain as current_site %}
+<!--
+{% if 'andrew' in current_site %}
+    andrew
+{% else %}
+   {% if 'jetbeam' in current_site %}
+        jetbeam
+   {% endif %}
+{% endif %}
+-->
+<br />
+<div class="dropdownlabel">
+{% active_departments as departments %}
+Shop by:
+<select id="current_store" class="dropdown-menu">
+   <option value="default" selected><b>--SELECT A STORE--</b></option>
+{% for d in departments %}
+  {% belong2department request d as selected %}
+   <option value="{{ d.slug }}" {{ selected }}><b>{{ d.name }}</b></option>
+{% endfor %}
+</select>
+</div>
+
+<div class="cb"></div><br />
+
+{% for d in departments %}
+  {% belong2department request d as selected %}
+	<div id="ShopByDepartment_{{ d.slug }}" class="catalogNavigation roundedCorner" style="display:{% if selected == 'SELECTED'  %}block{% else %}none{% endif %}">
+<!--
+		<span class="cvi-text">
+			<a href="#" onClick="expandAll()">Expand all</a> <b>|</b> <a href="#" onClick="javascript:collapseAll()">Collapse all</a>
+		</span><br /><br />
+-->
+		<br />
+		<ul>
+			<div class="leftnav_content">
+<!-- this if block is used to keep the left nav expanded when the product is clicked from a category or brand, etc
+-->
+				{% if "/catalog/product" in request.path %}
+					{% category_list request.session.last_path d %}
+				{% else %}
+					{% category_list request.path d %}
+				{% endif %}
+			</div>
+			<br />
+                        {% is_flashlight_department d as is_flashlight %}
+                        {% if is_flashlight %}
+			<div class="leftnav_content">
+				{% if "/catalog/product" in request.path %}
+					{% brand_list request.session.last_path d %}
+				{% else %}
+					{% brand_list request.path d %}
+				{% endif %}
+			</div>
+			<br />
+			<div class="leftnav_content">
+				{% if "/catalog/product" in request.path %}
+					{% price_range request.session.last_path %}
+				{% else %}
+					{% price_range request.path %}
+				{% endif %}
+			</div>
+			<br />
+
+			<div class="leftnav_content">
+				{% if "/catalog/product" in request.path %}
+					{% max_output_list request.session.last_path %}
+				{% else %}
+					{% max_output_list request.path %}
+				{% endif %}
+			</div>
+			<br />
+			{% endif %}
+		</ul>
+
+	</div>
+{% endfor %}
+<!--
+	<div class="block">
+		{% include "tags/freeshipping.html" %}
+	</div>
+{% testimonial_tag %}
+-->
+{% if 'dealoftheday' not in request.path %}
+{% dealoftheday_tag %}
+{% endif %}
+{% newarrivals_tag %}

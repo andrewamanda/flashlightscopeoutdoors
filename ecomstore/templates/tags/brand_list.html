@@ -1,0 +1,50 @@
+{% load cache %}
+{% load catalog_tags %}
+
+<div id="leftnav_brand" class="leftnav_innercontainer">
+
+{% if 'brand' in request_path %}
+	<div class="facet-category"><a href="#/" onClick='toggleFacet("ShopByBrand_{{ department.slug }}")'><img id="facetTwisty_ShopByBrand_{{ department.slug }}" src="/static/images/siteImg/expanded_dark.gif" hspace="1"/>&nbsp;Select by Brands</a></div>
+
+	<div id="ShopByBrand_{{ department.slug }}" style="display:block;">
+
+{% else %}
+	<div class="facet-category"><a href="#/" onClick='toggleFacet("ShopByBrand_{{ department.slug }}")'><img id="facetTwisty_ShopByBrand_{{ department.slug }}" src="/static/images/siteImg/collapsed_dark.gif" hspace="1"/>&nbsp;Select by Brands</a></div>
+
+	<div id="ShopByBrand_{{ department.slug }}" style="display:none;">
+
+{% endif %}
+
+<br />
+<ul id="categories">
+
+{% with active_brands as brands %}
+	{% for c in brands %}
+		<li>
+		{% if c.get_absolute_url == request_path %}
+		<a href="{{ c.get_absolute_url }}" class="active" >{{ c.name }}</a>
+		{% series_list request_path c %}  <!-- move this to the line after the endif if the hover effect is wanted -->
+
+		{% else %}
+		<a href="{{ c.get_absolute_url }}" class="category">{{ c.name }}</a>
+		{% endif %}
+
+		</li>
+	{% endfor %}
+{% endwith %}
+
+</ul>
+  <div class="bottom_padding"></div>
+
+
+</div>
+</div>
+
+{% if 'brand' in request_path %}
+  <div id="ss" style="display:none;">
+{% else %}
+  <div id="ss" style="display:block;">
+{% endif %}
+
+  <div id="out_bottom_padding"></div>
+</div>

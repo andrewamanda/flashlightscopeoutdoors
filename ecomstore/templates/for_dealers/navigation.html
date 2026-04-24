@@ -1,0 +1,39 @@
+{% load cache %}
+{% load catalog_tags %}
+
+
+<div class="cb"></div>
+
+
+<span class="preload1"></span>
+<span class="preload2"></span>
+<ul id="nav">
+	<li class="top"><a href="{% url home %}" class="top_link"><span>Home</span></a></li>
+
+	<li class="top"><a href="{% url company %}" id="contacts" class="top_link"><span>Company</span></a>
+	</li>
+
+	<li class="top"><a href="{% url dealer_pricing %}" id="dealer_pricing" class="top_link"><span>Dealer Pricing</span></a>
+	</li>
+
+	<li class="top"><a href="{% url how_to_order %}" id="deal" class="top_link"><span>Order Now!!</span></a>
+	</li>
+
+	<li class="top"><a href="{% url dealer_locator %}" id="deal" class="top_link"><span>Dealer Locator</span></a>
+	</li>
+
+	<li class="top"><a href="{% url dealer_enroll %}" id="dealer_enroll" class="top_link"><span>Become a dealer</span></a>
+	</li>
+
+
+
+	{% if user.is_authenticated %}
+		<li class="right"><a href="{% url 'logout' %}" class="top_link"><span>Logout</span></a></li>
+	{% else %}
+		<li class="right"><a href="{% url 'login' %}" class="top_link"><span>Dealer Login</span></a></li>
+	{% endif %}
+
+
+</ul>
+
+		 

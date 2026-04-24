@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load catalog_tags %}
+{% load search_tags %}
+
+
+{% block site_wrapper %}
+
+	<div class="w100">
+		<div id="categoryTemplate1">
+			<ul class="breadcrumb">
+				<li class='active'>
+                			<span class="bold"> <a href="{% url 'home' %}">Home</a> </span>
+           			</li>
+			</ul>
+
+
+			<div class="layoutWithAllColumns">
+
+				<div class="layoutLeftColumn">
+					{% include 'base_leftnav.html' %}
+
+				</div>
+
+				<div class="layoutCenterColumn">
+					<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+					<div class="categoryBannerCMS">
+					</div>
+			
+					<div class="managedContent">
+						{% block content %}{% endblock %}
+					</div>
+				</div>
+
+				<div class="layoutRightColumn">
+
+					{% block rightcolumn %}{% endblock %}
+				</div>
+				<div class="cb"></div>
+
+
+			</div>
+		</div>
+	</div>
+
+				<div class="cb"></div>
+
+
+
+{% endblock %}
+

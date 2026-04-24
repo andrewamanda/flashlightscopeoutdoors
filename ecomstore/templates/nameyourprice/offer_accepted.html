@@ -1,0 +1,19 @@
+               <div class="box_r fr" id="CancelOfferForm" style="display:none;">
+                      <div><span style="font-size:14px;color:#CC0000;">Confirm to Cancel?</span></div>
+                      <div><textarea id="CancelReason" placeholder="Enter a comment, if any" rows="3" cols="30" onkeyup="return limitlength(this, 300)"></textarea></div>
+                      <div>
+
+                             <input type="image" src="/static/images/siteImg/back-button.gif"  class="nobackground_noborder" alt="Cancel" id="cancel_cancel" value="Cancel" onClick=showCancelOfferDiv() />
+                             <input type="image" src="/static/images/siteImg/confirm-button.png" id="ConfirmCancelOffer" class="nobackground_noborder" onClick=ConfirmCancelOffer() /><span class="displace"></span>
+                      </div>
+                </div>
+		<div class="box_r fr" id="ProceedToCheckOut">
+                        <div style="text-align:center;">
+                                <form method="POST" action="{% url 'checkoutauction' %}">{% csrf_token %}
+                                        <input type="image" src="/static/images/siteImg/view-cart-button.png" class="nobackground_noborder" id="beginCheckout" />
+                                </form>
+                        </div>
+                        <div style="text-align:center;">
+                             <input type="image" src="/static/images/siteImg/cancel-button-md.png"  class="nobackground_noborder" alt="CancelOffer" title="Click here if you would like to retrack and cancel your offer" id="CancelOfferAfterAccept" onClick=ShowCancelOfferForm() />
+                        </div>
+		</div>

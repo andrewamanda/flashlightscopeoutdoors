@@ -1,0 +1,53 @@
+		<div class="box_r fr" id="AfterAccept" style="display:none;">
+                        <div style="text-align:center;">
+                                <form method="POST" action="{% url 'checkoutauction' %}">{% csrf_token %}
+					<input type="image" src="/static/images/siteImg/view-cart-button.png" class="noborder" id="beginCheckout" />
+                                </form>
+                        </div>
+		</div>
+		<div class="box_r fr" id="AfterDecline" style="display:none;">
+                        <div style="text-align:right;"><span style="font-size:14px;color:#CC0000;">You have declined the seller's offer, you can make a new offer</span></div>
+		</div>
+		<div class="box_r fr" id="AfterCounter" style="display:none;">
+                        <div style="text-align:right;"><a href="{% url 'nameyourprice' %}"><img src="/static/images/siteImg/tabwhitecheckstatus.gif" /></a></div>
+		</div>
+		<div class="box_r fr" id="DeclineForm" style="display:none;">
+			<div><span style="font-size:14px;color:#CC0000;">Decline the offer?</span></div>
+			<div><textarea id="DeclineReason" placeholder="Enter a comment, if any" rows="3" cols="30" onkeyup="return limitlength(this, 300)"></textarea></div>
+			<div>
+                                <input type="image" src="/static/images/siteImg/back-button.gif"  class="nobackground_noborder" alt="Cancel" title="Go Back" id="cancel_decline" value="Cancel" onClick=showBuyerActionsDiv() />
+				<input type="image" src="/static/images/siteImg/confirm-button.png" title="Confirm" id="ConfirmDecline" class="nobackground_noborder" onClick=ConfirmDeclineOffer() /><span class="displace"></span>
+			</div>
+		</div>
+		<div class="box_r fr" id="AcceptForm" style="display:none;">
+			<div><span style="font-size:14px;color:#CC0000;">Accept the offer?</span></div>
+			<div><textarea id="AcceptComment" placeholder="Enter a comment, if any" rows="3" cols="30" onkeyup="return limitlength(this, 300)"></textarea></div>
+			<div>
+                                <input type="image" src="/static/images/siteImg/back-button.gif"  class="nobackground_noborder" alt="Cancel" id="cancel_acceptoffer" title="Go Back" value="Cancel" onClick=showBuyerActionsDiv() />
+				<input type="image" src="/static/images/siteImg/confirm-button.png" id="ConfirmAcceptOffer" class="nobackground_noborder" title="Confirm" onClick=ConfirmAcceptOffer() /><span class="displace"></span>
+			</div>
+		</div>
+		<div class="box_r fr" id="CounterOfferForm" style="display:none">
+			<div><span style="font-size:14px;color:#CC0000;">Your Counter Offer:</span>
+				{% with offerhistories|first as curroffer %}
+                			<p style="display:inline;font-size:11px;font-weight:bold;">$ <input type="text" id="BuyerCounterOfferPrice" size="5" value="{{curroffer.seller_offer_price}}" onkeypress="return isNumber(event)" /></p>
+				{% endwith %}
+				
+			</div>
+			<div><textarea id="CounterOfferComment" placeholder="Enter a comment, if any" rows="3" cols="30" onkeyup="return limitlength(this, 300)"></textarea></div>
+			<div>
+                                <input type="image" src="/static/images/siteImg/back-button.gif"  class="nobackground_noborder" alt="Cancel" title="Go Back" id="cancel_counteroffer" value="Cancel" onClick=showBuyerActionsDiv() />
+				<input type="image" src="/static/images/siteImg/confirm-button.png" class="nobackground_noborder" title="Confirm" id="ConfirmCounterOffer" onClick=ConfirmCounterOffer() /><span class="displace"></span>
+			</div>
+		</div>
+		<div class="box_r fr" id="OfferAction">
+			<div  style="text-align:center;">
+        			<input type="image" src="/static/images/siteImg/button-accept-offer.png"  class="nobackground_noborder" alt="AcceptOffer" title="Accept Offer" id="AcceptOffer" onClick=ShowAcceptOfferForm() />
+			</div>
+			<div style="text-align:center;">
+        			<input type="image" src="/static/images/siteImg/counter_offer.jpg"  class="nobackground_noborder" alt="CounterOffer" title="Counter Offer" id="CounterOffer" onClick=ShowCounterOfferForm() />
+			</div>
+			<div style="text-align:center;">
+        			<input type="image" src="/static/images/siteImg/decline_button.gif"  class="nobackground_noborder" alt="DeclineOffer" title="Decline Offer" id="DeclineOffer" onClick=ShowDeclineOfferForm() />
+			</div>
+		</div>

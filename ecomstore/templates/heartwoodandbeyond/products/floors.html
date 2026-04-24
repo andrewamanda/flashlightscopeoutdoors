@@ -1,0 +1,29 @@
+{% extends "heartwoodandbeyond/products/product_base.html" %}
+
+{% block product_item %}
+Reclaimed Wood Flooring
+{% endblock %}
+
+{% block product_header %}
+
+<h1 class="node__title">Reclaimed Wood Flooring</h1>
+{% endblock %}
+
+{% block product_content %}
+<div class="field field--name-field-image field--type-image field--label-hidden">
+  <div class="field__items">
+    <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/service_primary/public/praeb2.jpg?itok=DC7dsPSD" width="800" height="400" alt="" /></div></div></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><div class="rtecenter" style="margin-bottom: 20px;"><a href="#block-views-services-front-all#floors">VIEW PREFINISHED &amp; UNFINISHED NATURAL GRADE PINE GALLERY</a></div>
+    </div>
+  </div>
+</div>
+<div class="field field--name-body field--type-text-with-summary field--label-hidden">
+  <div class="field__items">
+    <div class="field__item even" property="content:encoded">
+      <p style="text-align: left;">Walking on history has never been so literal. Our Reclaimed Wood Flooring brings the whispers of bygone eras right to your feet. Each plank holds the essence of its original environment, whether it be from century-old barns, historic mills, or storied warehouses. Rich in character and timeless in charm, our flooring not only adds warmth and beauty to your spaces but also stands as a testament to sustainability and preservation. Experience the perfect blend of rustic allure and modern durability with every step you take.</p>
+</div>
+</div>
+</div>
+<hr>
+{% include "heartwoodandbeyond/galleries/floors.html" %}
+{% include "heartwoodandbeyond/galleries/gallery_styles.html" %}
+{% endblock %}

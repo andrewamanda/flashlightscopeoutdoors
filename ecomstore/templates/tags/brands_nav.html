@@ -1,0 +1,17 @@
+{% load catalog_tags %}
+
+<div class="block testimonials_sidebar">
+	<div class="block-title">
+	<strong><span>Store Brands</span></strong>
+	</div>
+	<div class="block-content">
+		{% for t in active_brands %}		
+
+			<div class="testimonial_sidebar_box">
+				<div class="testimonial_sidebar_text"><a href="{{ t.get_absolute_url }}"><img src="{% thumbnail_image_url t.image.url %}" /></a></div>
+			</div>
+		{% endfor %}
+
+    </div>
+</div>
+

@@ -1,0 +1,76 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li><a href="{% url 'our_heartpine_grades' %}">Our Services</a></li><li>Select #1 Heartpine</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+    <article about="/select-1-heartpine" typeof="sioc:Item foaf:Document" class="node node--service node--promoted node--full node--service--full">
+  <header>
+          <div class="field field--name-field-display-title field--type-text field--label-hidden"><div class="field__items"><div class="field__item even">The Beauty and Heritage of a Bygone Era</div></div></div>      <div class="field field--name-field-intro field--type-text-long field--label-hidden"><div class="field__items"><div class="field__item even"><p>Our Select #1 heartpine features all the beauty and integrity of our antique heartpine with a distinct grain patterns and warm tones create an inviting atmosphere that looks great in any room. Perfect for when you want the gorgeous look of antique honey, amber and burgundy heartpine for your home or office space! </p>
+</div></div></div>
+          <h1 class="node__title">Select #1 Heartpine</h1>
+      </header>
+
+  <div class="node__content">
+    <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items">
+
+      <div class="field__item even"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/service_primary/public/hwp2a20c.jpg?itok=1G6-33lA" width="800" height="400" alt="" /></div>
+      <div class="field__item even"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/service_primary/public/hwp2a20c.jpg?itok=1G6-33lA" width="800" height="400" alt="" /></div>
+
+      </div></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><p>Beautiful longleaf grain patterns, with classic rich, honey, amber and burgundy heartpine colors make up Select #1 Heartpine. Every reclaimed mill wood board has been hand-selected and brought back to its original luster by our skilled artisans. Just as no two homes are alike, each Select #1 heartpine board carefully shipped to you will have a distinct character and history all its own.</p>
+<p>Each salvaged wood board has combinations of linear grain and leaf grain face patterns. These reclaimed factory wood boards are sawn from the center heart of our 150 year old longleaf pine beams.</p>
+<h2>Specifications</h2>
+<ul>
+<li>Made from 100% reclaimed Longleaf Pine.</li>
+<li>Content: Sawn from 90 to 100% Heartpine.</li>
+<li>Grain pattern: A Combination of Quarter sawn and flat sawn.</li>
+<li>Density: 8 to 30 growth rings per inch</li>
+<li>Knots: Small and tight less than 1.5 inches.  One to two dozen knots per 100 sq. ft.</li>
+<li>Lengths: 1ft. to 10 ft.</li>
+<li>Widths: 2 in. to 10 in.</li>
+<li>Thickness: ½ in. or ¾ in. tongue and groove</li>
+<li>Color: red tones, light rose to deep burgundy</li>
+<li>Kiln dried to 6 – 8 % moisture content</li>
+</ul>
+<p>Professionally selected and sorted and bundled in random lengths. Current lead time for delivery is one to two weeks; however please call regarding inventory, as we have many grades in stock for immediate shipping.</p>
+</div></div></div><div class="field field--name-field-call-out field--type-text-long field--label-hidden"><div class="field__items"><div class="field__item even"><h3>Want to add history to your home?</h3>
+<p><a class="button" href="{% url 'free_quote' %}">Get your  sample kit!</a></p>
+</div></div></div>  </div>
+
+    </article>
+  </div>
+</div>
+          </div>
+
+      <aside class="l-region l-region--sidebar">
+    <div id="block-menu-block-4" class="block block--menu-block block--nav-submenu block--menu-block-4">
+        <div class="block__content">
+    <div class="menu-block-wrapper menu-block-4 menu-name-main-menu parent-mlid-699 menu-level-1">
+  <ul class="menu"><li class="first leaf menu-mlid-723"><a href="{% url 'antique_quartersawn' %}" title="Antique Quartersawn Heart Pine in Moncure, NC">Antique Quartersawn Heart Pine in Moncure, NC</a></li>
+<li class="leaf active-trail active menu-mlid-724"><a href="{% url 'select_1_heartpine' %}" title="Select #1 Heartpine" class="active-trail active">Select #1 Heartpine</a></li>
+<li class="leaf menu-mlid-726"><a href="{% url 'natural_antique_heartpine' %}" title="Natural Antique Heartpine">Natural Antique Heartpine</a></li>
+<li class="leaf menu-mlid-725"><a href="{% url 'character_heartpine' %}" title="Character Heartpine">Character Heartpine</a></li>
+<li class="leaf menu-mlid-722"><a href="{% url 'antique_southern_yellow_pine' %}" title="Antique Southern Yellow Pine">Antique Southern Yellow Pine</a></li>
+<li class="last leaf menu-mlid-1189"><a href="{% url 'american_tobacco_co_reclaimed_tobacco_pine' %}">American Tobacco Co. Tobacco Pine Rustic</a></li>
+</ul></div>
+  </div>
+</div>
+
+
+   {% include "heartwoodandbeyond/left_panel.html" %}
+</aside>
+</div>
+{% endblock %}

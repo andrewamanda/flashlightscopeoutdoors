@@ -1,0 +1,107 @@
+<html lang="en">
+        <head>
+                <title>Andrew & Amanda Store</title>
+
+                <link rel="Stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/css.css" />
+                <link href="{{ MEDIA_URL }}css/aimkon.css" rel="stylesheet" type="text/css" media="screen,print" />
+
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/tabview.css" />
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/yahoo.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/event.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/dom.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/element-beta.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/tabview.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/logger-min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/yuitest-beta.js"></script>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/niftyCorner/nifty.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/niftyCorner/final.js"></script>
+
+
+
+<script type="text/javascript">
+(function() {
+    var Y = YAHOO.util,
+        tool = YAHOO.tool,
+        suite = new tool.TestSuite("yuisuite");
+
+    Y.Event.onDOMReady(function() {
+        var tabview = new YAHOO.widget.TabView('demo');
+
+
+
+    });
+})();
+</script>
+	</head>
+<body>
+
+<div style="float:left;">
+	<img src="/static/images/calendar_folder/{{ calendar_spec }}" alt="" class="CalenderIcon"/>
+</div>
+
+<div style="float:right;">
+	<img src="/static/images/siteImg/gold-light.gif">
+	<img src="/static/images/siteImg/dealoftheday.png">
+	<img src="/static/images/siteImg/gold-light.gif">
+</div>
+
+<div class="clr"></div>
+
+<div class="yui-skin-sam" style="width:100%; margin:8px 0px 0 0;">
+<div id="doc">
+
+
+<div id="demo" class="yui-navset">
+	<ul class="yui-nav">
+		<li class="selected"><a href="#All" class="prodname">
+			</a>
+		</li>
+    	 </ul>
+
+       <div class="yui-content">
+              <div id="All">
+			<div>
+
+				<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+					{% for p in products %}
+							{% include 'facebookapp/product_tab_list.html' %}
+
+							<tr>
+								<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+							</tr>
+					{% endfor %}
+
+				</table>
+	  		</div>
+      
+	  		<div class="clear"></div>	 
+		  </div>
+
+		<br /><br />
+
+
+	</div>
+
+<br /><br />
+
+</div>
+
+</div>
+
+		<div id="fb-root"></div>
+		<script src="//connect.facebook.net/en_US/all.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			window.fbAsyncInit = function() 
+			{
+				FB.init({ appId: 298835703651538, 
+				status: true, 
+				cookie: true,
+				xfbml: true,
+				oauth: true});
+
+				FB.Canvas.setAutoGrow();
+			}
+		</script>
+        </body>
+</html>

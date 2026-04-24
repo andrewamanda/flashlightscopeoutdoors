@@ -1,0 +1,17 @@
+{% load catalog_tags %}
+        					<div id="slider" class="nivoSlider">
+
+            	<a href="{{ p.url }}"><img src="{% large_image_url p.image.url %}" alt="" /></a>
+	{% for i in more_images %}
+            					<a href="{{ p.url }}"><img src="{% large_image_url i.a_image.url %}" alt="" /></a>
+	{% endfor %}
+
+
+
+
+
+
+        					</div>
+
+
+<div class="cb"></div>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block site_wrapper %}
+
+<h1 class="headingPageTitle2">My Account <span style="float:right;"><a href="{% url 'logout' %}" >Logout</a></span></h1>
+<strong>Welcome, {{ name|capfirst }}!</strong>
+<br /><br />
+
+<fieldset class="my_account">
+	<legend style="font-weight:bold;font-size:16px;">Account Settings</legend>
+	<div class="box">
+	<div><a href="{% url 'password_change' %}" style="font-weight:bold;color:#800517;">Change Password</a></div>
+	<div><a href="{% url 'order_info' %}" style="font-weight:bold;">Edit Billing/Shipping Information</a></div>
+	<div><a href="{% url 'gift_account' %}" style="font-weight:bold;">Your gift certificate account</a></div>
+	</div>
+</fieldset>
+<br />
+<fieldset class="my_account">
+	<legend style="font-weight:bold;font-size:16px;color:#800517;">Order History</legend>
+	<div class="box_700">
+	{% for order in orders %}
+	    <div>
+		<a href="{% if order.invoice_number %} {{ order.get_absolute_url_invoice }} {% else %} {{ order.get_absolute_url }} {% endif %}" STYLE="text-decoration:underline;">
+		Order #{{ order.invoice_number}} - {{ order.date|date }}
+		</a><br />
+		{% if order.status == 3 %}
+			<div style="margin-left:50px;">
+				- Shipped - {{ order.ship_date|date }} - {{ order.shipping_method }} - Tracking: <a href="https://tools.usps.com/go/TrackConfirmAction?tLabels={{order.tracking}}" target="_blank" style="font-weight:bold;color:red;">{{ order.tracking }}</a>
+			</div>
+		{% else %}
+			<div style="margin-left:50px;">
+				- In process
+			</div>
+		{% endif %}
+	    </div>
+
+
+	{% empty %}
+		You have no past orders.
+	{% endfor %}
+	</div>
+</fieldset>
+{% endblock %}

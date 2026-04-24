@@ -1,0 +1,40 @@
+{% load cache %}
+{% load catalog_tags %}
+
+<div id="leftnav_price" class="leftnav_innercontainer">
+
+{% if 'price' in request_path %}
+	<div class="facet-category"><a href="#/" onClick='toggleFacet("ShopByPrice")'><img id="facetTwisty_ShopByPrice" src="/static/images/siteImg/expanded_dark.gif" hspace="1"/>&nbsp;Select by Price</a></div>
+
+	<div id="ShopByPrice" style="display:block;">
+
+{% else %}
+	<div class="facet-category"><a href="#/"  onClick='toggleFacet("ShopByPrice")'><img id="facetTwisty_ShopByPrice" src="/static/images/siteImg/collapsed_dark.gif" hspace="1"/>&nbsp;Select by Price</a></div>
+
+	<div id="ShopByPrice" style="display:none;">
+
+{% endif %}
+
+<br />
+
+<ul id="categories">
+
+{% with active_prices as prices %}
+	{% for c in prices %}
+		<li>
+		{% if c.get_absolute_url == request_path %}
+		<a href="{{ c.get_absolute_url }}" class="active" >{{ c.description }}</a>
+		{% else %}
+		<a href="{{ c.get_absolute_url }}" class="category">{{ c.description }}</a>
+		{% endif %}
+
+		</li>
+	{% endfor %}
+{% endwith %}
+
+</ul>
+  <div class="bottom_padding"></div>
+
+
+</div>
+</div>

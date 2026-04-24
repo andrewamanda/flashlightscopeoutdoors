@@ -1,0 +1,73 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools-items %}
+    <!-- Insert the custom buttons before the default ones -->
+    <li>
+        <a href="{% url 'admin:publish_to_walmart' original.id %}" class="button" id="publish-to-walmart-btn">
+            Publish to Walmart
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:publish_to_aao_ebay' original.id %}" class="button" id="publish-to-fso-ebay-btn">
+            Publish to andrew_amanda_outdoors eBay
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:publish_to_fso_ebay' original.id %}" class="button" id="publish-to-aao-ebay-btn">
+            Publish to flashlight_scope_outdoors eBay
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:publish_to_amazon' original.id %}" class="button" id="publish-to-amazon-btn">
+            Publish to Amazon
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:create_aplus_content' original.id %}" class="button" id="create-aplus-btn">
+            Create A+ Content
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:query_amazon_listing' original.id %}" class="button" id="query-amazon-btn">
+            Query Amazon Submission
+        </a>
+    </li>
+    {{ block.super }}  <!-- Render the default buttons (History, View on Site, etc.) -->
+{% endblock %}
+
+
+{% block extrahead %}
+    {{ block.super }}
+    <!-- Include the JavaScript for disabling the buttons and showing the loading message -->
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            // Define all the buttons and their corresponding messages
+            var buttons = [
+                { id: "publish-to-walmart-btn", message: "Publishing to Walmart. Please wait..." },
+                { id: "publish-to-fso-ebay-btn", message: "Publishing to andrew_amanda_outdoors eBay. Please wait..." },
+                { id: "publish-to-aao-ebay-btn", message: "Publishing to flashlight_scope_outdoors eBay. Please wait..." },
+                { id: "publish-to-amazon-btn", message: "Publishing to Amazon. Please wait..." },
+                { id: "query-amazon-btn", message: "Query Amazon Listing Submission. Please wait..." },
+                { id: "create-aplus-btn", message: "Creating A+ Content. Please wait..." }
+            ];
+
+            buttons.forEach(function(button) {
+                var btnElement = document.getElementById(button.id);
+                if (btnElement) {
+                    btnElement.addEventListener("click", function(event) {
+                        // Disable the button to prevent further clicks
+                        btnElement.classList.add("disabled");
+                        btnElement.innerHTML = "Processing...";
+
+                        // Optionally, display a loading spinner or message
+                        var loadingDiv = document.createElement("div");
+                        loadingDiv.innerHTML = "<p>" + button.message + "</p>";
+                        loadingDiv.style.color = "green";
+                        document.body.appendChild(loadingDiv);
+                    });
+                }
+            });
+        });
+
+  </script>
+{% endblock %}

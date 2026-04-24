@@ -1,0 +1,27 @@
+{% load catalog_filters %}
+
+{% for p in products %}
+	<tr bgcolor="#E2E2E2">
+		<td width="10"></td>
+		<td colspan="2" align="center">
+
+			<div class="p-shadow">
+				<div id="shadow">
+					<p style="font-size: 1.3em;">
+						<span style="font-style:italic;font-weight:bold;color: #8A2BE2;">{{ header_text }}</span>: 
+							<a href="{{ p.get_absolute_url }}" class="nav-link">
+							{{ p.meta_description }}
+							</a>
+						<span style="float:right;margin-right:10px;color:red;">Price: {{ p.price|currency }}</span>
+							<br /><br />
+					
+						<a href="{{ p.get_absolute_url }}"><img src="{{ p.thumbnail.url }}" align="left"  border="0" alt="{{ p.name }}"</a>{{ p.description|safe }}
+					
+					</p>	
+				</div>
+			</div>
+		</td>
+	</tr>
+
+{% endfor %}
+

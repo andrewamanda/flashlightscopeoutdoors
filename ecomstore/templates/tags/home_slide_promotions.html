@@ -1,0 +1,19 @@
+{% load catalog_tags %}
+
+{% active_promotion as promos %}
+{% for p in promos %}
+
+									<div class="cb"><br /></div>
+
+<div class="block">
+<div class="block-title yuinavfont"><strong><span> Nitecore TIP2 Keychain Light</span></strong></div>
+<div class="block-content">
+<br />
+
+    <a href="{% url 'promotion' %}"><img src="/static/images/misc/TIP2_banner.jpg" align="middle" width="100%"/></a>
+
+<div class="cb"><br /></div>
+</div>
+</div>
+
+{% endfor %}

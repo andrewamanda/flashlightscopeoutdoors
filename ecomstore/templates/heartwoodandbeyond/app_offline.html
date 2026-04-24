@@ -1,0 +1,47 @@
+{% extends "heartwoodandbeyond/base.html" %}
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+   {% endblock %}
+
+   {% block hwp_main %}
+   <div class="l-preface">
+   </div>
+   <div class="l-breadcrumb">
+      <ul class="breadcrumb">
+         <li><a href="{% url 'hpwhome' %}">Home</a></li>
+         <li>Offline</li>
+      </ul>
+   </div>
+   <div class="l-main">
+      <div class="l-content">
+         <a id="main-content"></a>
+         <div id="block-system-main" class="block block--system block--system-main">
+            <div class="block__content">
+               <article about="/gallery" typeof="foaf:Document" class="node node--page node--full node--page--full">
+                  <header>
+                     <h1 class="node__title">Under Maintenance</h1>
+                  </header>
+                  <div class="node__content">
+                     <div class="field field--name-body field--type-text-with-summary field--label-hidden">
+                        <div class="field__items">
+                           <div class="field__item even" property="content:encoded">
+                              <p>Our site is currently offline for site maintenance. Please check back again later, we should be back
+        up online and ready to serve you in just a few hours.
+        <br /><br />
+        We apologize for any inconvenience.</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </article>
+            </div>
+         </div>
+
+      </div>
+			<aside class="l-region l-region--sidebar">
+				 {% include "heartwoodandbeyond/left_panel.html" %}
+			</aside>
+   </div>
+
+
+   {% endblock %}

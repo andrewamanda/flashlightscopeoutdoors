@@ -1,0 +1,39 @@
+{% load catalog_tags %}
+
+<div class="rightPanelRaised" style="background:#f6f6f6;">
+	<h1 style="text-align:center">Safe Purchase</h1>
+		<div class="borderTop"><!--  --></div>
+	
+		<div class="content_rvi">
+
+<div style="text-decoration: underline;font-weight:bold; margin-left:5px;margin-top:5px;">Privacy Policy</div>
+<p style="margin-left:5px;margin-right:5px;">Every purchase at {{ site_name }} is secured. We do not capture and save your credit card information. The credit card transaction is handled directly and securely through the Authorize.net payment gateway.  We do not disclose any of your personal information, including your email address and phone number to any third party.</p>
+
+
+<div style="text-decoration: underline;font-weight:bold; margin-left:5px;margin-top:5px;">Return Policy</div>
+<p  style="margin-left:5px;margin-right:5px;">To make sure we meet your expectations, we back your purchase with our <a href="{% url 'return_policy' %}">Return Policy</a>.</p>
+
+<div style="text-decoration: underline;font-weight:bold; margin-left:5px;margin-top:5px;">Promotion Code</div>
+<p  style="margin-left:5px;margin-right:5px;">If you have a promotion code, it can be applied during the checkout process.</p>
+
+
+
+<div style="text-decoration: underline;font-weight:bold; margin-left:5px;margin-top:5px;">Customer Service</div>
+<p  style="margin-left:5px;margin-right:5px;">{{ SUPPORT_PHONE_NUM }}</p>
+
+
+		</div>
+		<br />
+
+<div class="SeparationLine"> </div>
+		<div class="borderTop"><!--  --></div>
+	
+		<div class="content_rvi">
+
+<div style="text-decoration: underline;font-weight:bold; margin-left:5px;margin-top:5px;">International Customers</div>
+<p style="margin-left:5px;margin-right:5px;">Customs duty is assessed and charged by the destination country. Be aware that some countries might have long delays at the Customs, the estimated delivery time is the average for most of the countries. </p>
+
+
+
+		</div>
+</div>

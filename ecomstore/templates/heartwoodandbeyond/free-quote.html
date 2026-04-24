@@ -1,0 +1,55 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li><a href="{% url 'show_about' %}" class="">About</a></li><li><a href="{% url 'contact' %}" class="">Contact</a></li><li>Get Your Sample Kit Today!</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+    <article about="/free-quote" typeof="sioc:Item foaf:Document" class="node node--webform node--full node--webform--full">
+  <header>
+
+          <h1 class="node__title">Get Your Sample Kit Today!</h1>
+      </header>
+
+  <div class="node__content">
+    <div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><p>Thank you for your interest in Heartwood Pine Floors. To get your heart pine sample kit, simply fill out this form and one of our friendly team members will follow up with you shortly. If you need immediate assistance, please give us a call at <a href="tel:+19195424394">919-542-4394</a> to speak with one of our customer service representatives. We look forward to hearing from you! </p>
+<p>Also, let us know how we can help you.</p>
+<p>This is only for personal project inquiries not for promotional messaging or solicitation.</p>
+</div></div></div>
+
+{% include 'heartwoodandbeyond/tags/get_free_sample_form.html' %}
+
+  </div>
+
+    </article>
+  </div>
+</div>
+          </div>
+
+      <aside class="l-region l-region--sidebar">
+    <div id="block-menu-block-3" class="block block--menu-block block--nav-submenu block--menu-block-3">
+        <div class="block__content">
+    <div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-2">
+  <ul class="menu"><li class="first leaf menu-mlid-705"><a href="{% url 'leave_review' %}" class="menu-705">Leave a Review</a></li>
+<li class="leaf menu-mlid-847"><a href="{% url 'shipping' %}">Shipping</a></li>
+<li class="last leaf menu-mlid-848"><a href="{% url 'contact' %}">Contact</a></li>
+</ul></div>
+  </div>
+</div>
+
+   {% include "heartwoodandbeyond/left_panel.html" %}
+</aside>
+</div>
+{% endblock %}

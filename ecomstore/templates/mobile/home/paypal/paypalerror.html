@@ -1,0 +1,27 @@
+{% extends "mobile/home/base.html" %}
+
+
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+       {% block pageheader %}Paypal Error{% endblock %}
+
+
+{% block content %}
+
+<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+  <strong>Paypal Processing Error</strong>
+
+
+<ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Error details:</li>
+    <li>
+        <span class="address">
+                {{ paypal_error }}
+        </span>
+      </li>
+  </ul>
+
+</div>
+
+{% endblock %}

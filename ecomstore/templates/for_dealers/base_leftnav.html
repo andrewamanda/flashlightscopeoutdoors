@@ -1,0 +1,74 @@
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+<div class="catalogNavigation roundedCorner">
+	<br />
+	<ul>
+
+		<div class="leftnav_innercontainer">
+			{% if "/catalog/product" in request.path %}
+				{% series_in_brand request.session.last_path %}
+			{% else %}
+				{% series_in_brand request.path %}
+			{% endif %}
+		</div>
+		<br />
+	</ul>
+						
+</div>
+
+<div class="catalogNavigation roundedCorner">
+	<br />
+
+	<ul>
+		<div class="leftnav_content">
+			{% featured_products_in_brand request %}
+
+		</div>
+		<br />
+	</ul>
+						
+</div>
+
+<div class="catalogNavigation roundedCorner">
+	<br />
+
+	<ul>
+		<div class="leftnav_content">
+			<div id="leftnav_featuredproducts" class="leftnav_innercontainer">
+				<div class="facet-category">&nbsp;Join our community</div>
+					<div id="ShopByFeatured" style="display:block;">
+
+						<br />
+
+						<ul id="categories">
+
+							<div style="text-align: center; font-family: arial, sans-serif;font-weight:bold;font-size: 10pt;color: #6C6B6B;">
+								<a href="http://www.facebook.com/Aimkon" target="_blank">
+									<img src="/static/images/siteImg/twitter2.png" border="0" alt="{{ p.name }}"> 
+								</a>
+							</div>
+							<div style="text-align: center; font-family: arial, sans-serif;font-weight:bold;font-size: 10pt;color: #6C6B6B;">
+								<a href="http://www.facebook.com/Aimkon" target="_blank">
+									<img src="/static/images/siteImg/facebook.png" border="0" alt="{{ p.name }}"> 
+								</a>
+							</div>
+
+
+							<div class="cb"></div>
+	
+
+						</ul>
+  						<div class="bottom_padding"></div>
+
+					</div>
+				</div>
+  				<div id="out_bottom_padding" style="display:block;"></div>
+
+			</div>
+			<br />
+		</ul>
+						
+</div>
+
+

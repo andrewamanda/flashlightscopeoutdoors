@@ -1,0 +1,22 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% load catalog_tags %}
+
+{% block content %}
+
+{% product_list_3col new_arrivals 'New Arrivals' %}
+
+{% product_list_3col featured 'Featured Products' %}
+
+{% product_list_3col search_recs 'Recommended For You' %}
+
+{% product_list_3col view_recs 'Similar Products' %}
+
+
+
+
+
+
+
+
+{% endblock %}

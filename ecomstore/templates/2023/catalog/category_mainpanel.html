@@ -1,0 +1,62 @@
+{% load catalog_tags %}
+{% load catalog_filters %}
+<div class="col-lg-9">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="prod-sel-top mb-3">
+                <div class="prod-sel-left">
+                    <p>Showing 1 - 9 of 28 items</p>
+                </div>
+                <div class="prod-sel-right">
+                    <p>Sort by:</p>
+                    <div class="prod-sel-sec">
+                        <button class="btn prod-toggle-btn-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample6" aria-expanded="false" aria-controls="collapseExample">
+                            <div class="prod-toggle-btn">
+                                <div class="prod-toggle-text-5">
+                                <p>Alphabetically, A-Z</p>
+                            </div>
+                            <div class="prod-toggle-arrow">
+                                <img src="{{ MEDIA_URL }}/2023/images/prod-toggle-arrow-2.svg">
+                            </div>
+                        </div>
+                          </button>
+                          <div class="collapse" id="collapseExample6">
+                            <div class="card card-body">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefaultr1">
+                                    <label class="form-check-label" for="flexRadioDefaultr1">LED Flashlights</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefaultr2">
+                                    <label class="form-check-label" for="flexRadioDefaultr2">Cool White</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefaultr3">
+                                    <label class="form-check-label" for="flexRadioDefaultr3">Rechargeable</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefaultr4">
+                                    <label class="form-check-label" for="flexRadioDefaultr4">Neutral White</label>
+                                  </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for sub in products %}
+        <div class="col-lg-4 prod-pad">
+            <div class="product-card">
+                <div class="product-card-img"><img src="{% if sub.image %}{% thumbnail_image_url sub.image.url %}{% endif %}" alt="product images"></div>
+                    <div class="product-card-info">
+                    <a class="cart-itm" href="{{ sub.get_absolute_url }}"><img src="{{ MEDIA_URL }}/static/2023/images/shopping-cart.svg" alt="cart"></a>
+                    <h5>{{ sub.name }}</h5>
+                    <p class="price">{{ sub.price|currency }}</p>
+                    <a href="{% url 'home' %}" class="btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+</div>
+</div>

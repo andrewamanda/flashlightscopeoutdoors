@@ -1,0 +1,139 @@
+{% extends "base_withRightFrame.html" %}
+
+
+{% load catalog_tags %}
+{% load catalog_filters %}
+{% block content %}
+
+<div id="paymentTemplate">
+
+
+
+					
+	<div class="clr"><!--  --></div>
+	<h1 class="headingPageTitle2">Final Step: Confirm your order </h1>
+		
+
+	<div class="billShipInfoContainer">
+
+		<h2 class="headingPageSection headingPayment">Billing/Shipping Information</h2>
+
+		<br />
+
+
+		<div class="addressContainer">
+			<h4>Billing Address</h4>&nbsp;&nbsp;&nbsp;
+			<ul style="list-style: none;">
+    				<li>{{ billing_name }} </li>
+	      		<li>{{ billing_address_1 }}</li>
+	      		<li>{{ billing_address_2 }}</li>
+				<li>{{ billing_city }} , {{ billing_state }} {{ billing_zip }}</li>
+				<li>{{ billing_country }}</li>
+				<li>{{ phone }}</li>
+				<li>{{ email }} </li>
+			</ul>
+		</div>
+
+		<div class="shippingAddressContainer">
+			<h4>Shipping Address</h4>&nbsp;&nbsp;&nbsp;
+			<ul style="list-style: none;">
+    				<li>{{ shipping_name }} </li>
+	      		<li>{{ shipping_address_1 }}</li>
+	      		<li>{{ shipping_address_2 }}</li>
+				<li>{{ shipping_city }} , {{ shipping_state }} {{ shipping_zip }}</li>
+				<li>{{ shipping_country }}</li>
+				<li>{{ phone }}</li>
+				<li>{{ email }} </li>
+			</ul>
+ 		</div>
+
+
+ 			
+	</div><!-- billShipInfoContainer -->
+			
+	<div class="clr"><!--  --></div>
+ 	<br \> <br \>
+			
+			<!-- Review Order -->
+	<h2 class="headingPageSection headingPayment">Your order details</h2>
+ 	<br \> <br \>
+
+	<table CELLPADDING=6 RULES=GROUPS  FRAME=BOX>
+		<thead>
+			<tr>
+				<th scope="col">NAME</th>
+				<th scope="col">DESCRIPTION</th>
+				<th scope="col">UNIT PRICE</th>
+				<th scope="col">QUANTITY</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th></th><th></th>
+				<th >
+					<p style="font-size:20px">Total:</p>
+				</th>
+				<th>
+					<p style="font-size:20px">{{ amount|currency }}</p>
+				</th>
+			</tr>
+			<tr>
+				<th class="right" colspan="5">
+		
+					<form action="" method="POST">{% csrf_token %}
+						<input type="hidden" name="amount" value="{{ amount }}" />
+						<div style="float:left;margin-left:10px;">
+							<a href="{% url 'show_cart' %}" ><img border="0" src="/static/images/siteImg/neutral_returntocart.jpg"></a>
+						</div>
+						<div style="float:right;">
+							<input class="noBorder" title="Send Order To Andrew & Amanda" type="image" src="/static/images/siteImg/5submit.gif" alt="Send Order To Paypal's" name="submit" value="Send Order to Paypal" />
+						</div>
+					</form>
+				</th>
+			</tr>
+		</tfoot>
+	
+	
+
+		<tbody>
+
+			{% if cart_items %}
+				{% for item in cart_items %}
+				  {% if item.AMT != "0.00" %}
+
+					<tr valign="top">
+						<td>
+							<strong>
+								{{ item.NAME }}
+							</strong>
+						</td>
+
+						<td class="infoCell">
+							<strong>
+								{{ item.DESC }}
+							</strong>
+						</td>
+
+			  			<td class="availabilityCell">
+						<span class="">${{ item.AMT }}</span>
+						</td>
+			  			<td class="quantityCell">
+				 			<span class="qty">{{ item.QTY }}</span>
+						</td>
+
+
+					</tr>
+				   {% endif %}
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+
+</div>
+
+{% endblock %}
+
+{% block right_column %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}

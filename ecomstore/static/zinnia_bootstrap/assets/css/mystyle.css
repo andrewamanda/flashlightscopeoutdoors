@@ -1,0 +1,11 @@
+h1 a{
+    font-family: 'Lobster';
+    font-size: 56px;
+}
+
+img.similar {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover;
+    border-image-repeat: none none;
+}

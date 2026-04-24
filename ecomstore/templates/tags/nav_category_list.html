@@ -1,0 +1,25 @@
+{% load cache %}
+{% load catalog_tags %}
+
+
+
+{% with active_categories as cats %}
+	{% for c in cats %}
+
+		<li>
+			{% if c.subcategory_set.all.count > 0 %}
+				<a href="{{ c.get_absolute_url }}"  class="fly" >{{ c.name }}</a>
+				<ul>
+					{% for sub in c.subcategory_set.all %}
+					     {% if sub.is_active %}
+						<li><a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></li>
+					     {% endif %}
+ 					{% endfor %}
+				</ul>
+			{% else %}
+				<a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+			{% endif %}
+		</li>
+
+	{% endfor %}
+{% endwith %}

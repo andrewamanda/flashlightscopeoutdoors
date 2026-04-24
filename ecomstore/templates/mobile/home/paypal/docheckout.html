@@ -1,0 +1,122 @@
+{% extends "mobile/home/base.html" %}
+
+
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+       {% block pageheader %}Confirm your order{% endblock %}
+
+
+{% block content %}
+
+<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+  <strong>Confirm your order detail</strong>
+
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Billing Addresses</li>
+    <li>
+        <span class="address">
+                {{ billing_name }}
+                <br/>
+                {{ billing_address_1 }}
+                <br/>
+                {% if billing_address_2 != '' %}
+                        {{ billing_address_2 }}
+                        <br/>
+                {% endif %}
+                {{ billing_city }}, {{ billing_state }} {{ billing_zip }}
+                <br/>
+                {{ billing_country }}
+                <br/>
+                Email: {{ email }}
+                <br/>
+                Phone: {{ phone }}
+        </span>
+      </li>
+  </ul>
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Shipping Addresses</li>
+    <li>
+        <span class="address">
+                {{ shipping_name }}
+                <br/>
+                {{ shipping_address_1 }}
+                <br/>
+                {% if shipping_address_2 != '' %}
+                        {{ shipping_address_2 }}
+                        <br/>
+                {% endif %}
+                {{ shipping_city }}, {{ shipping_state }} {{ shipping_zip }}
+                <br/>
+                {{ shipping_country }}
+                <br/>
+                Email: {{ email }}
+                <br/>
+                Phone: {{ phone }}
+        </span>
+      </li>
+  </ul>
+ 			
+<div data-role="collapsible" data-collapsed="false" class="orderItemsCollapsible">
+  <h3>Cart Items</h3>
+
+        {% if cart_items %}
+                {% for item in cart_items %}
+		  {% if item.AMT != "0.00" %}
+                        <div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+                                <div class="ui-grid-a" id="grid">
+                                        <div class="ui-block-a" style="width:100%">
+                                                <a href="{{ item.get_absolute_url }}">
+                                                        {{ item.NAME }}<br/>
+                                                </a>
+
+                                                <fieldset class="ui-grid-a">
+                                                        <div class="ui-block-a">Quantity:</div>
+                                                        <div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ item.QTY }}</div>
+                                                </fieldset>
+                                                <fieldset class="ui-grid-a" id="fieldset-price">
+                                                        <div class="ui-block-a">Price:</div>
+                                                        <div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ item.AMT|currency }}</div>
+                                                </fieldset>
+
+                                                <fieldset class="ui-grid-a" id="fieldset-item-total">
+                                                        <div class="ui-block-a">Item Total:</div>
+                                                        <div class="ui-block-b" style="font-weight:bold; text-align:right;">${{ item.QTY|multiply:item.AMT }}</div>
+                                                </fieldset>
+
+                                        </div>
+                                </div>
+                        </div>
+		   {% endif %}
+
+                {% endfor %}
+        {% endif %}
+
+    {% if request.session.win_price %}
+  <div class="ui-body ui-body-c ui-corner-all">
+        <fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+                <div class="ui-block-a"><b>Your Deal Price:</b></div>
+                <div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ request.session.win_price|currency }}</div>
+        </fieldset>
+  </div>
+    {% endif %}
+  <div class="ui-body ui-body-c ui-corner-all" theme="e">
+    <fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      <div class="ui-block-a"><b>Total to be charged:</b></div>
+      <div class="ui-block-b" style="font-weight:bold; text-align:right;">${{ amount }}</div>
+    </fieldset>
+  </div>
+
+</div>
+					<form action="" method="POST">{% csrf_token %}
+	<input type="hidden" name="amount" value="{{ amount }}" />
+	<input type="hidden" name="fullpath" value="{{ request.get_full_path }}" />
+
+        <button type="submit" data-theme="b" value="PaypalOrder">Submit Order to Paypal</button>
+					</form>
+	<a href="{% url 'show_cart'%}" data-role="button" id="return-to-cart" data-theme="c">Return to Cart</a>
+		
+</div>
+
+{% endblock %}
+

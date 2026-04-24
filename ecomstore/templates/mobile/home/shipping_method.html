@@ -1,0 +1,123 @@
+{% extends "mobile/home/base.html" %}
+{% load checkout_tags %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+
+<form action="{% url 'shipping_method' %}" method="post">{% csrf_token %}
+
+      	<b>SHIPPING METHOD</b> (choose one):<br/>
+	{% if shipping_methods %}
+		{% for sm in shipping_methods %}
+
+  			<div class="ui-body ui-body-c ui-corner-all">
+      				<fieldset data-role="controlgroup">
+        				<label for="{{ sm.slug }}" id="shippingLevel">{{ sm.name }} <br/> <span>{{ sm.description }}</label>
+        				<input type="radio" name="shippingLevel" id="{{ sm.sm.slug }}" value="{{ sm.name }}" {% if 'Standard' in sm.name or 'First' in sm.name %}checked="true"{% endif %} />
+
+
+      				</fieldset>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	<br/>
+      	<b>GIFT ORDER</b>:<br/>
+  	<div class="ui-body ui-body-c ui-corner-all">
+       		<label for="isItGift" id="isItGift">Check here if it is a Gift Order </label>
+       		<input type="checkbox" name="isItGift" id="isItGift" class="isItGift" />
+
+      		<fieldset data-role="controlgroup" id="giftingMessages" style="display:none;">
+       			<label for="pricePrinted" id="pricePrinted">Price Printed? </label>
+                      	<input type="checkbox"  name="pricePrinted" id="pricePrinted" />
+			<div data-role="fieldcontain">
+				<label for="giftmessage">Enter your gift message:</label>
+				<textarea cols="40" rows="8" name="giftmessage" id="giftmessage"></textarea>
+			</div>
+
+		</fieldset>
+	</div>
+
+	<br/>
+      	<b>SPECIAL NOTE</b>:<br/>
+  	<div class="ui-body ui-body-c ui-corner-all">
+       		<label for="haveNote" id="haveNote">Check here if you have a special note </label>
+       		<input type="checkbox" name="haveNote" id="haveNote" class="haveNote" />
+
+      		<fieldset data-role="controlgroup" id="note" style="display:none;">
+			<div data-role="fieldcontain">
+				<label for="note">Enter your note:</label>
+				<textarea cols="40" rows="8" name="note" id="note"></textarea>
+			</div>
+
+		</fieldset>
+	</div>
+
+	<br/>
+      	<b>Are you referred by someone</b>:<br/>
+  	<div class="ui-body ui-body-c ui-corner-all">
+       		<label for="isItReferral" id="isItReferral">Yes </label>
+       		<input type="checkbox" name="isItReferral" id="isItReferral" class="isItReferral" />
+
+      		<fieldset data-role="controlgroup" id="referral" style="display:none;">
+			<div data-role="fieldcontain">
+				<label for="referralCode">Enter your referral code:</label>
+				<input type="text" name="referralCode" id="referralCode" />
+			</div>
+
+		</fieldset>
+	</div>
+
+        <div class="ui-grid-solo" id="grid">
+              <div class="ui-block-a">
+               	<button type="submit" data-theme="b" value="Continue to check out">Continue to checkout</button>
+              </div>
+        </div>
+        <div class="ui-grid-solo" id="grid">
+              <div class="ui-block-a">
+                    <a href="{% url 'beginCheckout' %}" data-role="button" rel="external" id="button-checkout" data-theme="c" data-icon="back">Back</a>
+              </div>
+        </div>
+
+</form>
+      <script type="text/javascript">
+      /*<![CDATA[*/
+        $(document).on("pagecreate", function() {
+                /* Gifting Display */
+                $(".isItGift").change(function() {
+                        if( $(this).is(":checked") )
+                        { $("#giftingMessages").show(); }
+                        else
+                        { $("#giftingMessages").hide(); }
+                }).triggerHandler("click");
+                /* ------------------- */
+                /* Special Note */
+                $(".haveNote").change(function() {
+                        if( $(this).is(":checked") )
+                        { $("#note").show(); }
+                        else
+                        { $("#note").hide(); }
+                }).triggerHandler("click");
+                /* ------------------- */
+                /* Referral */
+                $(".isItReferral").change(function() {
+                        if( $(this).is(":checked") )
+                        { $("#referral").show(); }
+                        else
+                        { $("#referral").hide(); }
+                }).triggerHandler("click");
+                /* ------------------- */
+
+
+
+	});
+     /*]]>*/
+      </script>
+
+
+
+{% endblock %}
+
+
+	

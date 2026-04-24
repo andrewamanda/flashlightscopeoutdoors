@@ -1,0 +1,7 @@
+body {background: #5B5A5C;}
+#wrapper {width: 900px; height: 600px; margin: 50px auto; padding: 20px; background: #fff; border:#000 solid 1px;}
+#wrapper h1 {text-transform: uppercase; font-family: GeoSlab703 XBd BT; font-size: 3em; color:#3E3D40;}
+#wrapper h4 {position: relative; top: -80px; left: 660px; text-transform: uppercase; font-family: GeoSlab703 XBd BT; font-size: 1.5em; color:#3E3D40;}
+#wrapper h5 {position: relative; top: -60px; left: 150px; text-transform: uppercase; font-family: GeoSlab703 XBd BT; font-size: .75em; color:#3E3D40;}
+#wrapper p {width: 250px; float: right; margin-top: 0;}
+.spinner {border:#3E3D40 solid 5px;}

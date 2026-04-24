@@ -1,0 +1,101 @@
+{% extends "base_withLeftFrame.html" %}
+{% load static %}
+
+{% block base_extra_css %}
+{{ block.super }}
+<link type="text/css" href="{% static 'multiselect-master/css/ui.multiselect.css' %}" rel="stylesheet" />
+<link type="text/css" href="{% static 'css/nameyourprice/viewalloffers.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block pre_view_specific_static %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/localisation/jquery.localisation-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/scrollTo/jquery.scrollTo-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/ui.multiselect.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/select_product.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewalloffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/validation.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewoffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/wish_list.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/cart_offer.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+{% load checkout_tags %}
+<!-- Here ADMIN_MEDIA_PREFIX is path to django admin media -->
+<!-- temporarily disable it because unable to jquery the id_products id
+<script type="text/javascript" src="/static/js/admin/jquery.js"></script>
+<script type="text/javascript" src="/static/js/admin/jquery.init.js"></script>
+<script type="text/javascript" src="/static/js/admin/core.js"></script>
+<script type="text/javascript" src="/static/js/admin/getElementsBySelector.js"></script>
+<script type="text/javascript" src="/static/js/admin/actions.js"></script>
+<script type="text/javascript" src="/static/js/admin/SelectBox.js"></script>
+<script type="text/javascript" src="/static/js/admin/SelectFilter2.js"></script>
+<script type="text/javascript" src="/static/js/jsi18n.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/custom.css" >
+
+{% block breadcrumb %}
+	<li class="breadcrumbRight">
+	Name your price, make an offer
+	</li>
+{% endblock %}
+
+    <form action="." method="POST">{% csrf_token %}
+	<fieldset class="checkout">
+		<legend>Choose Products</legend>
+		<table>
+		{{ form.products }}
+		</table>
+	</fieldset>
+   </form>
+<input type="submit" id="getoffer1" value="Submit Form"/>
+-->
+<!-- this cause the page to be distorted
+        <link rel="stylesheet" href="/static/multiselect-master/css/common.css" type="text/css" />
+-->
+
+
+    {% if request.user.is_authenticated %}
+	<h1 class="headingPageTitle2">Select your products</h1>
+	<div class="clr"></div>
+	<div>
+	<div class="fl">
+    	<form action="." method="POST">{% csrf_token %}
+
+      		<select id="id_p" class="multiselect" multiple="multiple" name="products[]">
+		{% for p in products %}
+			{% if p.name == request.session.product_interested %}
+				<option value="{{ p.id }}" selected>{{ p.name }}</option>
+			{% else %}
+				<option value="{{ p.id }}">{{ p.name }}</option>
+			{% endif %}
+			{% endfor %}
+     		</select>
+   	</form>
+	</div>
+	<div class="box_r fr">
+	<div><span style="color: #CC0000;">Find your product by typing in the search box in the left panel</span></div>
+	<div><span style="color: #CC0000;">Click the + sign to add the product to the selection</span></div>
+	<div><span style="color: #CC0000;">Please select no more than 10 products</span></div>
+	<div><span style="color: #CC0000;">In the next step, update the quantity for each product selected & enter a reasonable offer</span></div>
+	<div></div>
+	<div></div>
+	<div id="GetQuote">
+        	<input type="image" src="/static/images/siteImg/get-quote-button.jpg" class="nobackground_noborder fr" alt="GetSellerOffer" id="GetSellerOffer" onClick=GetSellerOffer() />
+	</div>
+	<div id='loadingmessage' style='display:none'>
+       		<img src='/static/images/siteImg/ajax-loader.gif'/>
+	</div>
+	</div>
+	</div>
+	<div class="clr"></div>
+
+	<div id="SellerOffer"></div>
+	<div id="BuyerOfferMade"></div>
+    {% else %}
+        <a id="add_question" class="productspecfont fr" href="{% url 'login' %}?next={{ request.path }}">
+                        Log in to ask a question
+        </a>
+    {% endif %}
+
+{% endblock %}

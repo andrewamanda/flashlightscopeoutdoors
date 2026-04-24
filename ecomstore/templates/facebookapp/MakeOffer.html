@@ -1,0 +1,48 @@
+<html lang="en">
+	<head>
+		<title>Andrew & Amanda Store</title>
+		<script type="text/javascript">
+			window.fbAsyncInit = function() {
+			        FB.Canvas.setSize();
+			}
+		</script>
+		<link rel="Stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/css.css" />
+		<link href="{{ MEDIA_URL }}css/aimkon.css" rel="stylesheet" type="text/css" media="screen,print" />
+	</head>
+	<body>
+
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>Name Your Price</span></strong></div>
+<div class="block-content text-size18">
+<br />
+By now, you may have heard about Andrew & Amanda's new feature...Name Your Price...<br>
+You may already even have benefited from an offer on one of our listings.<br>
+Make an offer is a great way to negotiate with Andrew & Amanda<br>
+It is extemely fast.<br>
+We won't turn down any reasonable offer<br>
+Our Make Offer program gives you the opportunity to score savings on a combination of products and accessories<br>
+<br>
+<a href="{% url 'nameyourprice' %}"><img src="{{MEDIA_URL}}images/siteImg/next.jpg" align="right"></a>
+<a href="{% url 'nameyourprice' %}"><img src="{{MEDIA_URL}}images/siteImg/MakeAnOffer.jpg" aligh="left"></a>
+<div class="cb"><br /></div>
+</div>
+</div>
+
+		<script>
+			window.fbAsyncInit = function() {
+			        FB.init({
+			                appId      : 1567104613504419,
+			                xfbml      : true,
+			                version    : 'v2.1'
+			        });
+			};
+			(function(d, s, id){
+			        var js, fjs = d.getElementsByTagName(s)[0];
+			        if (d.getElementById(id)) {return;}
+			        js = d.createElement(s); js.id = id;
+			        js.src = "//connect.facebook.net/en_US/sdk.js";
+			        fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+	</body>
+</html>

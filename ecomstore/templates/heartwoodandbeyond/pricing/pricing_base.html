@@ -1,0 +1,175 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block more_meta %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+  .grid-table {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column to hold rows */
+    width: 100%;
+    max-width: 600px; /* Adjust the max width as necessary */
+  }
+
+  .grid-header, .grid-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
+    text-align: left;
+  }
+
+  .grid-header {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .grid-row:nth-child(odd) { /* Alternating row colors */
+    background-color: #f2f2f2;
+  }
+
+  .grid-cell {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+</style>
+
+
+
+{% endblock %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+
+
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li><a href="{% url 'pricing_explain' %}">Pricing Structures</a></li><li>{% block pricing_item %}{% endblock %}</li></ul>    </div>
+
+
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+    <article about="/why-heartpine" typeof="foaf:Document" class="node node--page node--full node--page--full">
+  <header>
+
+          {% block pricing_header %}{% endblock %}
+      </header>
+
+  <div class="node__content" id="pricing">
+
+
+    <div class="container mt-5">
+
+      <style>
+          /* Custom styling for the table */
+          #pricing .table th {
+              background-color: #007BFF !important;
+              color: #fff !important;
+          }
+          #pricing .table tbody tr:nth-child(odd) {
+              background-color: #f2f2f2;
+          }
+
+            tr.even {
+            background-color: #f2f2f2;
+          }
+          tr.odd {
+            background-color: #fff;
+          }
+
+      </style>
+
+{% block pricing_table %}
+{% endblock %}
+
+
+    </div>
+
+
+
+
+</div>
+
+    </article>
+  </div>
+</div>
+          </div>
+
+
+<aside class="l-region l-region--sidebar">
+
+{% include "heartwoodandbeyond/pricing/pricing_sidepanel.html" %}
+
+</aside>
+</div>
+{% endblock %}
+
+{% block page_footscript %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery.cookie.js"></script>
+
+  <script type="text/javascript">
+
+    function QueryOffer(id) {
+
+            $.ajaxSetup({
+                    type: 'POST',
+                    timeout: 30000,
+                    beforeSend: function(xhr, settings) {
+                            if (!this.crossDomain) {
+                                    xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                            }
+                    },
+                    error: function(xhr) {
+                            alert('Error: ' + xhr.status + ' ' + xhr.statusText);
+                   }
+            })
+
+            var bid = {
+                    b_id: id,
+            };
+
+
+
+            if($("#offerhistory_"+id).is(':visible')) {
+                    jQuery("#offerhistory_"+id).toggle();
+                    jQuery("#"+id).text("View Detail");
+
+
+            }
+            else {
+              jQuery.post("/heartwoodbeyond/getproductdetails/", bid,
+                    function(response){
+                            // evaluate the "success" parameter
+                            if(response.success == "True"){
+                            // disable the submit button to prevent duplicates
+                                    jQuery("#offerhistory_"+id).html(response.html).slideDown();
+                                    jQuery("#"+id).text("Close Detail");
+                            }
+                            else{
+                            }
+                    }, "json");
+            }
+
+    }
+
+
+
+ </script>
+
+
+{% endblock page_footscript %}

@@ -1,0 +1,10 @@
+
+{% extends "base.html" %}
+
+{% block site_wrapper %}
+<h2>404 - Page not found</h2>
+
+<p>Looks like you followed a bad link. If you think it's our fault, please send an email {{ EMAIL_ORDER }} to let us know.</p>
+
+<p><a href="http://{{ site_url }}">Go back to {{ site_name }} </p>
+  {% endblock %}

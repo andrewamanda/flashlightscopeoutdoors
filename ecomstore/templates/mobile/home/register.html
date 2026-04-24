@@ -1,0 +1,40 @@
+{% extends "mobile/home/base.html" %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<p>
+  If you already have an account, <a href="/accounts/login">Sign in here</a>.
+</p>
+
+<form method="post" action="{% url 'register' %}" name="newuserform" data-ajax="false" enctype="multipart/form-data" style="margin:0;">
+{% csrf_token %}
+   <p>
+      <label for="id_username">Username *:</label>
+      <input type="text" name="username" id="id_username" value="" maxlength="50"/>
+    </p>
+
+    <p>
+      <label for="id_password1">Password *:</label>
+      <input type="password" id="id_password1" name="password1" value="" maxlength="50">
+      <span class="tabletext"><i>at least 6 characters</i></span>
+    </p>
+    <p>
+      <label for="id_password2">Repeat password to confirm *:</label>
+      <input type="password" name="password2" id="id_password2" value="" maxlength="50">
+    </p>
+
+    <p>
+      <label for="id_email">Email *:</label>
+      <input type="email" name="email" id="id_email" value="" maxlength="50">
+    </p>
+
+<p style="margin-top: 2em;">
+  <input type="submit" value="Create Account" data-theme="b">
+</p>
+</form>
+
+
+{% endblock %}

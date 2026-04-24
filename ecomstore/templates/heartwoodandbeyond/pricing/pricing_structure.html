@@ -1,0 +1,232 @@
+{% extends "heartwoodandbeyond/pricing/pricing_base.html" %}
+
+{% block more_meta %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+{% endblock %}
+
+{% block pricing_item %}
+Our Pricing Structures
+{% endblock %}
+
+{% block pricing_header %}
+
+<h1 class="node__title">Our Pricing Structures</h1>
+{% endblock %}
+
+
+
+{% block pricing_content %}
+<style>
+    /* Custom styling for the table */
+    .table th {
+        background-color: #007BFF !important;
+        color: #fff !important;
+    }
+    .table tbody tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%;">Reclaimed Flooring Products</th>
+                                    <th>Standard Price</th>
+                                    <th>Volume Price ({{f_usagetype.tier_1_volume}})</th>
+                                    <th>Volume Price ({{f_usagetype.tier_2_volume}})</th>
+                                    <th>Volume Price ({{f_usagetype.tier_3_volume}})</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                              {% for b in floors %}
+                                <tr>
+                                    <td onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</td>
+                                    <td>${{ b.pretax_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_1_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_2_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_3_price }}/per {{b.unit_of_measurement}}</td>
+                                </tr>
+                                  {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%;">Reclaimed Stairs</th>
+                                    <th>Standard Price</th>
+                                      <th>Volume Price ({{s_usagetype.tier_1_volume}})</th>
+                                      <th>Volume Price ({{s_usagetype.tier_2_volume}})</th>
+                                      <th>Volume Price ({{s_usagetype.tier_3_volume}})</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                              {% for b in stairs %}
+                                <tr>
+                                    <td onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</td>
+                                    <td>${{ b.pretax_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_1_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_2_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_3_price }}/per {{b.unit_of_measurement}}</td>
+                                  {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%;">Reclaimed Panels</th>
+                                    <th>Standard Price</th>
+                                    <th>Volume Price ({{p_usagetype.tier_1_volume}})</th>
+                                    <th>Volume Price ({{p_usagetype.tier_2_volume}})</th>
+                                    <th>Volume Price ({{p_usagetype.tier_3_volume}})</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                              {% for b in panels %}
+                                <tr>
+                                    <td onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</td>
+                                    <td>${{ b.pretax_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_1_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_2_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_3_price }}/per {{b.unit_of_measurement}}</td>
+                                  {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%;">Reclaimed Floor Registers</th>
+                                    <th>Standard Price</th>
+                                      <th>Volume Price ({{r_usagetype.tier_1_volume}})</th>
+                                      <th>Volume Price ({{r_usagetype.tier_2_volume}})</th>
+                                      <th>Volume Price ({{r_usagetype.tier_3_volume}})</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                              {% for b in registers %}
+                                <tr>
+                                    <td onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</td>
+                                    <td>${{ b.pretax_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_1_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_2_price }}/per {{b.unit_of_measurement}}</td>
+                                    <td>${{ b.tier_3_price }}/per {{b.unit_of_measurement}}</td>
+                                </tr>
+                                  {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+      {% endblock %}
+
+      {% block page_footscript %}
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery.cookie.js"></script>
+
+        <script type="text/javascript">
+          function QueryOffer(id) {
+
+                  $.ajaxSetup({
+                          type: 'POST',
+                          timeout: 30000,
+                          beforeSend: function(xhr, settings) {
+                                  if (!this.crossDomain) {
+                                          xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                                  }
+                          },
+                          error: function(xhr) {
+                                  alert('Error: ' + xhr.status + ' ' + xhr.statusText);
+                         }
+                  })
+
+                  var bid = {
+                          b_id: id,
+                  };
+                  if(jQuery("#"+id).text() == "Close Detail") {
+                          jQuery("#offerhistory_"+id).toggle();
+                          jQuery("#"+id).text("View Detail");
+                  }
+                  else {
+                    jQuery.post("/heartwoodbeyond/getproductdetails/", bid,
+                          function(response){
+                                  // evaluate the "success" parameter
+                                  if(response.success == "True"){
+                                  // disable the submit button to prevent duplicates
+                                          jQuery("#offerhistory_"+id).html(response.html).slideDown();
+                                          jQuery("#"+id).text("Close Detail");
+                                  }
+                                  else{
+                                  }
+                          }, "json");
+                  }
+
+          }
+
+       </script>
+
+
+      {% endblock page_footscript %}

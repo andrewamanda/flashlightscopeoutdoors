@@ -1,0 +1,17 @@
+{% extends "heartwoodandbeyond/faq/faq_base.html" %}
+
+{% block faq_item %}
+Make your payment
+{% endblock %}
+
+{% block faq_header %}
+
+<h1 class="node__title">Make your payment</h1>
+{% endblock %}
+
+
+{% block faq_content %}
+<iframe src="{% url 'iframe_makeapayment' %}" frameborder="0" style="width:100%; height:100vh;" ></iframe>
+
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block site_wrapper %}
+
+<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+
+<h1 class="headingPageTitle2">Secure Shopping</h1>
+<br />
+<div class="flatpage_paragraph">
+
+<p>
+You can shop at {{ site_url }} with confidence. We have partnered with <a href="http://www.authorize.net" class="large-font-link">Authorize.Net</a>
+, a leading payment gateway since 1996, to accept credit cards and electronic check payments safely and securely for our customers.
+</p>
+<br />
+<p>
+The Authorize.Net Payment Gateway manages the complex routing of sensitive customer information through 
+the electronic check and credit card processing networks. 
+See an <a href="http://www.authorize.net/resources/howitworksdiagram/"  class="large-font-link">online payments diagram</a>
+to see how it works.
+</p>
+<br />
+<p>
+The company adheres to strict industry standards for payment processing, including:<br /><br />
+<ul class="withBullets">
+    <li>128-bit Secure Sockets Layer (SSL) technology for secure Internet Protocol (IP) transactions.</li>
+
+    <li>Industry leading encryption hardware and software methods and security protocols to protect customer information.</li>
+
+    <li>Compliance with the Payment Card Industry Data Security Standard (PCI DSS).</li>
+</ul>
+<br />
+For additional information regarding the privacy of your sensitive cardholder data, please read the <a href="http://www.authorize.net/company/privacy/"  class="large-font-link">Authorize.Net Privacy Policy</a>.
+
+{{ site_url }}  is registered with the Authorize.Net Verified Merchant Seal program. The site is secured by the industry leading security provider DigiCert.
+<br />
+<table style="float:right">
+<tr>
+<td>
+<!-- (c) 2005, 2012. Authorize.Net is a registered trademark of CyberSource Corporation --> <div class="AuthorizeNetSeal"> <script type="text/javascript" language="javascript">var ANS_customer_id="cb848b3c-5649-45bb-93f6-a9f178cef48b";</script> <script type="text/javascript" language="javascript" src="//verify.authorize.net/anetseal/seal.js" ></script> <a href="http://www.authorize.net/" id="AuthorizeNetText" target="_blank">Accept Credit Cards</a> </div> 
+</td>
+<td>
+<!-- Begin DigiCert/ClickID site seal HTML and JavaScript -->
+<div id="DigiCertClickID_cfAOP91w" data-language="en_US">
+	<a href="http://www.digicert.com/ssl-certificate.htm">SSL Certificate</a>
+</div>
+<script type="text/javascript">
+var __dcid = __dcid || [];__dcid.push(["DigiCertClickID_cfAOP91w", "13", "m", "black", "cfAOP91w"]);(function(){var cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
+</script>
+<!-- End DigiCert/ClickID site seal HTML and JavaScript -->
+</td>
+</tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load cache %}
+{% load catalog_tags %}
+
+{% with active_prices as prices %}
+	{% for c in prices %}
+
+		<li>
+			<a href="{{ c.get_absolute_url }}">{{ c.description }}</a>
+		</li>
+	{% endfor %}
+{% endwith %}
+
+
+

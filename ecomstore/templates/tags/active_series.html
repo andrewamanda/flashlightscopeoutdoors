@@ -1,0 +1,15 @@
+{% load cache %}
+
+			<ul>
+				{% for s in active_series %}
+					<li > <a href="{{ s.get_absolute_url }}">
+					{% if s.display_name %}
+						{{ s.display_name }}
+					{% else %}
+						{{ s.name }} 
+					{% endif %}
+					</a></li>
+				{% endfor %}
+			</ul>
+
+

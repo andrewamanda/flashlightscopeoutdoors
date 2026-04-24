@@ -1,0 +1,58 @@
+{% extends "base_withLeftFrame.html" %}
+{% load static %}
+
+{% block base_extra_css %}
+{{ block.super }}
+<link type="text/css" href="{% static 'multiselect-master/css/ui.multiselect.css' %}" rel="stylesheet" />
+<link type="text/css" href="{% static 'css/nameyourprice/viewalloffers.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block pre_view_specific_static %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/localisation/jquery.localisation-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/scrollTo/jquery.scrollTo-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/ui.multiselect.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/select_product.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewalloffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/validation.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewoffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/wish_list.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/cart_offer.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumbRight">
+        <a href="{% url 'nameyourprice' %}">Make a new offer<a>
+	</li>
+{% endblock %}
+{% block content %}
+
+
+    {% if request.user.is_authenticated %}
+	<h1 class="headingPageTitle2">Your Offer Histories</h1>
+	<div class="clr"></div>
+
+	<div class="box_700">
+		{% for b in bids %}
+
+			<div>
+                        	<p style="float:left;width:400px;color:#CC0000;">{{ b.all_products }}</a></p>
+                        	<p style="display:inline;font-weight:bold;"><span>{{ b.status }}</span></p>
+				{% if b.is_open %}
+                        		<p style="float:right;text-decoration: underline;"><span><a href="{% url 'nameyourprice' %}" style="font-weight:bold;color:red;">Take Action</a><span> </p>
+				{% else %}
+                        		<p style="float:right;text-decoration: underline;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';"><span id="{{b.id}}">View Detail<span> </p>
+				{% endif %}
+
+			</div>
+			<div id="offerhistory_{{b.id}}"></div>
+		{% endfor %}
+	</div>
+
+    {% else %}
+        <a id="add_question" class="productspecfont fr" href="{% url 'login' %}?next={{ request.path }}">
+                        Log in to ask a question
+        </a>
+    {% endif %}
+
+{% endblock %}

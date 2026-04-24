@@ -1,0 +1,36 @@
+{% extends "2023/base.html" %}
+{% load cache %}
+{% load catalog_tags %}
+
+{% block title %}
+    <title>Andrew & Amanda Outdoors Home</title>
+{% endblock %}
+
+{% block additional_meta %}
+
+{% endblock %}
+
+{% block breadcrum %}
+<div class="l-breadcrumb">
+<ul class="breadcrumb"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'home' %}">Pricing Structures</a></li><li>{% block pricing_item %}{% endblock %}</li></ul>    </div>
+{% endblock %}
+
+{% block main_area %}
+
+    <main>
+<section class="prod-select-sec">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="prod-sel-head">
+                    <h6>Filter By:</h6>
+                </div>
+            </div>
+            {% include "2023/catalog/category_leftpanel.html" %}
+{% g_searchresult_2023 results %}
+
+
+</div></div></section>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+<script src="{{MEDIA_URL}}heartwoodbeyond/default/files/js/js_uTpGZRbRZm_lrt5640lI88hN-6jGIe3E3hxZcagIuss.js"  type="text/javascript"></script>
+
+{% if "old_domain_accessed" in request.path %}
+    <script>
+        window.onload = function() {
+            alert("Notice: You've accessed our old domain. Please update your bookmarks to use our new domain, new-domain.com.");
+        };
+    </script>
+{% endif %}

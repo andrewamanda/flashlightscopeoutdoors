@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+
+{% block site_wrapper %}
+
+
+{% if form.errors %}
+	<ul class="errorlist">
+		<li>You entered an invalid username or password.</li>
+	</ul>
+	<br />
+{% endif %}
+
+<div>
+	<div class="box_400 fl">
+		<div>
+			<form method="post" action="{% url 'login' %}">
+			{% csrf_token %}
+				<table summary="Login" id="login">
+				<caption>Login</caption>
+					<tr>
+	    					<td>{{ form.username.label_tag }}</td>
+	    					<td>{{ form.username }}</td>
+					</tr>
+					<tr>
+	    					<td>{{ form.password.label_tag }}</td>
+	    					<td>{{ form.password }}</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="right">
+						<input type="image" style="border:none;" src="/static/images/siteImg/signin.gif" title="Sign in" name="Signin" value="login" alt="Sign In"/>
+
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="next" value="{{ next }}" />
+			</form>
+		</div>
+		<div>
+  			<input type="hidden" name="reset_password" value="0">
+  				<a href="{% url 'password_reset' %}"><span style="color:red;">Forgot your username or password?</span>.</a>
+		</div>
+
+		<div>
+			<a href="/accounts/register" title="Sign Up Now!"><span style="color:red;">Create a new account</span></a>
+			<br />
+		</div>
+
+	</div>
+	<div style="float:left;margin-left:40px;margin-top:50px;"> <img src="/static/images/siteImg/or-icon.gif" /> </div>
+	<div class="box_400 fr">
+        	<div><span style="color: #CC0000;">Login securely without the hassle of remembering another password</span></div>
+		<div></div>
+     		<div>
+       			<a href="{% url 'social:begin' 'facebook' %}?next={{ request.GET.next }}"><img src="/static/images/siteImg/facebook_signin.jpg" /></a>
+<!--
+			<a href="{% url 'social:begin' 'twitter' %}?next={{ request.GET.next }}"><img src="/static/images/siteImg/twitter_signin.jpg" /></a>
+-->
+     		</div>
+		<div></div>
+     		<div>
+       			<a href="{% url 'social:begin' 'amazon' %}?next={{ request.GET.next }}"><img src="/static/images/siteImg/amazon_signin_2.png" /></a>
+     		</div>
+		<div></div>
+     		<div>
+			<a href="{% url 'social:begin' 'yahoo' %}?next={{ request.GET.next }}"><img src="/static/images/siteImg/yahoo_signin.png" /></a>
+       			<a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.GET.next }}"><img src="/static/images/siteImg/google-signin-btn.png" /></a>
+     		</div>
+		<div></div>
+<!--
+     		<div>
+			<a href="{% url 'social:begin' 'live' %}?next={{ request.GET.next }}"><img src="/static/images/siteImg/live_signin.png" /></a>
+     		</div>
+		<div></div>
+-->
+     		<div>
+       			<a href="{% url 'social:begin' 'linkedin-oauth2' %}?next={{ request.GET.next }}"><img src="/static/images/siteImg/linkedin_signin.jpg" /></a>
+     		</div>
+
+		<div></div>
+        	<div><span style="color: #CC0000;">We are endorsed by the above well known social account providers. Your login process is secured by them. We do not get access to your sensitive account information. Your login email is only used to tie your orders and/or offers with your account</span></div>
+		<div></div>
+
+	</div>
+
+</div>
+
+<div class="clr"></div>
+
+
+{% endblock %}
+
+{% block rightcolumn %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}

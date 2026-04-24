@@ -1,0 +1,275 @@
+<style>
+	/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+	box-sizing: border-box;
+
+	height: 40px;
+
+	padding: 10px 12px;
+
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background-color: white;
+
+	box-shadow: 0 1px 3px 0 #e6ebf1;
+	-webkit-transition: box-shadow 150ms ease;
+	transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+	box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+	border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+	background-color: #fefde5 !important;
+}
+.hidden {
+		display: none;
+}
+
+
+#submit:hover {
+	filter: contrast(120%);
+}
+
+#submit {
+	font-feature-settings: "pnum";
+	--body-color: #f7fafc;
+	--button-color: #556cd6;
+	--accent-color: #556cd6;
+	--gray-border: #e3e8ee;
+	--link-color: #fff;
+	--font-color: #697386;
+	--body-font-family: -apple-system,BlinkMacSystemFont,sans-serif;
+	--radius: 4px;
+	--form-width: 400px;
+	-webkit-box-direction: normal;
+	word-wrap: break-word;
+	box-sizing: border-box;
+	font: inherit;
+	overflow: visible;
+	-webkit-appearance: button;
+	-webkit-font-smoothing: antialiased;
+	margin: 0;
+	font-family: inherit;
+	-webkit-tap-highlight-color: transparent;
+	font-size: 16px;
+	padding: 0 12px;
+	line-height: 32px;
+	outline: none;
+	text-decoration: none;
+	text-transform: none;
+	margin-right: 8px;
+	height: 36px;
+	border-radius: var(--radius);
+	color: #fff;
+	border: 0;
+	margin-top: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all .2s ease;
+	display: block;
+	box-shadow: 0 4px 5.5px 0 rgba(0,0,0,.07);
+	width: 100%;
+	background: var(--button-color);
+}
+</style>
+
+
+<script type="text/javascript">
+ // A reference to Stripe.js
+
+ var orderData = {
+	 items: [{ id: "products" }],
+	 total: Math.round(Number(document.getElementById("total_amt_due").value) * 100),
+	 currency: "usd",
+ };
+
+ const isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
+if( isMobile.any() ) {
+	console.log("It is a mobile browser");}
+else {
+ // Disable the button until we have Stripe set up on the page
+ document.getElementById("submit").setAttribute("disabled","disabled");
+ console.log("Desktop browser");
+}
+
+ fetch("/checkout/create-payment-intent", {
+	 method: "POST",
+	 headers: {
+		 "Content-Type": "application/json",
+	 },
+	 body: JSON.stringify(orderData)
+ })
+	 .then(function(result) {
+		 return result.json();
+	 })
+	 .then(function(data) {
+		 return setupElements(data);
+	 })
+	 .then(function({ stripe, card, receipt_email, clientSecret }) {
+		 //document.getElementById("submitStripe").disabled = False;
+		 document.getElementById("submit").removeAttribute("disabled");
+		 // Handle form submission.
+		 var form = document.getElementById("payment-form");
+
+		 form.addEventListener("submit", function(event) {
+			 event.preventDefault();
+			 // Initiate payment when the submit button is clicked
+
+			 pay(stripe, card, receipt_email, clientSecret);
+		 });
+	 });
+
+ // Set up Stripe.js and Elements to use in checkout form
+ var setupElements = function(data) {
+	 stripe = Stripe(data.publishableKey);
+	 var elements = stripe.elements();
+	 var style = {
+		 base: {
+			 color: "#32325d",
+			 fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			 fontSmoothing: "antialiased",
+			 fontSize: "16px",
+			 "::placeholder": {
+				 color: "#aab7c4"
+			 }
+		 },
+		 invalid: {
+			 color: "#fa755a",
+			 iconColor: "#fa755a"
+		 }
+	 };
+
+	 var card = elements.create("card", { style: style, hidePostalCode: data.hidePostalCodeInput, value: {postalCode: data.shippingPostalCode }});
+	 card.mount("#card-element");
+
+
+	 return {
+		 stripe: stripe,
+		 card: card,
+		 receipt_email: data.receipt_email,
+		 clientSecret: data.clientSecret
+	 };
+ };
+
+ /*
+	* Calls stripe.confirmCardPayment which creates a pop-up modal to
+	* prompt the user to enter extra authentication details without leaving your page
+	*/
+ var pay = function(stripe, card, receipt_email, clientSecret) {
+	 changeLoadingState(true);
+	 // Initiate the payment.
+	 // If authentication is required, confirmCardPayment will automatically display a modal
+	 stripe
+		 .confirmCardPayment(clientSecret, {
+			 receipt_email: receipt_email,
+			 payment_method: {
+				 card: card
+			 }
+		 })
+		 .then(function(result) {
+			 if (result.error) {
+				 	 console.log("Pay error: ", result.error.message);
+				 // Show error to your customer
+				 showError(result.error.message);
+			 } else {
+				 // The payment has been processed!
+				 	 console.log("Pay no error");
+				 orderComplete(clientSecret);
+			 }
+		 });
+ };
+
+ /* ------- Post-payment helpers ------- */
+
+ /* Shows a success / error message when the payment is complete */
+ var orderComplete = function(clientSecret) {
+	 // Just for the purpose of the sample, show the PaymentIntent response object
+	 stripe.retrievePaymentIntent(clientSecret).then(function(result) {
+		 var paymentIntent = result.paymentIntent;
+     console.log("orderComplete, paymentIntent = ", paymentIntent);
+		 var paymentIntentJson = JSON.stringify(paymentIntent, null, 2);
+		 // post data and show new page
+		 var form2 =document.getElementById("payload");
+		 var input = document.getElementById("data-payload")
+		 if (form2 && input) {
+			 console.log("Form2 submit");
+		 		input.value = paymentIntentJson;
+		 		form2.submit();
+
+	 		}
+			else {
+				//on mobile browser,
+				console.log("form2 null, reconstruct");
+				var myform = document.createElement("form");
+		    myform.action = "/checkout/payment-complete/";
+		    myform.method = "post";
+
+
+		    input = document.createElement("input");
+		    input.value = paymentIntentJson;
+				input.name = "payload";
+
+		    myform.appendChild(input);
+				$(document.body).append(myform);
+				console.log("myform = ", myform);
+		    myform.submit();
+			}
+		 changeLoadingState(false);
+	 });
+ };
+
+ var showError = function(errorMsgText) {
+	 changeLoadingState(false);
+	 console.log("errorMsgText = ", errorMsgText);
+	 var errorMsg = document.querySelector(".sr-field-error");
+	 errorMsg.textContent = errorMsgText;
+	 console.log("errorMsg = ", errorMsg);
+	 setTimeout(function() {
+		 errorMsg.textContent = "";
+	 }, 60000);
+ };
+
+ // Show a spinner on payment submission
+ var changeLoadingState = function(isLoading) {
+	 if (isLoading) {
+		 document.getElementById("submit").setAttribute("disabled","disabled");
+		 document.querySelector("#spinner").classList.remove("hidden");
+		 document.querySelector("#button-text").classList.add("hidden");
+	 } else {
+		 document.getElementById("submit").removeAttribute("disabled");
+		 document.querySelector("#spinner").classList.add("hidden");
+		 document.querySelector("#button-text").classList.remove("hidden");
+	 }
+ };
+
+
+ </script>

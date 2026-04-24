@@ -1,0 +1,213 @@
+{% extends "2023/base.html" %}
+{% load cache %}
+{% load catalog_tags %}
+{% load catalog_filters %}
+{% load checkout_tags %}
+
+
+{% block title %}
+    <title>Andrew & Amanda Outdoors Home</title>
+{% endblock %}
+
+{% block additional_meta %}
+
+{% endblock %}
+
+{% block breadcrum %}
+<div class="l-breadcrumb">
+<ul class="breadcrumb"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'home' %}">Pricing Structures</a></li><li>{% block pricing_item %}{% endblock %}</li></ul>    </div>
+{% endblock %}
+
+
+{% block main_area %}
+    <main>
+      	<form action="." method="post">{% csrf_token %}
+        <section class="shipping-method-sec common-inner-gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="shipping-head">
+                            <h2>Shipping Method</h2>
+                            <p><strong>NOTE:</strong> Charges and estimated delivery dates will be calculated on the
+                                next page. Orders for gift certificates are fulfilled through emails, no shipping charge
+                                will incur.</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="shipping-process-wrap">
+                                    <ul>
+
+                                      {% if shipping_methods %}
+                                				{% for sm in shipping_methods %}
+
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="shippingLevel"
+                                                    id="exampleRadios1" value="{{ sm.name }}" {% if 'Standard' in sm.name or 'First' in sm.name %}checked="true"{% endif %}>
+                                                <label class="form-check-label" for="exampleRadios1">
+                                                    <div class="label-wrap">
+                                                        <h5>{{ sm.name }}</h5>
+                                                        <p>{{ sm.description }}</p>
+                                                        <p>Orders placed before {{ sm.cutoff_time }} <strong>Eastern Standard Time
+                                                            </strong> <strong>{% express sm.name %}</strong>will ship the next business day.</p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </li>
+
+
+                                				{% endfor %}
+                                			{% endif %}
+
+                                    </ul>
+                                </div>
+
+                                <div class="shipping-gift-wrap">
+                                    <h5>Is this order a gift?</h5>
+                                    <div class="gift-check">
+                                        <div class="form-check">
+                                            <input class="form-check-input js-isItGift" type="checkbox" name="isItGift" value=""
+                                                id="isItGift">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Yes. (You will be given the opportunity to include a gift message on the
+                                                shipping invoice.)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="gift-message-wrap js-giftingDisplay giftingDisplay">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""  name="pricePrinted" id="pricePrinted">
+                                            <label class="form-check-label" for="flexCheckDefault1">
+                                                Check this box if you want prices printed on the shipping invoice that
+                                                is placed inside the package.
+                                            </label>
+                                        </div>
+                                        <div class="gift-message">
+                                            <label>Enter a Gift Message:</label>
+                                            <textarea class="form-control js-characterCountMessage1" id="line1" name="giftmessage" type="textarea"></textarea>
+                                            <p>(Maximum characters 200) You have "<span class="js-remaining1">200</span>" characters left.</p>
+                                        </div>
+                                    </div>
+
+
+                                    <h5>Do you want to enter a note for this order?</h5>
+                                    <div class="gift-check">
+                                        <div class="form-check">
+                                            <input class="form-check-input js-haveNote" type="checkbox" name="haveNote" id="haveNote">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Yes.
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="gift-message-wrap js-haveNoteDisplay giftingDisplay">
+
+                                        <div class="gift-message">
+                                            <label>Enter a Note:</label>
+                                            <textarea class="form-control js-characterCountMessage3" id="line1" name="note" type="textarea" value="" type="textarea"></textarea>
+                                            <p class="jsOnlyDisplayBlock">(Maximum characters 200) You have "<span class="js-remaining3">200</span>" characters left.</p>
+                                        </div>
+                                    </div>
+
+
+                                    <h5>Are you referred by someone?</h5>
+                                    <div class="gift-check">
+                                        <div class="form-check">
+                                            <input class="form-check-input js-isItReferral" name="isItReferral"  type="checkbox" id="isItReferral" />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Yes. (Please enter the referral code below.)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="gift-message-wrap js-referralDisplay giftingDisplay">
+
+                                        <div class="gift-message">
+                                            <label>Enter your referral code:</label>
+                                            <textarea class="form-control" id="referralCode" name="referralCode" type="textarea" value=""></textarea>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="safe-puchase-info-wrap">
+                                    <h3>Safe Purchase</h3>
+                                    <div class="safe-purchase-policy">
+                                        <h5>1. Privacy Policy</h5>
+                                        <p>Every purchase at Andrew & Amanda is secured. We do not capture and save your credit card information. The credit card transaction is handled directly and securely through the Authorize.net payment gateway. We do not disclose any of your personal information, including your email address and phone number to any third party.</p>
+                                    </div>
+                                    <div class="safe-purchase-policy">
+                                        <h5>2. Return Policy</h5>
+                                        <p>To make sure we meet your expectations, we back your purchase with our Return Policy.</p>
+                                    </div>
+                                    <div class="safe-purchase-policy">
+                                        <h5>3. Promotion Code</h5>
+                                        <p>If you have a promotion code, it can be applied during the checkout process.</p>
+                                    </div>
+                                    <div class="safe-purchase-policy">
+                                        <h5>4. Customer Service</h5>
+                                        <p>800-387-7356</p>
+                                    </div>
+                                    <div class="safe-purchase-policy">
+                                        <h5>5. International Customers</h5>
+                                        <p>Customs duty is assessed and charged by the destination country. Be aware that some countries might have long delays at the Customs, the estimated delivery time is the average for most of the countries.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="shipping-btn-wrap">
+                                  <a href="{% url 'catalog_home' %}" class="btn">Continue shopping</a>
+                                  <button type="submit" class="btn btn-outline-dark" name="continueCheckout" value="Continue" style="white-space: normal;text-transform:uppercase;">Proceed to payment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+      </form>
+      <script type="text/javascript">
+      	 $(document).ready(function() {
+
+      		/* Character Count */
+      		lib.input.setMaxCharacters(".js-characterCountMessage1", { limit : 200, results : ".js-remaining1" });
+      		lib.input.setMaxCharacters(".js-characterCountMessage2", { limit : 200, results : ".js-remaining2" });
+      		lib.input.setMaxCharacters(".js-characterCountMessage3", { limit : 200, results : ".js-remaining3" });
+      		/* ------------------- */
+
+      		/* Gifting Display */
+      		$(".js-isItGift").click(function() {
+      			if( $(this).is(":checked") )
+      			{ $(".js-giftingDisplay").show(); }
+      			else
+      			{ $(".js-giftingDisplay").hide(); }
+      		}).triggerHandler("click");
+      		/* ------------------- */
+
+      		/* Referral Display */
+      		$(".js-isItReferral").click(function() {
+      			if( $(this).is(":checked") )
+      			{ $(".js-referralDisplay").show(); }
+      			else
+      			{ $(".js-referralDisplay").hide(); }
+      		}).triggerHandler("click");
+      		/* ------------------- */
+
+      		/* Note Display */
+      		$(".js-haveNote").click(function() {
+      			if( $(this).is(":checked") )
+      			{ $(".js-haveNoteDisplay").show(); }
+      			else
+      			{ $(".js-haveNoteDisplay").hide(); }
+      		}).triggerHandler("click");
+      		/* ------------------- */
+
+
+
+      	});
+      </script>
+            </main>
+  {% endblock %}

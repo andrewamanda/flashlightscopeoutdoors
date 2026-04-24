@@ -1,0 +1,78 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+        {% block pageheader %}Order Confirmation{% endblock %}
+
+{% block content %} 
+
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+  <strong>Order #: {{ order_number }}</strong>
+{% for item in order_items %}
+ 	<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+       		<div class="ui-grid-a" id="grid">
+          		<div class="ui-block-a" style="width:30%">
+              			<a href="{{ item.get_absolute_url }}" rel="external"><img src="{% large_image_url item.product.image.url %}" width="96%" border="0" /></a>
+          		</div>
+          		<div class="ui-block-b" style="width:70%">
+            			<a href="{{ item.get_absolute_url }}" rel="external">{{ item.name }}</a><br/><br>
+        	    		<div class="ui-grid-a" id="grid">
+          				<div class="ui-block-a" style="width:70%">
+						Quantity: {{item.quantity}}
+					</div>
+	 			</div>
+			</div>
+        		<div class="ui-grid-a" id="grid">
+          			<div class="ui-block-a" style="width:30%">
+				</div>
+          			<div class="ui-block-b" style="width:70%">
+            				<fieldset class="ui-grid-a" id="fieldset-price" style="margin-top:5px">
+              					<div class="ui-block-a">Unit Price:</div>
+              					<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{item.price|currency}}</div>
+            				</fieldset>
+
+            				<fieldset class="ui-grid-a" id="fieldset-item-total">
+              					<div class="ui-block-a">Item Total:</div>
+              					<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ item.total|currency }}</div>
+            				</fieldset>
+       				</div>
+      			</div>
+		</div>
+	</div>
+
+
+{% endfor %}
+
+
+
+  		<div class="ui-body ui-body-c ui-corner-all">
+    			<fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      				<div class="ui-block-a"><b>Order total w/ Shipping:</b></div>
+      				<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ total_amt_due|currency }}</div>
+    			</fieldset>
+		</div>
+
+
+
+        	<div class="ui-grid-solo" id="grid">
+    			<div class="ui-block-a">
+    				<a href="/" data-role="button" data-rel="external" id="button-continue" data-theme="b">Continue Shopping</a>
+    			</div>
+		</div>
+</div>
+
+
+      <script type="text/javascript">
+      /*<![CDATA[*/
+        $(document).on("pagecreate", function() {
+
+      });
+      /*]]>*/
+      </script>
+
+{% endblock %}
+
+
+

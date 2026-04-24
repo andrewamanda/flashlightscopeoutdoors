@@ -1,0 +1,36 @@
+{% load catalog_tags %}
+
+{% url 'pricing_explain' as pricing_explain_url %}
+{% url 'pricing_structures' as pricing_structures_url %}
+{% url 'pricing_floors' as pricing_floors_url %}
+{% url 'pricing_stairs' as pricing_stairs_url %}
+{% url 'pricing_panels' as pricing_panels_url %}
+{% url 'pricing_registers' as pricing_registers_url %}
+
+
+<div id="block-menu-block-3" class="block block--menu-block block--nav-submenu block--menu-block-3">
+    <div class="block__content">
+<div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-2">
+<ul class="menu">
+<!--
+  <li class="first leaf menu-mlid-843 {% if request.path == show_why_url %}active-trail active {% endif %}"><a href="{% url 'show_why' %}">Walk into our business</a></li>
+<li class="third leaf menu-mlid-841 {% if request.path == reclaiming_process_url %}active-trail active {% endif %}"><a href="{% url 'reclaiming_process' %}">Reclaiming Process</a></li>
+  <li class="second leaf menu-mlid-843 {% if request.path == installation_tips_url %}active-trail active {% endif %}"><a href="{% url 'installation_tips' %}">Installation Tips</a></li>
+<li class="third leaf menu-mlid-841 {% if request.path == wood_finishes_url %}active-trail active {% endif %}"><a href="{% url 'wood_finishes' %}">Choices Of Wood Finishes</a></li>
+
+{% for blog in blogs %}
+<li class="leaf menu-mlid-847 {% if blog.get_absolute_url == request.path %}active-trail active {% endif %}"><a href="{{ blog.get_absolute_url }}">{{blog.name}}</a></li>
+{% endfor %}
+-->
+
+<li class="third leaf menu-mlid-841 {% if request.path == pricing_explain_url %}active-trail active {% endif %}"><a href="{% url 'pricing_explain' %}">Explain Our Pricing</a></li>
+<!--<li class="fourth leaf menu-mlid-841 {% if request.path == pricing_structures_url %}active-trail active {% endif %}"><a href="{% url 'pricing_structures' %}">Pricing Structures</a></li> -->
+<li class="fourth leaf menu-mlid-841 {% if request.path == pricing_floors_url %}active-trail active {% endif %}"><a href="{% url 'pricing_floors' %}">Floor Pricing</a></li>
+<li class="fourth leaf menu-mlid-841 {% if request.path == pricing_stairs_url %}active-trail active {% endif %}"><a href="{% url 'pricing_stairs' %}">Stair Pricing</a></li>
+<li class="fourth leaf menu-mlid-841 {% if request.path == pricing_panels_url %}active-trail active {% endif %}"><a href="{% url 'pricing_panels' %}">Wall Panel Pricing</a></li>
+<li class="fourth leaf menu-mlid-841 {% if request.path == pricing_registers_url %}active-trail active {% endif %}"><a href="{% url 'pricing_registers' %}">Floor Register Pricing</a></li>
+</ul></div>
+</div>
+</div>
+
+<hr>

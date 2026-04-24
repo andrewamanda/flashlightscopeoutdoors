@@ -1,0 +1,14 @@
+{% load cache %}
+{% load catalog_tags %}
+
+{% with active_brightnesses as brightness %}
+	{% for c in brightness %}
+
+		<li>
+			<a href="{{ c.get_absolute_url }}">{{ c.description }}</a>
+		</li>
+	{% endfor %}
+{% endwith %}
+
+
+

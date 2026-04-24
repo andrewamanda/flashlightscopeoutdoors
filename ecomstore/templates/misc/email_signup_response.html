@@ -1,0 +1,12 @@
+{% extends "base_withRightFrame.html" %}
+
+{% block content %}
+<h1>	{% if name %} 
+		{{ name|capfirst }}, 
+	{% endif %}
+</h1>
+
+<p style="margin-bottom: 20px;">Your email and product interest have been entered into our system. We will periodically send out email newsletters filled with deals, news, new arrivals, top-rated products, specials and more. </p>
+
+
+{% endblock %}

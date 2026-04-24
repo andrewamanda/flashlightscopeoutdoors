@@ -1,0 +1,18 @@
+{% load catalog_tags %}
+{% load catalog_filters %}
+<div class="product_thumbnail">
+	<a href="{{ p.get_absolute_url }}">
+		<img src="{% thumbnail_image_url p.image.url %}" alt="{{ p.name }}" class="bn" />
+		<br />
+		{{ p.name }}
+		<br />
+	{% if p.sale_price and p.old_price %}
+		Was: <del>{{ p.old_price|currency }}</del>
+		<div class="sale">Sale: <span property="v:price">{{ p.price|currency }}</span></div>
+	{% else %}
+		Price: <span property="v:price">{{ p.price|currency }}</span>
+	{% endif %}
+
+	</a>
+</div>
+

@@ -1,0 +1,113 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_tags %}
+{% load catalog_filters %}
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% if cart_items %}
+  <input type="hidden" name="removeSelected" value="true"/>
+	{% for item in cart_items %}
+  	    <form method="POST" action="{% url 'show_cart' %}" name="cartform" data-ajax="false">
+		{% csrf_token %}
+      		<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+        		<div class="ui-grid-a" id="grid">
+          			<div class="ui-block-a" style="width:30%">
+              				<a href="{{ item.get_absolute_url }}"><img src="{% large_image_url item.product.image.url %}" width="96%" border="0" /></a>
+          			</div>
+          			<div class="ui-block-b" style="width:70%">
+            				<a href="{{ item.get_absolute_url }}">{{ item.name }}</a><br/><br>
+					{% if not request.session.win_price %}
+        		    		<div class="ui-grid-a" id="grid">
+          					<div class="ui-block-a" style="width:30%">
+							<input type="number" name="quantity" id="quantity" value="{{item.quantity}}" onkeypress="return isNumber(event);"/>
+						</div>
+          					<div class="ui-block-b" style="width:70%">
+                                                        <input type="hidden" name="item_id" value="{{ item.id }}" />
+    							<button type="submit" name="submit" value="Update" data-theme="e">Update Qty</button>
+						</div>
+					</div>
+					{% else %}
+        		    		<div class="ui-grid-b" id="grid">
+          					<div class="ui-block-a" style="width:30%; "></div>
+          					<div class="ui-block-b" style="width:30%; ">
+            						Qty:
+						</div>
+          					<div class="ui-block-c" style="width:40%;text-align:right;">
+							{{item.quantity}}
+                                                        <input type="hidden" name="item_id" value="{{ item.id }}" />
+						</div>
+					</div>
+
+					{% endif %}
+	 			</div>
+			</div>
+        		<div class="ui-grid-a" id="grid">
+          			<div class="ui-block-a" style="width:30%">
+				</div>
+          			<div class="ui-block-b" style="width:70%">
+            				<fieldset class="ui-grid-a" id="fieldset-price" style="margin-top:5px">
+              					<div class="ui-block-a">Unit Price:</div>
+              					<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{item.price|currency}}</div>
+            				</fieldset>
+
+            				<fieldset class="ui-grid-a" id="fieldset-item-total">
+              					<div class="ui-block-a">Item Total:</div>
+              					<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ item.total|currency }}</div>
+            				</fieldset>
+          			</div>
+      			</div>
+		</div>
+
+	   </form>
+
+	{% endfor %}
+
+  		<div class="ui-body ui-body-c ui-corner-all">
+			{% if request.session.win_price %}
+    			<fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      				<div class="ui-block-a">Cart total:</div>
+      				<div class="ui-block-b" style="text-align:right;">$<del>{{ cart_subtotal }}</del></div>
+    			</fieldset>
+    			<fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      				<div class="ui-block-a tabletext"><b>Your  deal price:</b></div>
+      				<div class="ui-block-b tabletext" style="font-weight:bold; text-align:right;">{{request.session.win_price|currency}}</div>
+    			</fieldset>
+			{% else %}
+    			<fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      				<div class="ui-block-a">Cart total:</div>
+      				<div class="ui-block-b" style="font-weight:bold;text-align:right;">${{ cart_subtotal }}</div>
+    			</fieldset>
+    			</div>
+			{% endif %}
+		</div>
+    <div style="clear:both"></div>
+        	<div class="ui-grid-solo" id="grid">
+    			<div class="ui-block-a">
+      				<a href="{% url 'beginCheckout' %}" data-role="button" rel="external" id="button-checkout" data-theme="b">Proceed to Check out</a>
+    			</div>
+		</div>
+        	<div class="ui-grid-solo" id="grid">
+    			<div class="ui-block-a">
+    				<a href="{% url 'home' %}" data-role="button" rel="external" id="button-continue" data-theme="c">Continue Shopping</a>
+    			</div>
+		</div>
+
+{% else %}
+  		<div class="ui-body ui-body-c ui-corner-all">
+    			<p style="text-align:center;">Your shopping cart is empty.</p>
+  		</div>
+{% endif %}
+
+
+      <script type="text/javascript">
+      /*<![CDATA[*/
+        $(document).on("pagecreate", function() {
+
+      });
+      /*]]>*/
+      </script>
+
+{% endblock %}

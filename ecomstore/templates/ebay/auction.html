@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block site_wrapper %}
+<h1>	{% if name %} 
+		{{ name|capfirst }}, 
+	{% endif %}
+	Welcome to {{ site_name }} Auction on eBay!
+</h1>
+
+
+
+<iframe src ="http://stores.ebay.com/Aimkon-Tactical" frameborder="0" scrolling="yes" width="100%" height="2000">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+
+<!--
+<iframe src ="{% url 'listing' %}" frameborder="0" scrolling="no" width="100%" height="1000">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+-->
+
+
+
+{% endblock %}

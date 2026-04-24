@@ -1,0 +1,27 @@
+{% for series in active_series %}
+
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>{{ series.name }}</span></strong></div>
+<div class="block-content">
+<br />
+	<div class="MagicScroll" id="featuredproducts">
+		{% for p in products %}
+			{% if p.series.name == series.name %}
+		<div>
+			{% if p.image_zoom %}
+				<a class="MagicZoomPlus" href="{{p.image_zoom.url}}">
+			{% endif %}
+			<img src="{{ p.thumbnail.url }}" />
+			{% if p.image_zoom %}
+				</a>
+			{% endif %}<br />
+			<a href="{{ p.get_absolute_url }}" style="font-family:Georgia; line-height:18px; font-size: 12px;">{{ p.name }}</a> (<b>Price: ${{ p.price }}</b>)
+		</div>
+			{% endif %}
+		{% endfor %}
+
+	</div>
+<div class="cb"><br /></div>
+</div>
+</div>
+{% endfor %}

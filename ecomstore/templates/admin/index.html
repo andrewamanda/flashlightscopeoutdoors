@@ -1,0 +1,145 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% load static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+
+{% if app_list %}
+    {% for app in app_list %}
+        <div class="module">
+        <table summary="{% blocktrans with app.name as name %}Models available in the {{ name }} application.{% endblocktrans %}">
+        <caption><a href="{{ app.app_url }}" class="section">{% blocktrans with app.name as name %}{{ name }}{% endblocktrans %}</a></caption>
+        {% for model in app.models %}
+            <tr>
+            {% if model.perms.change %}
+                <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
+            {% else %}
+                <th scope="row">{{ model.name }}</th>
+            {% endif %}
+
+            {% if model.perms.add %}
+                <td><a href="{{ model.admin_url }}add/" class="addlink">{% trans 'Add' %}</a></td>
+            {% else %}
+                <td>&nbsp;</td>
+            {% endif %}
+
+            {% if model.perms.change %}
+                <td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Change' %}</a></td>
+            {% else %}
+                <td>&nbsp;</td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </table>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>{% trans "You don't have permission to edit anything." %}</p>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% trans 'Recent Actions' %}</h2>
+        <h3>{% trans 'My Actions' %}</h3>
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+            <p>{% trans 'None available' %}</p>
+            {% else %}
+            <ul class="actionlist">
+            {% for entry in admin_log %}
+            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                    {{ entry.object_repr }}
+                {% else %}
+                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                {% endif %}
+                <br/>
+                {% if entry.content_type %}
+                    <span class="mini quiet">{% filter capfirst %}{% trans entry.content_type.name %}{% endfilter %}</span>
+                {% else %}
+                    <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+    </div>
+
+	<div class="module" id="satchmo-helpers">
+		<h2 class="module-title">{% trans "Admin Tools" %}</h2>
+		<div class="module-content">
+			<ul>
+		    	<li>
+		    		<a href="/admin/RMA/return_authorization/">{% trans 'Customer RMA Return Management' %}</a><br/>
+			</li>
+      <li>
+        <a href="/admin/RMA/amazonorderreturnaudit/">{% trans 'LPN Amazon Return Tracking' %}</a><br/>
+  </li>
+
+		    	<li>
+		    		<a href="/admin/RMA/support_ticket/">{% trans 'Internal Support/Feature Request' %}</a><br/>
+			</li>
+		    	<li>
+		    		<a href="/admin/purchases/">{% trans 'Equipments, Tools & Supplies' %}</a><br/>
+			</li>
+		    	<li>
+		    		<a href="/admin/heartwoodbeyond/">{% trans 'Customer Relationship' %}</a><br/>
+			</li>
+		    	<li>
+		    		<a href="/admin/nameyourprice/nameyourprice/">{% trans 'Name Your Price' %}</a><br/>
+			</li>
+      <li>
+		    		<a href="/admin/newsletter/">{% trans 'Newsletter' %}</a><br/>
+			</li>
+
+		    	<li>
+		    		<a href="/admin/misc/barcode/">{% trans 'Barcode Management' %}</a><br/>
+			</li>
+		    	<li>
+		    		<a href="/admin/misc/mediaimage/">{% trans 'Media Images' %}</a><br/>
+			</li>
+      <li>
+        <a href="/admin/marketplaces/amazonorder_excluded/">{% trans 'Amazon Order Review Exclusion' %}</a><br/>
+  </li>
+		    	<li>
+		    		<a href="/admin/misc/todaysnews/">{% trans 'Todays News' %}</a><br/>
+			</li>
+		    	<li>
+		    		<a href="/admin/marketplaces/fbashipment/">{% trans 'FBA Shipments' %}</a><br/>
+			</li>
+<!--
+		    	<li>
+		    		<a href="/admin/ebay/ebaylisting/">{% trans 'eBay Listings' %}</a><br/>
+			</li>
+		    	<li>
+		    		<a href="/admin/marketplaces/">{% trans 'Amazon Orders' %}</a><br/>
+			</li>
+		    	<li>
+		    		<a href="{% url 'satchmo_admin_edit_inventory' %}">{% trans 'Edit Inventory' %}</a><br/>
+			</li>
+		  <li>
+		    		<a href="/admin/referenceusa/">{% trans 'Reference USA' %}</a><br/>
+			</li>
+-->
+
+			</ul>
+		</div>
+	</div>
+
+
+</div>
+{% endblock %}

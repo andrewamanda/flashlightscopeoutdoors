@@ -1,0 +1,30 @@
+{% if top_attributes %}
+     {% for attr in top_attributes %}
+		<div style="float:left;width:245px;">	
+	
+			<span style="float:left;font-weight:300;font-size:11px;color:#000000;display:block;width:115px;"><img src="/static/images/siteImg/bullet_cat.jpg" alt="" style="vertical-align:middle; padding-right:2px;"/>
+				{% if forloop.counter0 == 0 %}<span style="padding-right:1px;"></span> {% endif %}
+				{{ attr.name }}:
+			</span> 
+			<span style="font-weight:800;font-size:11px;color:#000000;display:block;">{{ attr.value }}</span>
+
+			<div style="clear:both;height:5px;"></div>
+	
+		</div>
+      {% endfor %}
+{% else %}
+          
+{% for f in features %}
+	<div style="float:left;width:245px;">	
+	
+		<span style="float:left;font-weight:700;font-size:11px;color:#000000;display:block;width:230px;"><img src="/static/images/siteImg/bullet_cat.jpg" alt="" style="vertical-align:middle; padding-right:2px;"/>
+			{% if forloop.counter0 == 0 %}<span style="padding-right:1px;"></span> {% endif %}
+			{{ f|safe|truncatechars:37 }}</span> 
+
+		<div style="clear:both;height:5px;"></div>
+	
+	</div>
+{% endfor %}
+
+{% endif %}
+

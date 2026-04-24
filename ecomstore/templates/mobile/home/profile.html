@@ -1,0 +1,118 @@
+{% extends "mobile/home/base.html" %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+{% include "mobile/home/profilefooter.html" %}
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+  <div class="password_change_done ui-body ui-body-e ui-corner-all" style="display:none;">
+    <div class="errorMessageHeader">Password has been successfully changed</div>
+   </div>
+
+  <a href="{% url 'logout' %}?next={% url 'my_account' %}" data-role="button" data-icon="arrow-r" data-iconpos="right" id="button-continue" rel="external">Logout</a>
+
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Profile</li>
+    <li>
+        <b>Username:</b>{{ request.user.username }}
+    </li>
+
+
+    </li>
+        <li>
+            <b>Email:</b> {{ request.user.email }}
+        </li>
+    <li data-icon="plus">
+<div data-role="collapsible" data-collapsed="true" class="afterpasswordchange">
+  <h3>Change Password</h3>
+        <div class="ui-body ui-body-c ui-corner-all">
+                <form action="/accounts/password_change/" class="ChangePasswordForm" method="POST" data-ajax="false">{% csrf_token %}
+                        <label for="id_old_password" id="id_old_password_label">Old Password:</label>
+                        <input id="id_old_password" name="old_password" type="password">
+                        <label for="id_new_password1" id="id_old_password1_label">New Password:</label>
+                        <input id="id_new_password1" name="new_password1" type="password">
+                        <label for="id_new_password2" id="id_old_password2_label">Confirm New Password:</label>
+                        <input id="id_new_password2" name="new_password2" type="password">
+                        <button type="submit" name="ChangePassword" value="ChangePassword" data-theme="e">Change Password</button>
+                </form>
+        </div>
+</div>
+</li>
+  </ul>
+
+
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Billing Addresses</li>
+    {% if user_profile.billing_name != '' %}
+    <li>
+  	<span class="address">
+    		{{ user_profile.billing_name }}
+    		<br/>
+		{{ user_profile.billing_address_1 }}
+      		<br/>
+		{% if user_profile.billing_address_2 != '' %}}
+			{{ user_profile.billing_address_2 }}
+      			<br/>
+		{% endif %}
+		{{ user_profile.billing_city }}, {{ user_profile.billing_state }} {{ user_profile.billing_zip }}
+      		<br/>
+		{{ user_profile.billing_country }}
+  	</span>
+      </li>
+      {% endif %}
+    <li data-icon="plus"><a href="{% url 'order_info' %}">Edit ...</a></li>
+  </ul>
+
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Shipping Addresses</li>
+    {% if user_profile.shipping_name != '' %}
+      <li>
+  	<span class="address">
+    		{{ user_profile.shipping_name }}
+    		<br/>
+		{{ user_profile.shipping_address_1 }}
+      		<br/>
+		{% if user_profile.shipping_address_2 != '' %}}
+			{{ user_profile.shipping_address_2 }}
+      			<br/>
+		{% endif %}
+		{{ user_profile.shipping_city }}, {{ user_profile.shipping_state }} {{ user_profile.shipping_zip }}
+      		<br/>
+		{{ user_profile.shipping_country }}
+  	</span>
+      </li>
+     {% endif %}
+    <li data-icon="plus"><a href="{% url 'order_info' %}">Edit ...</a></li>
+
+  </ul>
+
+
+<div data-role="collapsible" data-theme="b" data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="false">
+	<h2>Order History</h2>
+		<ul data-role="listview">
+        		{% for order in orders %}
+				<div data-role="collapsible" data-theme="a" data-content-theme="d" data-collapsed-icon="plus" data-expanded-icon="minus" data-inset="true">
+				<h2>{{ order.invoice_number}}</h2>
+				<p>
+                			{% if order.status == 3 %}
+						<div> <b>PRODUCTS:</b>{{ order.all_products }} </div>
+                        			<div> <b>{{ order.status_str }}:</b>
+                            				on {{ order.ship_date|date }} by {{ order.shipping_method }} with Tracking: <a href="https://tools.usps.com/go/TrackConfirmAction?tLabels={{order.tracking}}" target="_blank" style="font-weight:bold;color:red;">{{ order.tracking }}</a>
+                        			</div>
+                			{% else %}
+                        			<div> <b>{{ order.status_str }}</b></div>
+                			{% endif %}
+				</p>
+				</div>
+        		{% empty %}
+                		You have no past orders.
+        		{% endfor %}
+		</ul>
+</div><!-- /collapsible -->
+
+	
+
+{% endblock %}
+
+

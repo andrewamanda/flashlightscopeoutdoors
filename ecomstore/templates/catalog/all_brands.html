@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load catalog_tags %}
+
+{% block site_wrapper %}
+	<div id="page-header">
+        	<div class="item" id="page-header-text">
+            		<span itemprop="name">All Brands</span>
+        	</div>
+        	<div class="cb"></div>
+    	</div>
+
+
+
+       	<div class="page-width-container">
+		<div id="shop-by-brand-cat-lists" class="shop-by-category">
+			{% for d in departments %}
+        		<div class="department-list">
+        			<ul class="shop-by-lists">
+            				<li>
+                				<ul>
+                    					<li class="shop-by-pic-link">
+                        					<a href="{{ d.get_absolute_url }}">
+                                                            <img src="{% if d.image %}{% large_image_url d.image.url %}{% endif %}" alt="{{ d.meta_description }}" width="160" loading="lazy" decoding="async" />
+                                                        <span class="department-name">{{ d.name }}</span>
+                        					</a>
+                    					</li>
+                				</ul>
+						<table>
+							{% brands_in_the_department d as brands %}
+							{% for b in brands %}
+								{% if forloop.counter0|divisibleby:"4" %}
+								<tr>
+								{% endif %}
+								<td><a href="{{ b.get_absolute_url }}"><img src="{% thumbnail_image_url b.image.url %}" loading="lazy" decoding="async" /></a></td>
+								{% if forloop.counter|divisibleby:"4" %}
+								</tr>
+								{% endif %}
+							{% endfor %}
+						</table>
+            				</li>
+        			</ul>
+    			</div>
+			{% endfor %}
+		</div>
+	</div>
+    
+{% endblock %}

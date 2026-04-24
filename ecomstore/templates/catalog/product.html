@@ -1,0 +1,570 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% load catalog_filters %}
+{% load catalog_tags %}
+
+{% block pre_body_scripts %}
+{{ block.super }}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/tabview.css">
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/yahoo.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/event.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/dom.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/element-beta.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/tabview.js"></script>
+<style type="text/css">
+#demo.yui-navset .yui-nav li,
+#demo.yui-navset .yui-nav .selected { margin: 0 0.16em 0 0; padding: 0; vertical-align: bottom; }
+#demo.yui-navset .yui-nav li a,
+#demo.yui-navset .yui-nav li a:hover,
+#demo.yui-navset .yui-nav li a:focus,
+#demo.yui-navset .yui-nav .selected a,
+#demo.yui-navset .yui-nav .selected a:hover,
+#demo.yui-navset .yui-nav .selected a:focus { background-image: none; text-decoration: none; }
+#demo.yui-navset .yui-nav li a em,
+#demo.yui-navset .yui-nav .selected a em { padding: 0.45em 0.85em; line-height: 1.25; min-height: 1.25em; }
+#demo.yui-navset .yui-content { min-height: 260px; }
+#demo.yui-navset .yui-content > div { overflow-x: auto; }
+#Relatedtab { padding: 8px 6px 14px; }
+.related-groups { margin-top: 2px; }
+.related-list-intro {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    color: #46522b;
+    background: linear-gradient(to bottom, #f7faef 0%, #eef5db 100%);
+    border: 1px solid #d7e2b6;
+    border-radius: 4px;
+}
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    align-items: stretch;
+}
+.related-card {
+    position: relative;
+    border: 1px solid #cfd8b4;
+    background: linear-gradient(to bottom, #ffffff 0%, #fbfdf5 100%);
+    padding: 10px 10px 12px;
+    box-sizing: border-box;
+    min-height: 286px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
+}
+.related-card:hover {
+    border-color: #adc46e;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.10);
+    transform: translateY(-1px);
+}
+.related-card-badge {
+    align-self: flex-start;
+    margin-bottom: 8px;
+    padding: 3px 8px;
+    background: #eef6d8;
+    color: #5b6f17;
+    border: 1px solid #d4e4a6;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+.related-card-image {
+    text-align: center;
+    margin-bottom: 8px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid #edf2df;
+    border-radius: 4px;
+    padding: 8px;
+}
+.related-card-image img {
+    max-width: 110px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+}
+.related-card-name {
+    min-height: 50px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    line-height: 1.3;
+    font-size: 14px;
+    overflow: hidden;
+}
+.related-card-name a {
+    color: #1d5fa7;
+    text-decoration: none;
+}
+.related-card-name a:hover {
+    text-decoration: underline;
+}
+.related-card-price {
+    margin-top: auto;
+    margin-bottom: 10px;
+    color: #1f1f1f;
+    font-size: 19px;
+    font-weight: bold;
+}
+.related-card-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.related-card-controls label {
+    color: #444;
+    font-weight: bold;
+    min-width: 24px;
+}
+.related-qty-input {
+    width: 58px;
+    padding: 5px 6px;
+    border: 1px solid #bfc8a8;
+    background: #fff;
+    border-radius: 3px;
+}
+.related-add-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #88a92c;
+    background: linear-gradient(to bottom, #a9c837 0%, #96b526 100%);
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.related-add-btn:hover {
+    background: linear-gradient(to bottom, #9fbe32 0%, #88a922 100%);
+}
+.related-add-btn:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+.related-add-confirmation {
+    display: none;
+    margin-top: 8px;
+    color: #2e7d32;
+    font-style: italic;
+    text-align: center;
+}
+.related-empty-note {
+    color: #666;
+    padding: 10px 12px;
+    background: #fafafa;
+    border: 1px solid #e2e2e2;
+}
+@media (max-width: 900px) {
+    .related-grid {
+        grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+        gap: 12px;
+    }
+    .related-card {
+        min-height: 274px;
+    }
+}
+</style>
+<script type="text/javascript">
+(function() {
+    YAHOO.util.Event.onDOMReady(function() {
+        if (document.getElementById('demo')) {
+            new YAHOO.widget.TabView('demo');
+        }
+    });
+})();
+</script>
+{% endblock %}
+
+{% block fb_og %}
+{% secure_domain as canonical_domain %}
+<meta property="og:title" content="{{ p.name }}" />
+<meta property="og:type" content="product" />
+<meta property="og:url" content="{{ canonical_domain }}{{ p.get_absolute_url }}" />
+<meta property="og:image" content="{{ canonical_domain }}{{ p.image.url }}" />
+<meta property="og:site_name" content="{{ site_name }}" />
+<meta property="fb:admins" content="100002250704805" />
+{% endblock %}
+
+{% block structured_data %}
+{% secure_domain as canonical_domain %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ p.name|escapejs }}",
+  "description": "{{ p.meta_description|default_if_none:''|escapejs }}",
+  "sku": "{{ p.sku|default_if_none:''|escapejs }}",
+  "url": "{{ canonical_domain }}{{ p.get_absolute_url }}",
+  "image": ["{{ canonical_domain }}{{ p.image.url }}"],
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ p.brand|default_if_none:''|escapejs }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "USD",
+    "price": "{{ p.sale_price }}",
+    "availability": "{% if p.quantity > 0 %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "url": "{{ canonical_domain }}{{ p.get_absolute_url }}"
+  }
+}
+</script>
+{% endblock %}
+
+{% block view_specific_static %}
+    {{ block.super }}
+    {% if has_manual_related_content %}
+    <script defer type="text/javascript" src="{{ MEDIA_URL }}js/components/productassociation.js?v=manualrelated3"></script>
+    {% endif %}
+{% endblock %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumbRight">
+	<a href="{{ p.brand.get_absolute_url }}">{{ p.brand.name }}</a>
+</li>
+<li class="breadcrumbRight">
+	<a href="{{ p.series.get_absolute_url }}">{{ p.series.display_name }}</a>
+</li>
+<li class="breadcrumbRight">
+	{{ p.name }}
+</li>
+{% endblock %}
+
+{% block content %}
+
+
+
+<div xmlns:v="http://rdf.data-vocabulary.org/#" about="{{ p.get_absolute_url }}" typeof="v:Product" style="margin-left:20px;">
+
+		<div id="productDetailsTemplate" class="detailsPage">
+
+			{% include "tags/productimages.html" %}
+
+
+
+			<div id="productInfo">
+				<div class="labledContainer">
+					<h1 class="label">{{ p.meta_description }}</h1>
+					<div class="content">
+						<div class="variantConfigurator">
+							{% if p.brand %}
+								<div class="entry">
+									<span class="itemNumber"><b>Brand:</b> {{ p.brand }}</span>
+								</div>
+							{% endif %}
+						</div>
+						<!-- MC Area 1 -->
+						<div class="prodInfoMC">
+						</div>
+						<!-- MC Area 2 -->
+						<div class="prodInfoMC">
+						</div>
+						<div class="clr"><!--  --></div>
+
+						<div class="prices">
+						   {% if request.META.HTTP_HOST !=  DISTRIBUTOR_SITE_DOMAIN %}
+							<div class="price">
+								{% if p.sale_price < p.demo_price %}
+									<dl>
+										<dt class="bold">Regular Price:&nbsp;</dt>
+										<dd class=""><del>{{ p.demo_price|currency }}</del></dd>
+										<dd class="clr"><!--  --></dd>
+									</dl>
+								{% endif %}
+								<dl>
+									<dt class="bold">Your Price:&nbsp;</dt>
+									<dd class=""><span property="v:price">{{ p.sale_price|currency }}</span></dd>
+									<dd class="clr"><!--  --></dd>
+								</dl>
+							</div>
+						   {% else %}
+							<div class="price">
+								<dl>
+									<dt class="bold">MAP Price:</dt>
+									<dd class=""><span property="v:price">{{ p.price|currency }}</span></dd>
+									<dd class="clr"><!--  --></dd>
+								</dl>
+							</div>
+						   {% endif %}
+
+						</div>
+	<form method="post" action="." >{% csrf_token %}
+
+						<div class="variantConfigurator">
+							<div class="entry">
+								{% if more_choices %}
+									{% for c in more_choices %}
+										<span class="itemNumber"><b>{{ c.title }}</b></span>
+										<br />
+										<select name="{{ c.title_normalize }}" style="width:200px;margin-left:20px;">
+											{% individual_choices c %}
+										</select>
+										<br /><br />
+									{% endfor %}
+								{% endif %}
+							</div>
+							{% if p.slug == "gift-certificate" %}
+								<div class="entry">
+									<span class="itemNumber"><b>Who is the lucky one to receive this gift?</b></span><br />
+									<label for="lucky_email">Email:</label>
+
+									<input type="text" name="lucky_email" id="lucky-email-box" class="input-hint lucky_email_box" title="Enter recipient's email" />
+									<br /><br />
+
+								</div>
+							{% endif %}
+						<div>
+						{% if p.slug == "gift-certificate" %}
+							<div class="variantConfigurator">
+								<div class="entry">
+									<span class="itemNumber"><b>Your gift message</b></span><br />
+									<textarea name="giftcert_message" id="giftcert_message" title="Enter your giftmessage" ROWS=4 COLS=30 ></textarea>
+									<br /><br />
+
+								</div>
+
+								<div class="entry">
+									<span class="itemNumber"><b>Type the characters you see in the image for security purposes</b></span><br />
+                                        			<input type="hidden" value="{{ imghash }}" name="imghash" id="imghash">
+                                        			<input type="text" size="20" name="imgtext" style="width:200px;"><br />
+                                        			<span style="font-weight:bold;color:#F00;font-style:italic;">{{ captcha_error }}</span>
+									<img src="{{ imgpath }}">
+
+									<br /><br />
+
+								</div>
+
+
+							</div>
+						{% endif %}
+						<div class="variantConfigurator">
+						    {% if request.META.HTTP_HOST !=  DISTRIBUTOR_SITE_DOMAIN %}
+							<div class="buttonContainer">
+
+								<dl>
+									<dt class="bold">{{ form.as_p }}</dt>
+									{% if not request|hasOffer %}
+									<dd style="float:left;padding-top:10px;">
+										{% if p.sale_price < p.price %}
+										<img src="/static/images/siteImg/sale-tag.png" />
+										{% else %}
+										<a href="{% url 'nameyourprice' %}?p={{p.slug}}"><img src="/static/images/siteImg/make_offer.png" /></a>
+										{% endif %}
+									</dd>
+									<dd style="float:right;">
+										<input type="image" style="border:none;" src="/static/images/siteImg/add_cart2.jpg" title="Add to Cart" name="addTo" value="Add To Cart" />
+
+									</dd>
+									{% else %}
+										<br>
+										<dd style="float:right;">
+										<span style="border-style:solid; border-color:#FF0000;color: #CC0000;font-weight:bold;">***<a href="{% url 'ViewYourOffers' %}">You have an accepted offer, please close the outstanding offer before you make another purchase</a>***</span>
+										</dd>
+									{% endif %}
+									<dd class="clr"><!--  --></dd>
+								</dl>
+
+								<br />
+							</div>
+						   {% else %}
+							<div class="price">
+								<dl>
+									<dt class="bold">Dealer Price:</dt>
+									<dd class=""><span property="v:price">
+										{% if perms.dealers.change_dealerdiscountrate %}
+											${% half p.price %}
+										{% else %}
+											<a href="{% url 'login' %}?next={{ request.path }}" class="large-font-link tooltip">$$$<b><em></em>Sign in</b></a>
+										{% endif %}
+
+										</span></dd>
+									<dd class="clr"><!--  --></dd>
+								</dl>
+							</div>
+
+						   {% endif %}
+						</div>
+	</form>
+
+					</div>
+					{% if request.META.HTTP_HOST != DISTRIBUTOR_SITE_DOMAIN %}
+					<div class="bottomNote">
+					   	{% if p.is_coming_soon %}
+							<span>This product is available for shipping in one to two weeks. </span>
+						{% else %}
+							{% if p.quantity > 0 %}
+								<span>This product is available to ship immediately.</span>
+							{% else %}
+								<span><b>Sold out, in back order</b>. we expect to ship this items in three weeks.</span>
+							{% endif %}
+						{% endif %}
+
+
+					</div>
+					{% else %}
+						<div class="bottomNote">
+							<span>Please see the <a href="{% url 'dealer_pricing' %}">discount rate sheet</a> for additional discount</span>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="clr"></div>
+
+
+		</div>
+
+			<div style="float:right;">
+
+				<form method="post" action="/cart/add2wishlist/" >{% csrf_token %}
+ 					<input type="hidden" name="product_slug" value="{{ p.slug }}" />
+ 					<input type="hidden" name="action" value="add2wishlist" />
+
+					<input type="image" style="border:none;" src="/static/images/siteImg/btn_addtowishlist.gif" title="Add to Wish List" name="addToWishList" value="Add To WishList" />
+
+				</form>
+			</div>
+<br /><br />
+<div class="fb-like" data-href="{{ site_url }}/{{ p.get_absolute_url }}" data-action="like" data-send="false" data-width="450" data-show-faces="true" data-share="true" data-font="arial"></div>
+
+
+	</div>
+
+
+	<div class="cb"></div>
+
+
+
+</div>
+
+
+
+	<div class="yui-skin-sam" style="width:100%; margin:8px 10px 0 0;">
+
+		<div id="demo" class="yui-navset">
+			<ul class="yui-nav">
+				{% if not p.full_description %}
+					<li ><a href="#Description">
+						<em class="yuinavfont">Description</em>
+			    		</a>
+					</li>
+				{% endif %}
+
+				<li class="selected"><a href="#Specification"><em class="yuinavfont">
+			            {% if p.slug != 'gift-certificate' %}
+							Features and Specifications
+						{% else %}
+							Terms and Conditions
+						{% endif %}
+					</em></a>
+				</li>
+
+
+                 		<li><a href="#Reviewtab"><em class="yuinavfont">
+			    		Reviews</em></a>
+				</li>
+
+        <li><a href="#AskQuestiontab"><em class="yuinavfont">
+			    		Ask a question</em></a>
+				</li>
+				{% if has_manual_related_content %}
+
+                <li><a href="#Relatedtab"><em class="yuinavfont">
+                        Related Products & Accessories</em></a>
+                </li>
+                {% endif %}
+
+    	 		</ul>
+
+       		<div class="yui-content">
+       				{% if not p.full_description %}
+              			<div id="Description">
+      						<span property="v:description" class="productspecfont">{{ p.description|safe }}</span>
+							<div class="cb"><br /><br /></div>
+		  				</div>
+		  			{% endif %}
+              		<div id="Specification" class="wwrap">
+              			{% if p.full_description %}
+              				<span>{% enclose_description_with_div p.full_description %} </span>
+										{% else %}
+											{% if features %}
+												<ul class="withBullets productspecfont" >
+													{% for f in features %}
+            								{% if f == '' %}
+                							<br />
+            								{% else %}
+															{% if '<span>' in f %}
+																{{ f|safe }}
+															{% else %}
+																<li>{{ f|safe }}</li>
+															{% endif %}
+														{% endif %}
+													{% endfor %}
+												</ul>
+											{% else %}
+												<span>{{ p.features|safe}}</span>
+											{% endif %}
+										{% endif %}
+	  								<div class="clear"></div>
+		  					</div>
+
+			{% include "catalog/product_review_tab.html" %}
+			{% include "catalog/ask_a_question.html" %}
+
+			{% if has_manual_related_content %}
+
+            <div id="Relatedtab">
+                <div class="related-groups">
+                    {% if related_products_to_add %}
+                        <p class="related-list-intro">You can add any of these items along with this product.</p>
+                        <div class="related-grid">
+                            {% for item in related_products_to_add %}
+                                <div class="related-card js-related-card">
+                                    <div class="related-card-badge">Compatible add-on</div>
+                                    <div class="related-card-image">
+                                        <a href="{{ item.get_absolute_url }}">
+                                            <img src="{{ item.image.thumbnail.url }}" alt="{{ item.name }}" loading="lazy" decoding="async">
+                                        </a>
+                                    </div>
+                                    <div class="related-card-name"><a href="{{ item.get_absolute_url }}">{{ item.meta_description }}</a></div>
+                                    <div class="related-card-price">{{ item.sale_price|currency }}</div>
+                                    <div class="related-card-controls">
+                                        <label for="related-qty-{{ item.slug }}">Qty</label>
+                                        <input id="related-qty-{{ item.slug }}" class="related-qty-input js-related-qty" type="number" min="1" max="10" value="1">
+                                    </div>
+                                    <button type="button" class="related-add-btn js-related-add" data-product-slug="{{ item.slug }}">Add to cart</button>
+                                    <div class="related-add-confirmation js-related-confirmation">Added to the shopping cart</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="related-empty-note">No related products have been configured for this item yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+			</div>
+		</div>
+	</div>
+
+<br />
+<div class="fb-like fl" data-href="{{ site_url }}/{{ p.get_absolute_url }}" data-action="like" data-send="false" data-width="450" data-show-faces="true" data-share="true" data-font="arial"></div>
+
+
+	<div class="cb"><br /><br /></div>
+
+</div>
+
+
+
+{% endblock %}

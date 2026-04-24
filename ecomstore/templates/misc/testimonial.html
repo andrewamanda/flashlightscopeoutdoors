@@ -1,0 +1,61 @@
+{% extends "catalog.html" %}
+
+{% block content %}
+
+
+	<div class="cb"> </div>
+		<div class="Welcometext">
+			<h1 align="center"><i>What our customers say about us</i></h1>
+
+			<p align="justify" style="margin-top: 0; margin-bottom:0">The {{ site_name }} strives to meet its customers needs.  We are extremely pleased when customers go out of their way to telephone or write us to express their gratitude.  Below are some of the many accolades we've received recently:
+			<ul class="sf_testimonialsList italic">
+				{% for t in testimonials %}
+					<li>
+						<p align="justify">{{ t.comment }}</p>
+						<p align="right">{{ t.name }}</p>
+					</li>
+				{% endfor %}
+			</ul>
+	</div><!--end .Welcomtext-->
+
+<br /><br />
+
+<h1 align="center"><i>Write your own testimonial</i></h1>
+
+<form method="post" action="." class="cart">{% csrf_token %}
+	<div class="formArea">
+		<div class="formEntry">
+			<label for="name">Name:</label>
+			<input type="text" name="name" id="name" size="50"  maxlength="50" value="{{ name }}"/>
+
+		</div>
+		<div class="formEntry">
+			<label for="email">Comment:</label>
+			<textarea id="line1" name="comment" type="textarea" value="" COLS=50 ROWS=6></textarea>
+
+		</div>
+		<br>
+		<span style="font-weight:bold;color:#F00;font-style:italic;">{{ captcha_error }}</span>
+		<div class="formEntry">
+            	<input type="hidden" value="{{ imghash }}" name="imghash" id="imghash">
+			<label for="captcha">Captcha:</label>
+
+                  <input type="text" size="20" name="imgtext" style="width:200px;" /><br>
+			<label for="image"></label>
+			<img src="{{ imgpath }}">
+
+			<br /><br />
+
+		</div>
+
+
+		<div class="formButtons">
+			<input class="noBorder fl" name="submit" type="image" src="{{MEDIA_URL}}images/siteImg/submit.jpg" alt="Sign Up" />
+		</div>
+	</div>
+</form>
+
+
+
+
+{% endblock %}

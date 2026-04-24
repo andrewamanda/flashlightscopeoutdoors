@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block site_wrapper %}
+
+
+					<div class="cb"> </div>
+
+
+					<div class="Welcometext">
+						<h1><b>{{ page_title }}</b></h1>
+ 
+<p align="justify" style="margin-top: 0; margin-bottom: 0">We many ways of savings to our loyal customers. The most popular saving channel is our <a href="{% url 'nameyourprice' %}"><b>Name Your Price</b> </a>program, where customers can communicate with us through eBay style bidding. But our Name Your Price program can do more than what eBay offers. In our system, Customers can add multipe products in the offer basket and make a combination offer.
+<br>
+<br>
+Our next popular program is the <a href="{% url 'dealoftheday' %}"><b>Deal Of The Day</b></a> program. We offers daily deals for popular products. One deal one day, starting at midnight, ending at midnight.
+<br>
+<br>
+From time to time, we are clearing our shelves to make room for the newest, most innovative products, and we are passing on the savings to you in our <a href="{% url 'clearance' %}"><b>Clearance Center</a> </a>
+  </p>
+<br>
+
+{% include "tags/home_slide_block_dealbanner.html" %}
+{% include "tags/home_slide_block_dealofday.html" %}
+{% include "tags/home_slide_block_clearance.html" %}
+{% include "tags/home_social_block.html" %}
+
+
+{% endblock %}
+

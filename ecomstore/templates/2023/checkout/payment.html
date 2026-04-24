@@ -1,0 +1,243 @@
+{% extends "2023/base.html" %}
+{% load cache %}
+{% load catalog_tags %}
+{% load catalog_filters %}
+{% load checkout_tags %}
+{% block title %}
+<title>Andrew & Amanda Outdoors Home</title>
+{% endblock %}
+{% block additional_meta %}
+<style>
+a {
+    color: #3498db; /* Change the color to blue */
+    text-decoration: underline; /* Ensure it is underlined */
+    font-weight: bold; /* Make it bold */
+}
+
+a:hover {
+    color: #2980b9; /* Darker blue on hover */
+    text-decoration: none; /* Remove underline on hover */
+}
+</style>
+{% endblock %}
+
+{% block breadcrum %}
+<div class="l-breadcrumb">
+<ul class="breadcrumb"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'home' %}">Pricing Structures</a></li><li>{% block pricing_item %}{% endblock %}</li></ul>    </div>
+{% endblock %}
+
+
+{% block main_area %}
+
+
+
+
+<main>
+   {% if error_message %}
+   <ul class="errorlist">
+      <li>{{ error_message }}</li>
+   </ul>
+   {% endif %}
+   <section class="cart-sec common-inner-gap">
+      <div class="container mt-3">
+         <div class="row">
+            <div class="col-lg-12">
+               <div class="cart-wrap">
+                  <!-- Main Content Panel (left side) -->
+                  <div class="row">
+                     <div class="col-lg-8">
+                        <h1>Order Overview and Payment</h1>
+                        <div class="row">
+                           <h2>Billing/Shipping Information</h2>
+                           <div class="col-md-6">
+                              <h4>Billing Address <a href="#" onclick="history.go(-2); return false;">(Update)</a></h4>
+
+                              <ul class="list-unstyled">
+                                 <li>{{ billing_name }}</li>
+                                 <li>{{ billing_address_1 }}</li>
+                                 <li>{{ billing_address_2 }}</li>
+                                 <li>{{ billing_city }}, {{ billing_state }} {{ billing_zip }}</li>
+                                 <li>{{ billing_country }}</li>
+                                 <li>{{ phone }}</li>
+                                 <li>{{ email }}</li>
+                              </ul>
+                           </div>
+                           <div class="col-md-6">
+                              <h4>Shipping Address<a href="#" onclick="history.go(-2); return false;">(Update)</a></h4>
+                              <ul class="list-unstyled">
+                                 <li>{{ shipping_name }}</li>
+                                 <li>{{ shipping_address_1 }}</li>
+                                 <li>{{ shipping_address_2 }}</li>
+                                 <li>{{ shipping_city }}, {{ shipping_state }} {{ shipping_zip }}</li>
+                                 <li>{{ shipping_country }}</li>
+                                 <li>{{ phone }}</li>
+                                 <li>{{ email }}</li>
+                              </ul>
+                           </div>
+                           {% if isItGift == 'Yes' %}
+                           <div class="col-12 mt-3">
+                              <h4>This order is a gift<a href="#" onclick="history.go(-1); return false;">(Update)</a></h4>
+
+                              <p>
+                                 Prices will {% if pricePrinted == 'No' %}<strong>not</strong>{% endif %} be printed on the shipping invoice.
+                              </p>
+                              <strong>Gift Message</strong>
+                              <p>{{ giftmessage }}</p>
+                           </div>
+                           {% else %}
+                           <div class="col-12 mt-3">
+                              <h4>This order is not a gift<a href="#" onclick="history.go(-1); return false;">(Edit)</a></h4>
+
+                           </div>
+                           {% endif %}
+                           {% if haveNote == 'Yes' %}
+                           <div class="col-12 mt-3">
+                              <h4>Your note for this order:<a href="#" onclick="history.go(-1); return false;">(Edit)</a></h4>
+                              <p>{{ note }}</p>
+                           </div>
+                           {% else %}
+                           <div class="col-12 mt-3">
+                              <h4>You have not entered a note for this order<a href="#" onclick="history.go(-1); return false;">(Edit)</a></h4>
+
+                           </div>
+                           {% endif %}
+                           {% if isItReferral == 'Yes' %}
+                           <div class="col-12 mt-3">
+                              <h4>This order is referred by {{ referralCode }}</h4>
+                           </div>
+                           {% endif %}
+                        </div>
+                        <hr class="my-4">
+                        <!-- Review Order Section -->
+                        <h2 class="mb-4">Review Your Order</h2>
+                        <!-- ...existing content for table... -->
+                        <!-- Bootstrap styled table for the shopping cart -->
+                        <table class="table table-bordered">
+                           <tfoot>
+                              <tr>
+                                 <th colspan="4" class="text-right">Cart Subtotal:</th>
+                                 <th class="text-right">{{ cart_subtotal|currency }}</th>
+                              </tr>
+                              {% if request.session.win_price %}
+                              <tr>
+                                 <th colspan="4" class="text-right">Your Deal Price:</th>
+                                 <th class="text-right">{{ request.session.win_price|currency }}</th>
+                              </tr>
+                              {% endif %}
+                              <tr>
+                                 <th colspan="4" class="text-right">Shipping and Handling Charges:</th>
+                                 <th class="text-right">${{ shipping_charge }}</th>
+                              </tr>
+                              <!-- Promotion Code Form -->
+                              <tr>
+                                 <th colspan="4" class="text-right top">Enter the promotion code:</th>
+                                 <th class="text-right">
+                                    <form action="." method="post" class="form-inline">
+                                       {% csrf_token %}
+                                       <div class="form-group mx-sm-3 mb-2">
+                                          <input type="text" class="form-control" id="promoCode" name="promoCode" value="{{ promotion_code }}" autocomplete="off" placeholder="Promotion Code">
+                                       </div>
+                                       <button type="submit" class="btn btn-primary mb-2">Apply</button>
+                                    </form>
+                                 </th>
+                              </tr>
+                              <!-- ... More rows follow ... -->
+                           </tfoot>
+                           <tbody>
+                              <!-- ... Table body content ... -->
+                           </tbody>
+                        </table>
+                        <!-- Bootstrap alert for empty cart case -->
+                        {% if not cart_items %}
+                        <div class="alert alert-warning" role="alert">
+                           Your cart is empty.
+                        </div>
+                        {% endif %}
+                        <!-- The following forms and buttons should be styled with Bootstrap as well -->
+                        <!-- ... -->
+                        <!-- Conditionally show the form if total_amt_due is zero -->
+                        {% if total_amt_due == 0.0 %}
+                        <!-- ... Place the optimized form code here ... -->
+                        {% endif %}
+                        <!-- End Review Order Section -->
+
+                     </div>
+                     <!-- End Main Content Panel -->
+                     <!-- Side Panel (right side) -->
+                     {% include "2023/checkout/sidepanel_cart.html" %}
+                     <!-- End Side Panel -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+
+
+
+
+
+			<div class="container mt-3">
+         <div class="row">
+            <div class="col-lg-12">
+               <div class="cart-wrap">
+                  <!-- Main Content Panel (left side) -->
+                  <div class="row">
+                     <div class="col-lg-12">
+
+                        <!-- Payment Area -->
+                        <div id="paymentArea">
+                           <h2>Make A Payment</h2>
+                           <div  role="alert">
+                              We provide two well-known third-party payment options. Our website does not obtain, nor save your payment information.
+                              For your protection, the credit card processor requires the billing address to match the shipping address.
+                              If you require your order to be shipped to an address different from the billing address, please choose to pay by:
+                              <strong>Checkout With PayPal</strong>
+                           </div>
+                           <!-- Stripe integration -->
+                           {% include 'tags/stripe.html' %}
+                           <!-- End of Stripe integration -->
+                           <!-- Payment Option Type - Credit Card Form -->
+                           <form id="forvalidation_creditcard" action="." method="post" class="mb-3">
+                              {% csrf_token %}
+                              <!-- Hidden inputs for the form... -->
+                              <input type="hidden" id="total_amt_due" name="total_amt_due" value="{{ total_amt_due }}">
+                              <!-- Additional hidden inputs... -->
+                           </form>
+                           <!-- Or Checkout With... PayPal -->
+                           <fieldset class="border p-4 mb-4">
+                              <legend class="w-auto px-2">Or Checkout With...</legend>
+                              <div class="row">
+                                 <div class="col-sm-12">
+                                    <form action="." method="post">
+                                       {% csrf_token %}
+                                       <!-- Hidden inputs for the form... -->
+                                       <div class="text-center">
+                                          <input class="btn btn-primary" type="image" src="/static/images/siteImg/x-click-but5.gif" alt="Checkout Through Paypal" name="submit" value="PaypalOrder" />
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </fieldset>
+                        </div>
+                        <!-- End of Payment Area -->
+                        <!-- Stripe Integration Scripts -->
+                        {% include 'tags/stripeJS.html' %}
+                        <!-- End of Stripe Integration Scripts -->
+                     </div>
+                     <!-- End Main Content Panel -->
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+
+
+
+   </section>
+</main>
+{% endblock %}

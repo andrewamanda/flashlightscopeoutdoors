@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+  <link rel="stylesheet" type="text/css" href="/static/mobile/css/style.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6//jquery.mCustomScrollbar.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
+  <script src="//cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6//jquery.mCustomScrollbar.concat.min.js"></script>
+  <script>
+		(function($){
+			$(window).load(function(){
+				$(".scroll").mCustomScrollbar({
+					scrollButtons:{
+						enable:true
+					},
+					horizontalScroll:true,
+					advanced:{autoExpandHorizontalScroll:true,updateOnContentResize:false}
+				});
+			});
+		})(jQuery);
+	</script>
+</head>
+<body>
+
+<div data-role="page" id="pageone">
+	<div class="main-margin">
+<!--
+        <div class="top-header">
+            <div class="logo"><a href="#"><img src="/static/images/siteImg/logo_224x70.jpg" alt=""></a></div>
+            
+            <div data-role="fieldcontain" class="right" style="border:none">
+                <input type="search" name="search" id="search" placeholder="search">
+            </div>
+            <div class="clear"></div>
+        </div>
+-->
+        <div data-role="header">
+            <div class="navigation"><a href="#menu" data-role="button" data-rel="back" data-inline="true" data-icon="bars"></a></div>
+ 	    <div>
+		<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext">Search</a>
+	    </div>           
+            <div class="right header-icons">
+                <div class="header-cart left"><img src="/static/mobile/images//cart-icon.png" alt=""></div>
+                <img src="/static/mobile/images//account-icon.png" alt="">
+            </div>
+        </div>
+        <div data-role="panel" id="menu" data-display="push">
+            <div class="ui-panel-inner">
+                <ul data-role="listview" class="mainMenu">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Products</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div data-role="main" class="ui-content">
+        	<div class="box">
+            	<h3>Deal Of The Day</h3>
+                
+                <div class="scroll box-content">
+                    <div class="content-wrapper">
+			<div class="prod-wrapper">
+			{% for p in dealoftheday %}
+				<img src="{{ p.image.thumbnail.url }}" height="105px" />
+				<h4>{{ p.name }}</h4>
+				<div class="prod-price">Regular Price: ${{p.demo_price }}</div>
+				<div class="prod-price">Deal Price: ${{ p.sale_price }}</div>
+			{% endfor %}
+			</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="box">
+            	<h3>Clearance Corner</h3>
+                
+                <div class="scroll box-content">
+                    <div class="content-wrapper">
+			<div class="prod-wrapper">
+			{% for p in clearance %}
+				<img src="{{ p.image.thumbnail.url }}" height="105px" />
+				<h4>{{ p.name }}</h4>
+				<div class="prod-price">Regular Price: ${{p.demo_price }}</div>
+				<div class="prod-price">Deal Price: ${{ p.sale_price }}</div>
+			{% endfor %}
+			</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="expand-collapse">
+            <div data-role="collapsible-set" data-mini="true">
+                <div data-role="collapsible">
+                    <h3>Shop by Categories</h3>
+                    <ul>
+                    	<li><a href="#">Tactical Optics</a></li>
+                        <li><a href="#">LED Flashlights</a></li>
+                        <li><a href="#">Outdoor Gears</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>Shop by Brands</h3>
+                    <ul>
+                    	<li><a href="#">Tactical Optics</a></li>
+                        <li><a href="#">LED Flashlights</a></li>
+                        <li><a href="#">Outdoor Gears</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>Shop by Price</h3>
+                    <ul>
+                    	<li><a href="#">Tactical Optics</a></li>
+                        <li><a href="#">LED Flashlights</a></li>
+                        <li><a href="#">Outdoor Gears</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>Shop by Lumens</h3>
+                    <ul>
+                    	<li><a href="#">Tactical Optics</a></li>
+                        <li><a href="#">LED Flashlights</a></li>
+                        <li><a href="#">Outdoor Gears</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div data-role="footer">
+        	<div class="top-footer">
+                <div class="social-icons">
+                    <a href="#"><img src="/static/mobile/images//fb-icon.png" alt="Facebook"></a>
+                    <a href="#"><img src="/static/mobile/images//twitter-icon.png" alt="Twitter"></a>
+                </div>
+                <div class="signup-link"><a href="#">Sign up for our newsletter</a></div>
+            </div>
+            
+            <div class="copyright">&copy; Andrew & Amanda LLC 2010</div>
+        </div>
+    </div>
+    
+    <!--
+    
+    -->
+</div>
+</body>
+</html>

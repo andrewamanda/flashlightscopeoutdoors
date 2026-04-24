@@ -1,0 +1,34 @@
+<a href="/nameyourprice/checkoutauction/" id="postacceptbutton" data-role="button" data-theme="b">Make Payment</a>
+<a href="#" id="cancelbutton" data-role="button" class="PreCancelOffer">Cancel Offer</a>
+<a href="#" data-role="button" id="MakeNewOffer" class="PostCancelOffer" data-theme="b" style="display:none;">Make a New Offer</a>
+
+                        <script type="text/javascript">
+                                $(document).delegate('#MakeNewOffer', 'click', function() {
+                                        window.location = "/nameyourprice/makeoffer/";
+                                        return true
+                                })
+                                $(document).delegate('#cancelbutton', 'click', function() {
+                                        $('<div>').simpledialog2({
+                                                mode: 'button',
+                                                headerText: 'Cancel??',
+                                                headerClose: true,
+                                                buttonInput: true,
+                                                buttonPrompt: 'Enter a comment(optional)',
+                                                buttons : {
+                                                        'OK': {
+                                                                click: function () {
+                                                                        bid = jQuery("#b_id").val();
+                                                                        comment = $.mobile.sdLastInput;
+                                                                        ConfirmCancelOffer(bid, comment);
+                                                                        $('#offerstatus').text("You have cancelled your offer");
+                                                                        $(".errorList").hide();
+                                                                        $("#postacceptbutton").hide();
+                                                                        $(".PreCancelOffer").hide();
+                                                                        $(".PostCancelOffer").show();
+                                                                }
+                                                        },
+                                                }
+                                        })
+                                });
+
+                        </script>

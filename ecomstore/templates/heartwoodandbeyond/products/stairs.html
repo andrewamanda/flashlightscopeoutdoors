@@ -1,0 +1,29 @@
+{% extends "heartwoodandbeyond/products/product_base.html" %}
+
+{% block product_item %}
+Reclaimed Wood Stair Treads
+{% endblock %}
+
+{% block product_header %}
+
+<h1 class="node__title">Reclaimed Wood Stair Treads</h1>
+{% endblock %}
+
+{% block product_content %}
+<div class="field field--name-field-image field--type-image field--label-hidden">
+  <div class="field__items">
+    <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/gallery/stairs_2.jpeg" width="800" height="400" alt="" /></div></div></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><div class="rtecenter" style="margin-bottom: 20px;"><a href="#block-views-services-front-all">VIEW RECLAIMED STAIRS GALLERY</a></div>
+    </div>
+  </div>
+</div>
+<div class="field field--name-body field--type-text-with-summary field--label-hidden">
+  <div class="field__items">
+    <div class="field__item even" property="content:encoded">
+      <p style="text-align: left;">Elevate every step of your journey with our Reclaimed Wood Stair Treads. Crafted from timbers with tales to tell, these treads merge the rich narratives of their past with the design needs of the present. Each piece resonates with the markings, patinas, and character from its previous life, ensuring that no two treads are alike. Infuse your staircases with a touch of history and a whole lot of elegance, combining sustainability with timeless design. Ascend through your spaces on steps that echo with stories.</p>
+</div>
+</div>
+</div>
+<hr>
+{% include "heartwoodandbeyond/galleries/stairs.html" %}
+{% include "heartwoodandbeyond/galleries/gallery_styles.html" %}
+{% endblock %}

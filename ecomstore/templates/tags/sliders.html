@@ -1,0 +1,15 @@
+{% load catalog_tags %}
+
+        				<!-- Nivo Slider -->
+        					<div id="slider" class="nivoSlider">
+
+						{% for banner in banners %}
+            						<a href="{{banner.url_link}}"><img src="{% banner_image_url banner.image.url %}" loading="eager" decoding="async" fetchpriority="high" /></a>
+						{% endfor %}
+							
+
+
+
+        					</div>
+
+<div class="cb"></div>

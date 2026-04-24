@@ -1,0 +1,13 @@
+__pycache__/
+localsettings.py
+shippo.py
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+media/
+staticfiles/
+.env
+venv/
+.env.*
+.DS_Store

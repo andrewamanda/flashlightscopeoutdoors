@@ -1,0 +1,144 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_tags %}
+
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+{% block content %}
+{% include "mobile/home/pagefooter.html" %}
+
+
+
+<!--
+                {% include "mobile/home/sliders.html" %}
+-->
+{% include "mobile/home/zoomimages.html" %}
+
+<div class="ui-body ui-body-c ui-corner-all" style="margin:10px 0;">
+	<h4>{{ p.meta_description }}</h4>
+
+		<div data-role="collapsible"  data-theme="b" data-content-theme="b" class="ui-collapsible ui-collapsible-inset">
+		 	<h3>Full Description</h3>
+			{% if not p.full_description %}
+				<div>
+					{{ p.description|safe }}
+				</div>
+			
+			{% else %}
+				<div id="fulldescription">{{p.full_description|safe }}</div>
+			{% endif %}
+
+		</div>
+		<br>
+
+		<div class="fieldcontain" style="align:right;">
+			{% if p.price != p.sale_price %}
+      				<span style="font-weight:bold;">  Original Price:
+				<del>${{ p.price }}</del></span>
+      
+			{% endif %}
+			<br>
+		
+      			<span style="font-weight:bold;">  Today's Price:
+				${{ p.sale_price }}</span>
+      		</div>
+		<br>
+    		<ul data-role="listview" style="margin:-5px">
+    			<form id="addform" name="addform" class="addToCartFormWithPopup" method="POST" action="/mobile/add2cart/" data-ajax="false">{% csrf_token %}
+        			<input type="hidden" name="product_slug" value="{{ p.slug }}"/>
+        			<input type="hidden" name="product_name" value="{{ p.name }}"/>
+
+				<li class="productLine">
+
+      				<div  class="noImage" >
+					{% if not request.session.win_price %}
+          				<div class="orderForm">
+            					<div data-role="fieldcontain" style="display: table-row;">
+               						<label for="product_qty" style="display: table-cell;font-weight:bold;padding-left:5px;padding-right:15px;">Qty: </label>
+							<input type="number" id="product_qty" name="quantity" value="1" style="display: table-cell;" />
+						</div>
+            					<div class="ui-grid-a">
+              						<div class="ui-block-a">
+						    		{% if p.sale_price < p.price %}
+									<img src="/static/images/siteImg/sale-tag.png" />
+						    		{% else %}
+									{% if request.user.is_authenticated %}
+										<a href="#" id="ProductMakeOffer" data-role="button" data-theme="e">Make Offer</a>
+									{% else %}
+										<a href="#" id="signin4productofferbutton" data-role="button" data-theme="e">Make Offer</a>
+									{% endif %}
+						    		{% endif %}
+              						</div>
+              						<div class="ui-block-b">
+               							<input name="singleSubmit_o_0" type="submit" value="Buy It Now" data-theme="b" id="ppage-9781614280507_submit_o_0"/>
+              						</div>
+            					</div>
+					</div>
+					{% else %}
+					<br>
+            					<div class="ui-grid-a">
+              						<div class="ui-block-a">
+								<i>You have a MakeOffer deal in your cart </i>
+							</div>
+              						<div class="ui-block-b">
+								<a href="/nameyourprice/makeoffer/" data-role="button" data-theme="b">The Deal</a>
+							</div>
+						</div>
+
+					{% endif %}
+				
+          			</div>
+
+
+      				<br style="clear:both;"/>
+
+
+			</li>
+
+      		</form>
+    	</ul>
+</div>
+
+<script type="text/javascript">
+    $("#product_qty").keypress(function(event) {
+        return /\d/.test(String.fromCharCode(event.keyCode));
+    });
+
+    $(document).delegate('#ProductMakeOffer', 'click', function() {
+	  aa = "/nameyourprice/makeoffer?p=";
+	   slug = $("input[name=product_slug]").val();
+	   qty = $("input[name=quantity]").val();
+	   aa += slug;
+	   aa += "&qty=" + qty;
+	   window.location = aa;
+           return true
+    })
+
+                                $(document).delegate('#signin4productofferbutton', 'click', function() {
+                                        $('<div>').simpledialog2({
+                                                mode: 'blank',
+                                                headerText: 'Not signed in',
+                                                headerClose: true,
+                                                width: "90%",
+                                                themeDialog: "b",
+                                                themeHeader: "b",
+                                                blankContent: '<div class="sdCont">You need to sign in using your account with us or using social accounts in order to submit and track your offers<div class="ui-grid-a"><div class="ui-block-a"><button id="btnSignIn4ProductOffer" data-inline->OK</button></div><div class="ui-block-b"><button id="btnCancel" data-theme="c" data-icon="delete" rel="close">Cancel</button></div></div></div>'
+
+                                        });
+
+                                });
+
+                                $(document).on("click", "#btnSignIn4ProductOffer", function(){
+
+                                         window.location = "/accounts/login";
+                                         $.mobile.sdCurrentDialog.close();
+                                });
+				$( document ).on( "pagecreate", function( event ) {
+					MagicSlideshow.options['onready']=function(id){ if (id=='zoom-slideshow') MagicZoomPlus.refresh(); }
+				});
+				$( document ).on( "pagecreate", function( event ) {
+ 					MagicSlideshow.refresh();
+				});
+
+</script>
+{% endblock %}
+

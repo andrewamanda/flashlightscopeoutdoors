@@ -1,0 +1,37 @@
+{% load catalog_tags %}
+{% active_blogs as blogs %}
+
+{% url 'show_why' as show_why_url %}
+{% url 'installation_tips' as installation_tips_url %}
+{% url 'reclaiming_process' as reclaiming_process_url %}
+{% url 'shipping' as shipping_url %}
+{% url 'hpw_makeapayment' as hpw_makeapayment_url %}
+{% url 'leave_review' as leave_review_url %}
+{% url 'contact' as contact_url %}
+{% url 'post_installation' as post_installation_url %}
+
+<div id="block-menu-block-3" class="block block--menu-block block--nav-submenu block--menu-block-3">
+    <div class="block__content">
+<div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-2">
+<ul class="menu">
+<!--
+  <li class="first leaf menu-mlid-843 {% if request.path == show_why_url %}active-trail active {% endif %}"><a href="{% url 'show_why' %}">Walk into our business</a></li>
+<li class="third leaf menu-mlid-841 {% if request.path == reclaiming_process_url %}active-trail active {% endif %}"><a href="{% url 'reclaiming_process' %}">Reclaiming Process</a></li>
+  <li class="second leaf menu-mlid-843 {% if request.path == installation_tips_url %}active-trail active {% endif %}"><a href="{% url 'installation_tips' %}">Installation Tips</a></li>
+<li class="third leaf menu-mlid-841 {% if request.path == wood_finishes_url %}active-trail active {% endif %}"><a href="{% url 'wood_finishes' %}">Choices Of Wood Finishes</a></li>
+-->
+{% for blog in blogs %}
+<li class="leaf menu-mlid-847 {% if blog.get_absolute_url == request.path %}active-trail active {% endif %}"><a href="{{ blog.get_absolute_url }}">{{blog.name}}</a></li>
+{% endfor %}
+
+<li class="third leaf menu-mlid-841 {% if request.path == shipping_url %}active-trail active {% endif %}"><a href="{% url 'shipping' %}">Shipping</a></li>
+<li class="fourth leaf menu-mlid-841 {% if request.path == hpw_makeapayment_url %}active-trail active {% endif %}"><a href="{% url 'hpw_makeapayment' %}">Make your payment</a></li>
+<li class="last leaf menu-mlid-841 {% if request.path == leave_review_url %}active-trail active {% endif %}"><a href="{% url 'leave_review' %}">Leave a review</a></li>
+<li class="last leaf menu-mlid-841 {% if request.path == contact_url %}active-trail active {% endif %}"><a href="{% url 'contact' %}">Contact Us</a></li>
+
+
+</ul></div>
+</div>
+</div>
+
+<hr>

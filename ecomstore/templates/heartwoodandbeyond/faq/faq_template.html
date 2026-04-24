@@ -1,0 +1,34 @@
+{% extends "heartwoodandbeyond/faq/faq_base.html" %}
+
+{% block faq_item %}
+{{ b.name|safe }}
+{% endblock %}
+
+{% block faq_header %}
+{% if b.title %}
+<div class="field field--name-field-display-title field--type-text field--label-hidden">
+  <div class="field__items">
+    <div class="field__item even">
+      {{b.title|safe}} 
+    </div>
+  </div>
+</div>
+{% endif %}
+{% if b.summary %}
+<div class="field field--name-field-intro field--type-text-long field--label-hidden">
+  <div class="field__items">
+    <div class="field__item even">
+
+    {{ b.summary|safe}}
+</div>
+</div>
+</div>
+ {% endif %}
+{% if b.subtitle %}<h1 class="node__title">{{b.subtitle|safe}}</h1> {% endif %}
+{% endblock %}
+
+{% block faq_content %}
+
+{{ b.content|safe}}
+
+{% endblock %}

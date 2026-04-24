@@ -1,0 +1,46 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_filters %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+
+ <br />
+{% for message in messageoftheday %}
+<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+  <strong>Today's Message</strong>
+  <p>
+       {{ message.description|safe}}
+  </p>
+</div>
+{% endfor %}
+
+{% if dealoftheday %}
+    <div data-role="collapsible" class="navigationCollapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+         <h3 class="navigationTitle">Today's Deal</h3>
+                <ul data-role="listview" class="navigation">
+			{% for p in dealoftheday %}
+  				<li> 
+					<a href="{{p.get_absolute_url }}">{{ p.name }} - {{p.sale_price|currency }}</a>
+  				</li>
+			{% endfor %}
+		</ul>
+    </div>
+{% endif %}
+
+{% if new_arrivals %}
+    <div data-role="collapsible" class="navigationCollapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+         <h3 class="navigationTitle">New Arrivals</h3>
+                <ul data-role="listview" class="navigation">
+			{% for p in new_arrivals %}
+  				<li> 
+					<a href="{{p.get_absolute_url }}">{{ p.name }} - {{p.sale_price|currency }}</a>
+  				</li>
+			{% endfor %}
+		</ul>
+    </div>
+{% endif %}
+
+
+
+{% endblock %}

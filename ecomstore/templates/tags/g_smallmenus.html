@@ -1,0 +1,37 @@
+<div class="bootstrap small-menu">
+        <nav class="top-small-menu navbar navbar-default" role="navigation">
+                <ul class="nav navonhover navbar-nav">
+                        <li id="topNavBarItem">
+                                <a href="{% url 'alldepartments' %}"  class="regular"> All Departments  </a>
+                        </li>
+                        <li id="topNavBarItem">
+                                <a href="{% url 'allbrands' %}"  class="regular"> All Brands  </a>
+                        </li>
+                        <li id="topNavBarItem">
+                                <a href="{% url 'allbundles' %}"  class="regular"> All Bundles  </a>
+                        </li>
+                        <li id="topNavBarItem">
+                                <a href="{% url 'newarrival' %}"  class="regular"> New Arrivals  </a>
+                        </li>
+                        <li id="topNavBarItem" style="padding-left:5px;">
+                                <a href="{% url 'clearance' %}"  class="regular"> Clearance Center  </a>
+                        </li>
+                        <li id="topNavBarItem">
+                                <a href="{% url 'open_box' %}"  class="regular"> Open-Box Corner  </a>
+                        </li>
+                        <li id="topNavBarItem">
+                                <a href="{% url 'ViewYourOffers' %}"  class="regular"> View Your Offers  </a>
+                        </li>
+                        <li id="topNavBarItem">
+                                <a href="{% url 'group_buy' %}"  class="regular"> Group Buy  </a>
+                        </li>
+                </ul>
+        </nav>
+	<div align="right">
+		<div class="promoText largeOrange" style="text-align: right;display:inline-block;">
+              		<a href="{% url 'free_shipping' %}">
+                  		FREE SHIPPING ALL DOMESTIC ORDERS $25+
+              		</a>
+            	</div>
+	</div>
+</div>

@@ -1,0 +1,210 @@
+{% extends "mobile/home/base.html" %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+
+<script src="/static/js/ziplookup/zipLookup.js" type="text/javascript"> </script>
+
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% if form.errors %}
+  <div class="messages ui-body ui-body-e ui-corner-all">
+    <div class="errorMessageHeader">error occurred in the address form:</div>
+    <ul class="errorList">
+	<li class="errorMessage">{{ form.errors }}</li>
+    </ul>
+  </div>
+{% endif %}
+
+{% if not request.user.is_authenticated %}
+<div data-role="collapsible" data-collapsed="false">
+	<a href="{% url 'login' %}?next={{ request.path }}">
+	Have an existing profile? Sign in now! 
+	</a>(Optional)
+</div>
+{% endif %}
+<div data-role="collapsible" data-collapsed="false">
+  <h3>Update Billing/Shipping Addresses</h3>
+      <form method="post" action="{% if page_title != 'Checkout' %}./{% else %} {% url 'beginCheckout' %}{% endif %}">
+	{% csrf_token %}
+  	<div class="ui-body ui-body-c ui-corner-all">
+  		<fieldset>
+    			<label for="email" id="email_label">EMail:</label>
+    			{{ form.email }}
+  		</fieldset>
+  		<fieldset>
+    			<label for="Phone" id="phone_label">Phone:</label>
+    			{{ form.phone }}
+  		</fieldset>
+	</div>
+	<h3>SHIPPING ADDRESS</h3>
+  	<div class="ui-body ui-body-c ui-corner-all">
+  		<fieldset>
+    			<label for="shipping_name" id="shipping_name_label">Recipient Name *:</label>
+    			{{ form.shipping_name }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="shipping_zip" id="shipping_zip_label">Shipping Zip *:</label>
+    			{{ form.shipping_zip }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="shipping_address_1" id="shipping_address_1_label">Shipping Address 1 *:</label>
+    			{{ form.shipping_address_1 }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="shipping_address_2" id="shipping_address_2_label">Shipping Address 2:</label>
+    			{{ form.shipping_address_2 }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="shipping_city" id="shipping_city_label">Shipping City *:</label>
+    			{{ form.shipping_city }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="shipping_state" id="shipping_state_label">Shipping State *:</label>
+    			{{ form.shipping_state }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="shipping_country" id="shipping_country_label">Shipping Country *:</label>
+    			{{ form.shipping_country }}
+  		</fieldset>
+	</div>
+
+	<div data-role="fieldcontain">
+    		<fieldset data-role="controlgroup">
+	   		<legend><h3>BILLING ADDRESS:</h3></legend>
+			<div class="ui-checkbox">
+	   			<input type="checkbox" name="sameasshipping" id="sameasshipping" data-enhanced="true" onchange="shipsame()">
+	   			<label for="sameasshipping" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off">Same as shipping address</label>
+			</div>
+    		</fieldset>
+	</div>
+  	<div class="ui-body ui-body-c ui-corner-all">
+  		<fieldset>
+    			<label for="billing_name" id="billing_name_label">Billing Name *:</label>
+    			{{ form.billing_name }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="billing_zip" id="billing_zip_label">Shipping Zip *:</label>
+    			{{ form.billing_zip }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="billing_address_1" id="billing_address_1_label">Shipping Address 1 *:</label>
+    			{{ form.billing_address_1 }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="billing_address_2" id="billing_address_2_label">Shipping Address 2:</label>
+    			{{ form.billing_address_2 }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="billing_city" id="billing_city_label">Shipping City *:</label>
+    			{{ form.billing_city }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="billing_state" id="billing_state_label">Shipping State *:</label>
+    			{{ form.billing_state }}
+  		</fieldset>
+  		<fieldset >
+    			<label for="billing_country" id="billing_country_label">Shipping Country *:</label>
+    			{{ form.billing_country }}
+  		</fieldset>
+	</div>
+
+	{% if page_title != 'Checkout' %}
+		<fieldset class="ui-grid-a">
+			<div class="ui-block-a"><input type="submit" value="Save" data-icon="check" data-theme="b"/></div>
+			<div class="ui-block-b"><a data-role="button" href="{% url 'my_account' %}" data-ajax="false" data-icon="back" data-direction="reverse">Cancel</a></div>
+		</fieldset>
+	{% else %}
+		{% if request.user.is_authenticated %}
+		<div class="ui-checkbox">
+	   		<input type="checkbox" name="saveinfo" id="saveinfo" data-enhanced="true">
+	   		<label for="saveinfo" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off">Save the information</label>
+		</div>
+		{% endif %}
+
+        	<div class="ui-grid-solo" id="grid">
+              		<div class="ui-block-a">
+                		<button type="submit" data-theme="b" value="Proceed to check out">Proceed to checkout</button>
+              		</div>
+        	</div>
+        	<div class="ui-grid-solo" id="grid">
+              		<div class="ui-block-a">
+                    		<a href="{% url 'home' %}" data-role="button" rel="external" id="button-checkout" data-theme="c" data-icon="home">Continue shopping</a>
+              		</div>
+        	</div>
+
+	{% endif %}
+    </form>
+</div>
+
+
+      <script type="text/javascript">
+      /*<![CDATA[*/
+	$(document).on("pagecreate", function() {
+		$("span.helptext").hide();
+		$("#id_shipping_address_2").attr("placeholder", "Optional");
+		$("#id_billing_address_2").attr("placeholder", "Optional");
+		$("#id_shipping_state").attr("placeholder", "Optional two letter state abbr, e.g. NY");
+		$("#id_billing_state").attr("placeholder", "Optional two letter state abbr, e.g. NY");
+
+/*
+    		$("#id_shipping_name").on('keyup',function(){
+        		$("#id_billing_name").val($("#id_shipping_name").val());
+    		});
+    		$("#id_shipping_address_1").on('keyup',function(){
+        		$("#id_billing_address_1").val($("#id_shipping_address_1").val());
+    		});
+    		$("#id_shipping_address_2").on('keyup',function(){
+        		$("#id_billing_address_2").val($("#id_shipping_address_2").val());
+    		});
+    		$("#id_shipping_city").on('keyup',function(){
+        		$("#id_billing_city").val($("#id_shipping_city").val());
+    		});
+    		$("#id_shipping_state").on('keyup',function(){
+        		$("#id_billing_state").val($("#id_shipping_state").val());
+    		});
+    		$("#id_shipping_country").change(function(){
+        		$("#id_billing_country").val($("#id_shipping_country").val());
+        		$("#id_billing_country").selectmenu('refresh');
+    		});
+    		$("#id_shipping_zip").on('keyup',function(){
+        		$("#id_billing_zip").val($("#id_shipping_zip").val());
+    		});
+*/
+
+
+                $('[name=shipping_zip]').blur(function(){                        // Set on blur
+                    $.zipLookup(                                            // Do a Zip code Lookup
+                        $(this).val(),                                      // Zip code Field Value
+                        function(cityName, stateName, stateShortName){      // If Successful,
+                            $('input[name=shipping_city]').val(cityName);            // Set City name
+                            $('input[name=state_short]').val(stateName);    // Set State abbreviation
+                            $('input[name=shipping_state]').val(stateShortName);     // Set State name
+                            $('.message').html("Found Zipcode");            // Add a message
+                        },
+                        function(errMsg){                                   // If Zip couldn't be found,
+                            $('.message').html("Error: " + errMsg);         // Add an error message
+                        });
+                });
+                $('[name=billing_zip]').blur(function(){                        // Set on blur
+                    $.zipLookup(                                            // Do a Zip code Lookup
+                        $(this).val(),                                      // Zip code Field Value
+                        function(cityName, stateName, stateShortName){      // If Successful,
+                            $('input[name=billing_city]').val(cityName);            // Set City name
+                            $('input[name=state_short]').val(stateName);    // Set State abbreviation
+                            $('input[name=billing_state]').val(stateShortName);     // Set State name
+                            $('.message').html("Found Zipcode");            // Add a message
+                        },
+                        function(errMsg){                                   // If Zip couldn't be found,
+                            $('.message').html("Error: " + errMsg);         // Add an error message
+                        });
+                });
+
+
+      });
+      /*]]>*/
+      </script>
+
+{% endblock %}
+

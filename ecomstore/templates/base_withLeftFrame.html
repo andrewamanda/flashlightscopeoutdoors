@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load catalog_tags %}
+
+{% block site_wrapper %}
+
+<div class="breadcrumbs">
+        <ul>
+          <li class="breadcrumbStart"><a href="{% url 'home' %}">Home</a></li>
+	  {% block breadcrumb %}{% endblock %}
+        </ul>
+        <div class="breadcrumbEnd"></div>
+</div>
+
+	<div class="w100"><meta name="WT.cg_s" content="Category" />
+		<div id="categoryTemplate1">
+
+			<div class="layoutWithLeftColumn">
+
+				<div class="layoutLeftColumn">
+
+					{% if request.META.HTTP_HOST != DISTRIBUTOR_SITE_DOMAIN %}
+						{% include 'base_leftnav.html' %}
+					{% else %}
+						{% include 'for_dealers/base_leftnav.html' %}
+					{% endif %}
+
+
+				</div>
+
+				<div class="layoutCenterColumn">
+					<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+					<div class="categoryBannerCMS">
+					</div>
+
+					<div class="managedContent">
+						{% block content %}{% endblock %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+		<div id="footer">
+<!--			<div class="footerIEPadder">
+				{% footer_links %}
+				<div class="cb"></div>
+-->			</div>
+		</div>
+
+
+
+
+{% endblock %}

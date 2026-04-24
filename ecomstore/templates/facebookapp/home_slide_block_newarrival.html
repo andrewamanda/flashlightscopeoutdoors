@@ -1,0 +1,31 @@
+{% load catalog_tags %}
+									<div class="cb"><br /></div>
+
+{% if new_arrivals %}
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>New Arrivals</span></strong></div>
+<div class="block-content">
+<br />
+	<div class="MagicScroll" id="newarrivals">
+		{% for p in new_arrivals %}
+		<div>
+			<a target="_blank" href="{{ p.get_absolute_url }}" style="font-family:Georgia; line-height:18px; font-size: 12px;">{{ p.name }}</a><br />
+			{% if p.image %}
+				<a class="MagicZoomPlus" href="{{p.image.super.url}}" rel="zoom-position: inner;hint-position: br;hint-text:;">
+			{% endif %}
+			<img src="{{ p.image.thumbnail.url }}" />
+			{% if p.image %}
+				</a>
+			{% endif %}<br />
+			<a target="_blank" href="{{ p.get_absolute_url }}" style="font-family:Georgia; line-height:18px; font-size: 12px;"><b>Price: ${{ p.price }}</b></a>
+		</div>
+		{% endfor %}
+
+	</div>
+<div class="cb"><br /></div>
+</div>
+</div>
+
+
+
+{% endif %}

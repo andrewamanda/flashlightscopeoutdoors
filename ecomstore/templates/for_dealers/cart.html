@@ -1,0 +1,196 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+{% block content %}
+
+<h1 class="headingPageTitle2">Your Shopping Cart</h1>
+
+
+	<table summary="Your Shopping Cart" id="shopping_cart">
+		<caption></caption>
+		<thead>
+			<tr>
+				<th scope="col">Product</th>
+				<th scope="col">Dealer Price</th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th scope="col" class="right">Total</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th class="right" colspan="5">
+					Cart Subtotal:
+				</th>
+				<th class="right">
+					{% if request.user.is_authenticated %}
+						${{ cart_subtotal }}
+					{% else %}
+						<a href="{% url 'login' %}?next={{ request.path }}" class="large-font-link tooltip">$$$<b><em></em>Sign in</b></a>
+					{% endif %}
+				</th>
+			</tr>
+			{% if cart_items %}
+
+			<tr>
+				<td colspan="6" class="GreenLine">&nbsp;</td>
+			</tr>
+
+			<tr>
+				<th class="right" colspan="10">
+					
+					<form method="POST" action=".">
+    					<input type="hidden" name="submit" value="beginCheckout" />
+					<input type="hidden" name="checkout_stage" value="Begin" />
+
+					<a href="{% url catalog_home %}"><img src="/static/images/siteImg/continueshopping.gif"></a>
+					<input type="image" style="border:none;" src="/static/images/siteImg/aimkon_checkout.jpg" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout"/>
+
+<!--
+					<label><a href="{% url catalog_home %}" style="margin-right:20px; margin-bottom:5px; font-size:18px; color:gray;">Continue Shopping <img src="/static/images/siteImg/arrow.gif"><a></label>
+
+					<input type="image" style="border:none; width:180px; height:30px;" src="/static/images/siteImg/checkout1.png" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout" onMouseOver="change1 (this, 'checkout2.png')" onMouseOut="change2 (this, 'checkout1.png')"/>
+-->
+            
+    				</form>
+				</th>
+
+			</tr>
+
+			{% endif %}
+		</tfoot>
+		<tbody>
+		{% if cart_items %}
+			{% for item in cart_items %}
+				<tr>
+					<td>
+						<a href="{{ item.get_absolute_url }}" class="cart">
+							{{ item.name }}
+						</a>
+					</td>
+					{% if request.user.is_authenticated %}
+						<td>${% half item.price %}</td>
+					{% else %}
+						<td><a href="{% url 'login' %}?next={{ request.path }}" class="large-font-link tooltip">$$$<b><em></em>Sign in</b></a></td>
+					{% endif %}
+					<td class="right">
+						<form id="forvalidation_cart" method="post" action="." class="cart">
+							<label for="quantity">Quantity:</label>
+							<input type="text" name="quantity" value="{{ item.quantity }}" id="quantity" size="2" class="quantity" maxlength="5" />
+							<input type="hidden" name="item_id" value="{{ item.id }}" />
+							<input type="hidden" name="submit" value="Update" />
+
+					</td>
+					<td>
+						<input type="image" style="border:none;" src="/static/images/siteImg/update_grey.gif" title="Update" name="submit" value="Update" alt="Update"/>
+						</form>
+					</td>
+					<td>
+						<form method="post" action="." class="cart">
+							<input type="hidden" name="item_id" value="{{ item.id }}" />
+							<input type="hidden" name="submit" value="Remove" />
+
+							<input type="image" style="border:none;" src="/static/images/siteImg/update_delete.gif" title="Remove" name="submit" value="Remove" alt="Remove"/>
+
+						</form>
+					</td>
+					{% if request.user.is_authenticated %}
+					<td class="right">${% half item.total %}</td>
+					{% endif %}
+				</tr>
+				{% cart_options_list item %}
+                        {% if item.able_to_ship_quantity < 0 %}
+					<tr>
+						<td colspan=1></td>
+						<td colspan=3 style="color:gray;text-align:justify;font-weight:bold;">This item is sold out and in back order. We will ship the order in approximately 2 weeks</td>
+					</tr>
+				{% else %}
+                        	{% if item.quantity > item.able_to_ship_quantity %}
+						<tr>
+							<td colspan=1></td>
+							<td colspan=3 style="color:gray;text-align:justify;font-weight:bold;">{{ item.able_to_ship_quantity }} units are in stock and will be shipped immediately; the rest are in back order and will be shipped in two weeks</td>
+						</tr>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		{% else %}
+		      <tr>
+					<td colspan="6" style="height:30px;">
+						Your cart is empty.
+					</td>
+				</tr>
+		{% endif %}
+		</tbody>
+	</table>
+	<br /><br /><br /><br />
+
+	<div class="SeparationLine"> </div>
+
+
+			<div style="display:inline; float:right; width:300px; margin:25px 30px 0px 0px;">
+										
+										<p>We accept Visa<sup>&reg;</sup>, Master Card<sup>&reg;</sup>, Discover<sup>&reg;</sup>, and American Express<sup>&reg;</sup>.</p><br /><br />
+												<img src="/static/images/siteImg/img-creditCardStrip.png" alt="" />
+<script type="text/javascript" src="https://seal.thawte.com/getthawteseal?host_name=www.aimkon.com&amp;size=S&amp;lang=en"></script>
+
+</div>
+
+											<div class="clr"><!-- --></div>
+
+	<br /><br /><br />
+
+
+
+			<div style="display:inline; float:right;">
+										
+										<p>We also accept easy checkout with...</p><br /><br />
+												<img src="/static/images/siteImg/paypal-logo.gif" alt="" />												
+<img src="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id={{ merchant_id }}
+              &w=180&h=46&style=white&variant=text&loc=en_US" alt="" />
+
+
+</div>
+
+
+
+											<div class="clr"><!-- --></div>
+
+
+	<div class="SeparationLine"> </div>
+<br /><br /><br />
+
+
+<div style="float:right;">
+
+				<form method="POST" action="." style="float:right;">
+    					<input type="hidden" name="submit" value="beginCheckout" />
+					<input type="hidden" name="checkout_stage" value="Begin" />
+
+<!--
+					<label><a href="{% url catalog_home %}" style="margin-right:20px; font-size:18px; color:gray;">Continue Shopping <img src="/static/images/siteImg/arrow.gif"><a></label>
+
+					<input type="image" style="border:none; width:180px; height:30px;" src="/static/images/siteImg/checkout1.png" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout" onMouseOver="change1 (this, 'checkout2.png')" onMouseOut="change2 (this, 'checkout1.png')"/>
+-->
+					<a href="{% url catalog_home %}"><img src="/static/images/siteImg/continueshopping.gif"></a>
+					<input type="image" style="border:none;" src="/static/images/siteImg/aimkon_checkout.jpg" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout"/>
+
+				</form>
+
+
+</div>
+
+
+	{{ google_checkout_xml }}
+
+					
+
+{% endblock %}
+
+{% block rightcolumn %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}

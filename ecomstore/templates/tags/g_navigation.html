@@ -1,0 +1,64 @@
+{% load cache %}
+{% load catalog_tags %}
+
+
+<div class="bootstrap full-menu">
+  <nav class="bsTopMenu navbar navbar-default" role="navigation">
+    <ul class="nav navonhover navbar-nav">
+      {% active_departments as departments %}
+      {% for d in departments %}
+  	<li class="dropdown  useSubMenus subMenuIdx_0 " id="topMenuTABLE-LINENS">
+    		<a href="{{ d.get_absolute_url }}" id="department_{{d.name}}" class="regular">{{ d.name }}</a>
+
+
+
+
+                {% is_flashlight_department d as is_flashlight %}
+                {% if is_flashlight %}
+			<div class="g_header-departments">
+                        <div class="header-departments-dropdown">
+                                {% g_nav_category_list request.path d %}
+                                {% g_nav_brand_list request.path d %}
+                                <a class="header-departments-all-link" href="{{ d.get_absolute_url }}">All {{ d.name }}</a>
+                        </div>
+			</div>
+
+
+
+
+      			<div class="dropdown-menu dropdown-menu-columns dropdown-menu-columns_4">
+      				<div class="dropdown-menu-column">
+					<div class="dropdown-menu-item  expanded ">
+						{% g_nav_category_list request.path d %}
+					</div>
+				</div>
+      				<div class="dropdown-menu-column">
+					<div class="dropdown-menu-item  expanded ">
+						{% g_nav_price_list request.path %}
+					</div>
+				</div>
+      				<div class="dropdown-menu-column">
+					<div class="dropdown-menu-item  expanded ">
+						{% g_nav_brightness_list request.path %}
+					</div>
+				</div>
+      				<div class="dropdown-menu-column">
+					<div class="dropdown-menu-item  expanded ">
+						{% g_nav_brand_list request.path d %}
+					</div>
+				</div>
+			</div>
+		{% else %}
+      			<div class="dropdown-menu">
+				{% g_nav_category_list request.path d %}
+			</div>
+		{% endif %}
+	  </li>
+	{% endfor %}
+  </li>
+  <li class="dropdown " id="topMenuSALE">
+    <a href="/shop/sale" class="sale">Sale</a>
+  </li>
+    </ul>
+  </nav>
+</div>

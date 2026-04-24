@@ -1,0 +1,19 @@
+.italic { font-style: italic; }
+
+.sf_testimonialsList {
+        margin: 0;
+        padding: 0;
+}
+
+.sf_testimonialsList li,.sf_testimonailPreview {
+        background-color: transparent;
+        background-image: url('/static/images/siteImg/quotation_mark.gif');
+        background-position: 15px;
+        background-repeat: no-repeat;
+        list-style-type: none;
+        margin: 0;
+        padding-bottom: 30px;
+        padding-left: 70px;
+        padding-right: 0;
+        padding-top: 15px;
+}

@@ -1,0 +1,43 @@
+{% load cache %}
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+
+<div id="leftnav_featuredproducts" class="leftnav_innercontainer">
+
+
+	<div class="facet-category">&nbsp;Featured Products</div>
+
+<div id="ShopByFeatured" style="display:block;">
+
+<br />
+
+<ul id="categories">
+
+
+						{% for p in products %}
+
+
+<div style="text-align: center; font-family: arial, sans-serif;font-weight:bold;font-size: 10pt;color: #6C6B6B;">
+	<a href="{{ p.get_absolute_url }}" class="tooltip">{{ p.name }}<b><em></em>Click to see product details </b>
+
+
+		<img src="{{ p.thumbnail.url }}" border="0" alt="{{ p.name }}"> 
+	</a>
+	
+</div>
+
+
+									<div class="cb"></div>
+{% endfor %}
+	
+
+</ul>
+  <div class="bottom_padding"></div>
+
+</div>
+</div>
+  <div id="out_bottom_padding" style="display:block;"></div>
+
+
+

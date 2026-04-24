@@ -1,0 +1,40 @@
+{% load cache %}
+{% load catalog_tags %}
+
+<div id="leftnav_brightness" class="leftnav_innercontainer">
+
+{% if 'brightness' in request_path %}
+	<div class="facet-category"><a href="#/" onClick='toggleFacet("ShopByBrightness")'><img id="facetTwisty_ShopByBrightness" src="/static/images/siteImg/expanded_dark.gif" hspace="1"/>&nbsp;Select by Lumens</a></div>
+	<div id="ShopByBrightness" style="display:block;">
+
+
+{% else %}
+	<div class="facet-category"><a href="#/" onClick='toggleFacet("ShopByBrightness")'><img id="facetTwisty_ShopByBrightness" src="/static/images/siteImg/collapsed_dark.gif" hspace="1"/>&nbsp;Select by Lumens</a></div>
+	<div id="ShopByBrightness" style="display:none;">
+
+
+{% endif %}
+
+<br />
+
+<ul id="categories">
+
+{% with max_outputs as brightnesses %}
+	{% for c in brightnesses %}
+		<li>
+		{% if c.get_absolute_url == request_path %}
+		<a href="{{ c.get_absolute_url }}" class="active" >{{ c.description }}</a>
+		{% else %}
+		<a href="{{ c.get_absolute_url }}" class="category">{{ c.description }}</a>
+		{% endif %}
+
+		</li>
+	{% endfor %}
+{% endwith %}
+
+</ul>
+  <div class="bottom_padding"></div>
+</div>
+
+  <div id="out_bottom_padding"></div>
+</div>

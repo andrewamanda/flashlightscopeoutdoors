@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+{% block site_wrapper %}
+
+
+<h1 class="headingPageTitle2">Your Shopping Cart</h1>
+
+
+	<table summary="Your Shopping Cart" id="shopping_cart">
+		<caption></caption>
+		<thead>
+			<tr>
+				<th scope="col">ITEM</th>
+				<th scope="col">ITEM PRICE</th>
+				<th></th>
+				<th scope="col">QUANTITY</th>
+				<th></th>
+				<th scope="col" class="right">ITEM TOTAL</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th class="right" colspan="5">
+					Cart Subtotal:
+				</th>
+				<th class="right">
+					{{ cart_subtotal|currency }}
+				</th>
+			</tr>
+			{% if request.session.win_price %}
+			<tr>
+				<th class="right" colspan="5">
+					You won a deal price:
+				</th>
+				<th class="right">
+					{{request.session.win_price|currency}}
+				</th>
+			</tr>
+			{% endif %}
+			{% if cart_items %}
+
+			<tr>
+				<td colspan="6" class="GreenLine">&nbsp;</td>
+			</tr>
+
+			<tr>
+				<th class="right" colspan="10">
+					
+					<form method="POST" action=".">{% csrf_token %}
+    					<input type="hidden" name="submit" value="beginCheckout" />
+					<input type="hidden" name="checkout_stage" value="Begin" />
+
+					{% if not request.session.win_price %}
+					<a href="{% url 'catalog_home' %}"><img src="/static/images/siteImg/continueshopping.gif"></a>
+					{% endif %}
+					<input type="image" style="border:none;" src="/static/images/siteImg/aimkon_checkout.jpg" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout"/>
+
+<!--
+					<label><a href="{% url 'catalog_home' %}" style="margin-right:20px; margin-bottom:5px; font-size:18px; color:gray;">Continue Shopping <img src="/static/images/siteImg/arrow.gif"><a></label>
+
+					<input type="image" style="border:none; width:180px; height:30px;" src="/static/images/siteImg/checkout1.png" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout" onMouseOver="change1 (this, 'checkout2.png')" onMouseOut="change2 (this, 'checkout1.png')"/>
+-->
+            
+    				</form>
+				</th>
+
+			</tr>
+
+			{% endif %}
+		</tfoot>
+		<tbody>
+		{% if cart_items %}
+			{% for item in cart_items %}
+				<tr>
+					<td>
+						<a href="{{ item.get_absolute_url }}" class="cart">
+							{{ item.name }}
+						</a>
+					</td>
+					{% if item.product.slug != "gift-certificate" %}
+						<td>{{ item.price|currency }}</td>
+					{% else %}
+						<td></td>
+					{% endif %}
+					<td class="right">
+						<form id="forvalidation_cart" method="post" action="." class="cart">{% csrf_token %}
+						{% if not request.session.win_price %}
+							<input type="text" name="quantity" value="{{ item.quantity }}" id="{{ item.product.id }}" size="2" class="quantity" maxlength="5" onkeypress="return numbersonly(event)" />
+						{% else %}
+							<input type="text" name="quantity" value="{{ item.quantity }}" id="quantity" size="2" class="quantity" maxlength="5" readonly />
+
+						{% endif %}
+							<input type="hidden" name="item_id" value="{{ item.id }}" />
+							<input type="hidden" name="submit" value="Update" />
+
+					</td>
+					<td>
+						{% if not request.session.win_price %}
+						<input type="image" style="border:none;" src="/static/images/siteImg/update_grey.gif" title="Update" name="submit" value="Update" alt="Update"/>
+						{% endif %}
+						</form>
+					</td>
+					<td style="text-align:left;">
+						{% if not request.session.win_price %}
+						<form method="post" action="." class="cart">{% csrf_token %}
+							<input type="hidden" name="item_id" value="{{ item.id }}" />
+							<input type="hidden" name="submit" value="Remove" />
+
+							<input type="image" style="border:none;" src="/static/images/siteImg/update_delete.gif" title="Remove" name="submit" value="Remove" alt="Remove" />
+
+						</form>
+						{% endif %}
+					</td>
+					{% if item.product.slug != "gift-certificate" %}
+					<td class="right">{{ item.total|currency }}</td>
+					{% endif %}
+				</tr>
+				{% cart_options_list item %}
+                        {% if item.able_to_ship_quantity < 0 %}
+					<tr>
+						<td colspan=1></td>
+						<td colspan=3 style="color:gray;text-align:justify;font-weight:bold;">This item is sold out and in back order. We will ship the order in approximately 2 weeks</td>
+					</tr>
+				{% else %}
+                        	{% if item.quantity > item.able_to_ship_quantity %}
+						<tr>
+							<td colspan=1></td>
+							<td colspan=3 style="color:gray;text-align:justify;font-weight:bold;">{{ item.able_to_ship_quantity }} units are in stock and will be shipped immediately; the rest are in back order and will be shipped in two weeks</td>
+						</tr>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		{% else %}
+		      <tr>
+					<td colspan="6" style="height:30px;">
+						Your cart is empty.
+					</td>
+				</tr>
+		{% endif %}
+		</tbody>
+	</table>
+	<div class="cb"></div>
+	{% if not request.session.is_deal %}
+	{% if request.user.is_authenticated %}
+        <a id="show_offer_form" class="productspecfont fr">Want to make a best offer?</a>
+	<div class="cb"></div>
+
+	<div class="box_r fr" style="display:none;" id="MakeOfferFromCart">
+                                                                        {% if not request|hasOffer %}
+        <div>
+                <p style="float:left;width:100px;color:#CC0000;">Enter Your Offer:</p>
+                <p style="display:inline;font-size:11px;font-weight:bold;">&nbsp;</p>
+                <p style="float:right;font-size:11px;font-weight:bold;">$ <input type="text" id="BuyerOfferPrice" size="5" value="" onkeypress="return isNumber(event)" /></p>
+        </div>
+        <div>
+                <p style="float:left;width:100px;color:#CC0000;">Shipping Country:</p>
+                <p style="display:inline;font-size:11px;font-weight:bold;">&nbsp;</p>
+                <p style="float:right;font-size:11px;font-weight:bold;"><input type="text" id="ShippingCountry" size="10" placeholder="United States" value="United States" /></p>
+        </div>
+	<div style="float:right;">
+		<input type="image" src="/static/images/siteImg/button-make-offer.png" class="fr nobackground_noborder" id="MakeOffer" value="makeoffer" onClick=MakeOfferFromCart() />
+	</div>
+        <div id='loadingmessage_makeoffer' style='display:none'>
+                <img src='/static/images/siteImg/ajax-loader.gif'/>
+        </div>
+		{% else %}
+                                                                               <span style="border-style:solid; border-color:#FF0000;color: #CC0000;font-weight:bold;">***<a href="{% url 'ViewYourOffers' %}">You have an accepted offer, please close the outstanding offer before you make another offer</a>***</span>
+		{% endif %}
+	</div>
+
+	{% else %}
+               <a id="add_question" class="productspecfont fr" href="{% url 'login' %}?next={{ request.path }}">
+                      If you would like to make an offer, click here to sign in
+               </a>
+
+	{% endif %}
+	<div class="cb"></div>
+	{% endif %}
+	<br>
+	<div class="SeparationLine"> </div>
+
+
+			<div style="display:inline; float:right; width:300px; margin:25px 30px 0px 0px;">
+										
+										<p>We accept Visa<sup>&reg;</sup>, Master Card<sup>&reg;</sup>, Discover<sup>&reg;</sup>, and American Express<sup>&reg;</sup>.</p><br /><br />
+												<img src="/static/images/siteImg/img-creditCardStrip.png" alt="" />
+<!-- Begin DigiCert/ClickID site seal HTML and JavaScript -->
+<div id="DigiCertClickID_cfAOP91w" data-language="en_US">
+	<a href="http://www.digicert.com/ssl-certificate.htm">SSL Certificate</a>
+</div>
+<script type="text/javascript">
+var __dcid = __dcid || [];__dcid.push(["DigiCertClickID_cfAOP91w", "13", "m", "black", "cfAOP91w"]);(function(){var cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
+</script>
+<!-- End DigiCert/ClickID site seal HTML and JavaScript -->
+
+</div>
+
+											<div class="clr"><!-- --></div>
+
+	<br /><br /><br />
+
+
+
+			<div style="display:inline; float:right;">
+										
+										<p>We also accept easy checkout with...</p><br /><br />
+												<img src="/static/images/siteImg/paypal-logo.gif" alt="" />												
+<img src="//sandbox.google.com/checkout/buttons/checkout.gif?merchant_id={{ merchant_id }}
+              &w=180&h=46&style=white&variant=text&loc=en_US" alt="" />
+
+
+</div>
+
+
+
+											<div class="clr"><!-- --></div>
+
+
+	<div class="SeparationLine"> </div>
+<br /><br /><br />
+
+
+<div style="float:right;">
+
+				<form method="POST" action="." style="float:right;">{% csrf_token %}
+    					<input type="hidden" name="submit" value="beginCheckout" />
+					<input type="hidden" name="checkout_stage" value="Begin" />
+
+<!--
+					<label><a href="{% url 'catalog_home' %}" style="margin-right:20px; font-size:18px; color:gray;">Continue Shopping <img src="/static/images/siteImg/arrow.gif"><a></label>
+
+					<input type="image" style="border:none; width:180px; height:30px;" src="/static/images/siteImg/checkout1.png" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout" onMouseOver="change1 (this, 'checkout2.png')" onMouseOut="change2 (this, 'checkout1.png')"/>
+-->
+						{% if not request.session.win_price %}
+					<a href="{% url 'catalog_home' %}"><img src="/static/images/siteImg/continueshopping.gif"></a>
+						{% endif %}
+					<input type="image" style="border:none;" src="/static/images/siteImg/aimkon_checkout.jpg" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout"/>
+
+				</form>
+
+
+</div>
+
+
+	{{ google_checkout_xml }}
+
+					
+{% endblock %}
+
+{% block right_column %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}

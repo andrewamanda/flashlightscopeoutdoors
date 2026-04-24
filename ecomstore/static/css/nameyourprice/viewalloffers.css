@@ -1,0 +1,12 @@
+.box{
+    margin:10px;
+    border: 1px solid #eee;
+    font-family: arial;
+    font-size: 12px;
+    width: 740px;
+}
+.box div{ padding:5px; }
+.box div:nth-child(odd)         { background-color:#fff; }
+.box div:nth-child(even)                { background-color:#eee; }
+
+

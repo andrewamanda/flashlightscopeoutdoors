@@ -1,0 +1,348 @@
+<script type="text/javascript">
+	function txtFocus(elm, str){if (elm.value == str) {elm.value = '';elm.className = 'ftxt';}}
+	function txtBlur(elm, str){if (elm.value == '') {elm.value = str;elm.className = 'btxt';}}
+</script>
+
+				<style type="text/css"> 
+					<!--
+						.ftxt {
+							color: #666;
+						}
+
+						.btxt {
+							color: #CCCCCC;
+						}
+						.style1 {font-weight: bold}
+						.style2 {
+							color: #000000;
+							font-weight: bold;
+						}
+						.style3 {color: #000000}
+						.style4 {font-style: italic}
+						.style5 {
+							font-weight: bold;
+							color: rgb(128, 0, 0);
+						}
+						/* Left Column: Category list style */
+
+						/* menu styles */
+						ul.cssmenu {
+							list-style: none;
+							padding: 0px;
+						}
+						.displace {
+							position: absolute;
+							left: -5000px;
+						}
+						.categoryfont {
+							font-family:Sans-serif;
+							font-size:20px;
+							font-weight: bold;
+							color: white;
+
+						}
+						.brandfont {
+							font-family:"Times New Roman";
+							font-size:15px;
+							#font-weight: bold;
+							color: blue;
+							underline: none;
+						}
+
+						
+						ul.cssmenu li {
+							float: left;
+						}
+						ul.cssmenu li a {
+							display: block;
+							text-align: center;
+							vertical-align: middle;
+							line-height: 44px;
+							width: 150px;
+							height: 44px;
+							text-decoration:none;
+							background: url('http://www.andrew-amanda.com/static/images/eBay/sprite_bg.gif');
+						}
+						/*
+						*    Normal Links
+						*/
+						ul.cssmenu li.home a {
+							background-position: 0 0;
+						}
+						ul.cssmenu li.blog a {
+							background-position: -150px 0;
+						}
+						ul.cssmenu li.contact a {
+							background-position: -300px 0;
+						}
+						ul.cssmenu li.home2 a {
+							background-position: 0 -132px;
+						}
+						ul.cssmenu li.blog2 a {
+							background-position: -150px -132px;
+						}
+						ul.cssmenu li.contact2 a {
+							background-position: -300px -132px;
+						}
+
+						/*  Hover Links*/
+						ul.cssmenu li.home a:hover {
+							background-position: 0 -44px;
+						}
+						ul.cssmenu li.blog a:hover {
+							background-position: -150px -44px;
+						}
+						ul.cssmenu li.contact a:hover {
+							background-position: -300px -44px;
+						}
+						ul.cssmenu li.home2 a:hover {
+							background-position: 0 -88px;
+						}
+						ul.cssmenu li.blog2 a:hover {
+							background-position: -150px -88px;
+						}
+						ul.cssmenu li.contact2 a:hover {
+							background-position: -300px -88px;
+						}
+
+						/*    Clicked Links*/
+						ul.cssmenu li.home a:active {
+							background-position: 0 -88px;
+						}
+						ul.cssmenu li.blog a:active {
+							background-position: -150px -88px;
+						}
+						ul.cssmenu li.contact a:active {
+							background-position: -300px -88px;
+						}
+						ul.cssmenu li.home2 a:active {
+							background-position: 0 -44px;
+						}
+						ul.cssmenu li.blog2 a:active {
+							background-position: -150px -44px;
+						}
+						ul.cssmenu li.contact2 a:active {
+							background-position: -300px -44px;
+						}
+
+						/*
+						*    Selected/Active Links
+						*/
+						ul.cssmenu li.home a.selected {
+							background-position: 0 -132px;
+						}
+						ul.cssmenu li.blog a.selected {
+							background-position: -150px -132px;
+						}
+						ul.cssmenu li.contact a.selected {
+							background-position: -300px -132px;
+						}
+						ul.cssmenu li.home2 a.selected {
+							background-position: 0 0px;
+						}
+						ul.cssmenu li.blog2 a.selected {
+							background-position: -150px 0px;
+						}
+						ul.cssmenu li.contact2 a.selected {
+							background-position: -300px 0px;
+						}
+						
+ul#cssnav {
+margin:0 0 2em 17px;
+padding:0;
+list-style-type:none;
+}
+ul#cssnav li {
+position:relative;
+font-family: arial, verdana, helvetica, sans-serif;
+background: url(http://www.andrew-amanda.com/static/images/eBay/rolloff2.gif) no-repeat left top;/* over state of image*/
+float:left;
+width: 8em;
+height: 2em;
+line-height:2em;
+text-align:center;
+margin-left:-17px;
+}
+#cssnav li a {
+display:block;
+width: 8em;
+height: 2em;
+display: block;
+color: #FFF; 
+text-decoration: none; 
+background: url(http://www.andrew-amanda.com/static/images/eBay/rolloff2.gif) no-repeat left top;/* normal state of image*/
+}
+#cssnav li a:hover,#cssnav li.current a {background:transparent;color:#000} /* hide anchor on hover (and set current tab)*/ 
+
+
+					-->
+				</style>
+
+						<!-- ///// Begin Logo/Banner Header///// -->
+						<div width:="" 1024px;="" border:0="" height:="" 120px="">
+							<table id="Table_01" border="0" cellpadding="0" cellspacing="0" height="120" width="1024">
+								<tbody><tr>
+									<td valign="top" align="left"><img src="http://www.andrew-amanda.com/static/images/siteImg/logo_224x70.jpg" alt="" height="120" "></td>
+									<td valign="top" align="left">
+										<img src="http://www.andrew-amanda.com/static/images/eBay/ebay_banner_01.png" alt="" height="120" style="border:0px solid red; border-radius:25px;box-shadow: 10px 10px 5px #888888;
+
+"></td>
+									<td valign="top" align="left">
+										<img src="http://www.andrew-amanda.com/static/images/eBay/ebay_banner_02.jpg" alt="" height="120" style="border:0px solid red; border-radius:25px;box-shadow: 10px 10px 5px #888888;
+"></td>
+									<td valign="top" align="left">
+										<img src="http://www.andrew-amanda.com/static/images/eBay/ebay_banner_03.jpg" alt="" height="120" style="border:0px solid red; border-radius:25px;box-shadow: 10px 10px 5px #888888;
+"></td>
+								</tr>
+									<tr>
+										<td colspan="6" align="center" bgcolor="#FFFFFF"><p></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+						<div><br><br></div>
+						<!-- ///// End Logo/Banner Header ///// -->
+						<!-- ///// Begin Item Info Section - title, description, images, features, benefits, etc. ///// --><!-- ///// Begin Item Title ///// -->
+						<!-- ///// End Item Title ///// -->
+						<!-- ///// Begin Category Tabs ///// -->
+						<div id="Boxes" style="margin: 0pt 0pt 10px; width: 1024px; border-bottom: 1px solid rgb(51, 153, 204); position: relative;">
+							<table id="Table_" border="0" cellpadding="0" cellspacing="0" height="81" width="1024">
+								<tbody>
+									<tr>
+										<td colspan="12">
+											<ul class="cssmenu">
+												<li class="home"><a href="#" title="Flashlight"><span class="categoryfont">Flashlight</span></a></li>
+												<li class="blog"><a href="#" title="Blog"><span class="categoryfont">Scope</span></a></li>
+												<li class="blog"><a href="#" title="Blog"><span class="categoryfont">Charger</span></a></li>
+												<li class="blog"><a href="#" title="Blog"><span class="categoryfont">Batteries</span></a></li>
+												<li class="blog"><a href="#" title="Blog"><span class="categoryfont">Strut Assembly</span></a></li>
+												<li class="contact"><a href="#" title="Contact"><span class="categoryfont">Clearance</span></a></li>
+
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="12">
+											<ul class="cssmenu">
+												<li class="home2"><a href="#" title="Home"><span class="brandfont">Jetbeam</span></a></li>
+												<li class="blog2"><a href="#" title="Blog"><span class="brandfont">Nitecore</span></a></li>
+												<li class="blog2"><a href="#" title="Blog"><span class="brandfont">Eagletac</span></a></li>
+												<li class="blog2"><a href="#" title="Blog"><span class="brandfont">Olight</span></a></li>
+												<li class="blog2"><a href="#" title="Blog"><span class="brandfont">Sunwayman</span></a></li>
+												<li class="blog2"><a href="#" title="Blog"><span class="brandfont">NcStar</span></a></li>
+												<li class="contact2"><a href="#" title="Contact"><span class="brandfont">ThruNite</span></a></li>
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="6" align="center" bgcolor="#FFFFFF"><img
+											src="http://www.andrew-amanda.com/static/images/eBay/shadow.jpg"
+											height="6" width="1000"></td>
+									</tr>
+
+									<tr>
+										<td colspan="12">
+														<ul id="cssnav" class="clearfix">
+				<li class="current"><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Strut Assembly</a></li>
+				<li><a href="#">Links</a></li>
+				<li><a href="#">Email</a></li>
+				<li><a href="#">Login</a></li>
+			</ul>
+
+										</td>
+									</tr>
+
+									<tr>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="1"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="159"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="93"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="124"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="113"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="43"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="154"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="32"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="140"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="46"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="118"></td>
+										<td><img src="http://www.all-battery.com/ebay/images/spacer.gif" alt="" height="1" width="1"></td>
+									</tr>
+								</tbody>
+							</table>
+							<table cellpadding="0" cellspacing="0" bgcolor="#4186bc"
+								width="1000">
+								<tbody>
+									<tr>
+										<td
+											style="padding-left: 10px; padding-top: 3px; padding-bottom: 3px"
+											align="left" bgcolor="#4186bc" height="30px" width="70%">
+											<form style="margin: 0px; padding: 0px;" id="form1"
+												name="form1" method="get"
+												action="http://stores.ebay.com/Andrew-Amanda-Outdoors/_i.html">
+												<table cellpadding="0" cellspacing="0" border="0"
+													width="100%">
+													<tbody>
+														<tr>
+															<td style="vertical-align: middle" width="39%">
+																<table cellpadding="0" cellspacing="0">
+																	<tbody>
+																		<tr>
+																			<td><img
+																				src="http://www.andrew-amanda.com/static/images/eBay/left.png"></td>
+																			<td><input name="_nkw" id="search" size="50"
+																				value="Search Andrew-Amanda eBay Store"
+																				style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; border: 0"
+																				onfocus="txtFocus(this,'Search Andrew-Amanda eBay Store')"
+																				onblur="txtBlur(this, 'Search Andrew-Amanda eBay Store')"
+																				class="btxt" type="text"></td>
+																			<td><img
+																				src="http://www.andrew-amanda.com/static/images/eBay/right.png"></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</td>
+															<td style="vertical-align: bottom; padding-left: 5px"
+																align="left" width="61%"><label> <input
+																	name="go" id="go"
+																	src="http://www.andrew-amanda.com/static/images/eBay/go.png"
+																	type="image">
+															</label> <input name="LH_TitleDesc" value="1" type="hidden">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</form>
+										</td>
+										
+										<td style="padding-right: 10px; padding-bottom: 2px"
+											align="right" width="30%"><img class="sh-vs-img" src="http://www.andrew-amanda.com/static/images/eBay/favus.png" border="0" alt="Andrew-Amanda-Outdoors" align="absmiddle" height="15" width="15">
+											<a href="http://stores.ebay.com/Andrew-Amanda-Outdoors?_trksid=p2047675.l2568" style="color: #FFFFFF; font-size: 11px; text-decoration: none; font-family: Verdana, Geneva, sans-serif">Visit my eBay store </a>
+										</td>
+										<td style="padding-right: 2px; padding-bottom: 2px" align="right" width="30%">
+											<img class="sh-vs-img" src="http://www.andrew-amanda.com/static/images/eBay/smiley_smile.png" border="0" alt="Andrew-Amanda-Outdoors" align="absmiddle" height="15" width="15">
+											<a href="http://my.ebay.com/ws/eBayISAPI.dll?AcceptSavedSeller&linkname=includenewsletter&sellerid=andrew_amanda_outdoors&_trksid=" style="color: #FFFFFF; font-size: 11px; text-decoration: none; font-family: Verdana, Geneva, sans-serif">Sign up for newsletter</a>
+										</td>
+										<td style="padding-right: 10px; padding-bottom: 2px"
+											align="right" width="30%"><img
+											src="http://www.andrew-amanda.com/static/images/eBay/24_heart_gold.png"
+											alt="favus" align="absmiddle" height="15" width="15"><a
+											href="http://my.ebay.com/ws/eBayISAPI.dll?AcceptSavedSeller&amp;sellerid=andrew_amanda_outdoors&amp;ssPageName=STRK:MEFS:ADDSTR"
+											style="color: #FFFFFF; font-size: 11px; text-decoration: none; font-family: Verdana, Geneva, sans-serif">
+												Add my store to favorites </a></td>
+										<td style="padding-right: 2px; padding-bottom: 2px"
+											align="right" width="30%"><img class="sh-vs-img" src="http://www.andrew-amanda.com/static/images/eBay/question.png" border="0" alt="Andrew-Amanda-Outdoors" align="absmiddle" height="15" width="15">
+											<a href="http://contact.ebay.com/ws/eBayISAPI.dll?ShowSellerFAQ&iid=171137420970&requested=andrew_amanda_outdoors&redirect=0&frm=284&rt=nc&_trksid=p2047675.l1499&ssPageName=PageSellerM2MFAQ_VI" style="color: #FFFFFF; font-size: 11px; text-decoration: none; font-family: Verdana, Geneva, sans-serif">Ask a question</a>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="6" align="center" bgcolor="#FFFFFF"><img
+											src="http://www.andrew-amanda.com/static/images/eBay/shadow.jpg"
+											height="6" width="1000"></td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+						<!-- ///// End Category Tabs ///// -->

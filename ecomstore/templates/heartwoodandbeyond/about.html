@@ -1,0 +1,86 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+<div class="l-preface">
+</div>
+<div class="l-breadcrumb">
+   <ul class="breadcrumb">
+      <li><a href="{% url 'hpwhome' %}">Home</a></li>
+      <li>About Tarheel Reclaimed</li>
+   </ul>
+</div>
+<div class="l-main">
+   <div class="l-content">
+      <a id="main-content"></a>
+      <div id="block-system-main" class="block block--system block--system-main">
+         <div class="block__content">
+            <article about="/about" typeof="foaf:Document" class="node node--page node--full node--page--full">
+               <header>
+                  <div class="field field--name-field-display-title field--type-text field--label-hidden">
+                     <div class="field__items">
+                        <div class="field__item even">About TarHeel Reclaimed.</div>
+                     </div>
+                  </div>
+                  <div class="field field--name-field-intro field--type-text-long field--label-hidden">
+                     <div class="field__items">
+                        <div class="field__item even">
+                           <p>Tarheel Reclaimed has been in operation since 1982.  It started with Heartwood Pine Floors Inc. We have dedicated our 40,000 sq.ft. Chatham County, North Carolina production facility to perfecting the reclamation process of making antique flooring from historic longleaf pine beams, Natural Pines, Natural Oaks, etc.</p>
+                           <p>State of the art saws, planers and molders run in unison with custom-designed conveyer and dust collection systems that transform these ancient timbers from their “escape from the wrecking ball” to America’s most beautiful wood flooring. As part of our ongoing commitment to helping save the environment while making the nation’s premier green flooring, our wood chips and sawdust are also recycled as organic soil components. We invite you to visit us for a tour of our showroom and production facility.  Folks are always fascinated to see these reclaimed mill wood beams reveal their rich red and amber colors as they emerge from the saw.</p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="field field--name-field-seo-title field--type-text field--label-above">
+                     <div class="field-label">&nbsp;</div>
+                     <div class="field-items">
+                        <h1 class="field-item even">Tarheel Reclaimed - Founder Larry Green</h1>
+                     </div>
+                  </div>
+               </header>
+               <div class="node__content">
+                  <div class="field field--name-field-image field--type-image field--label-hidden">
+                     <div class="field__items">
+                        <div class="field__item even"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/primary__800x400_/public/Screen%20Shot%202017-08-10%20at%202.50.17%20PM511d.png?itok=bRJbKl5X" width="800" height="400" alt="" /></div>
+                     </div>
+                  </div>
+                  <div class="field field--name-body field--type-text-with-summary field--label-hidden">
+                     <div class="field__items">
+                        <div class="field__item even" property="content:encoded">
+                           <p>Through more than 39 years of refining the reclamation and milling processes, owner Larry Green is recognized as one of our nation’s leading authorities on recycled antique lumber using heartwood pine products. We invite you to visit our manufacturing/showroom facility in Chatham County, NC to see how we recycle these ancient timbers into the finest antique flooring America has to offer. We proudly serve Raleigh, Durham and Chapel Hill, North Carolina and the entire nation.</p>
+                           <p><strong>For more information on our company, our products, or servoces in general, call our headquarters office at 919-542-4394.  We’ll also be happy to send you a <a href="{% url 'free_quote' %}">Reclaimed floor sample kit</a>!</strong></p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </article>
+         </div>
+      </div>
+   </div>
+   <aside class="l-region l-region--sidebar">
+
+      <div id="block-menu-block-3" class="block block--menu-block block--nav-submenu block--menu-block-3">
+         <div class="block__content">
+            <div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-2">
+               <ul class="menu">
+                  <li class="first leaf menu-mlid-705"><a href="{% url 'leave_review' %}" class="menu-705">Leave a Review</a></li>
+                  <li class="leaf menu-mlid-847"><a href="{% url 'shipping' %}">Shipping</a></li>
+                  <li class="last leaf menu-mlid-848"><a href="{% url 'contact' %}">Contact</a></li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      {% include "heartwoodandbeyond/left_panel.html" %}
+
+   </aside>
+</div>
+
+
+
+
+
+
+{% endblock %}

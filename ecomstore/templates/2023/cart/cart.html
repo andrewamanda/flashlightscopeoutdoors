@@ -1,0 +1,159 @@
+{% extends "2023/base.html" %}
+{% load cache %}
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+
+{% block title %}
+    <title>Andrew & Amanda Outdoors Home</title>
+{% endblock %}
+
+{% block additional_meta %}
+
+{% endblock %}
+
+{% block breadcrum %}
+<div class="l-breadcrumb">
+  <ul class="breadcrumb">
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'home' %}">Pricing Structures</a></li>
+    <li>{% block pricing_item %}{% endblock %}</li>
+  </ul>
+
+</div>
+{% endblock %}
+
+
+
+
+{% block main_area %}
+    <main>
+        <section class="cart-inner-sec common-gap-top-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                      <form method="POST" action=".">{% csrf_token %}
+                          <input type="hidden" name="submit" value="beginCheckout" />
+                      <input type="hidden" name="checkout_stage" value="Begin" />
+                        <div class="cart-head">
+                            <h2>Your Cart ({% with cart_item_count as count %}{{ count }}{% endwith %}items)</h2>
+                        </div>
+                        <div class="cart-table-wrap">
+
+                            <table class="cart-table">
+                                <thead>
+                                    <tr>
+                                        <td>Product</td>
+                                        <td>Price</td>
+                                        <td>Quantity</td>
+                                        <td>Subtotal</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                {% if cart_items %}
+                                  {% for item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <div class="product-wrap">
+                                            <a href="{{ item.get_absolute_url }}"><img src="{{ MEDIA_URL }}/2023/images/cross-icon.svg"></a>
+                                            <a href="{{ item.get_absolute_url }}"><img src="{% thumbnail_image_url item.product.image.url %}"></a>
+                                            <p><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p>{{ item.price|currency }}</p>
+                                        <input type=hidden id="item-price" value="{{item.price}}" />
+                                    </td>
+                                    <td>
+                                        <div class="quantity-input">
+                                          <button class="decrement">-</button>
+                                          <input type="number" id="quantity" value="{{item.quantity}}" min="1">
+                                          <button class="increment">+</button>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <p class="price" id="subtotal">{{ item.total|currency }}</p>
+                                    </td>
+                                    <td>
+                                        <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn">Make an offer</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+
+                            </table>
+                        </div>
+                        <div class="total-wrap">
+                            <ul>
+                                <li>Subtotal:</li>
+                                <li id="cart_total">{{ cart_subtotal|currency }}</li>
+                                <li>Shipping:</li>
+                                <li>To be calculated in the next page</li>
+                                <li class="total">Grand total:</li>
+                                <li class="total" id="total">{{ cart_subtotal|currency }}</li>
+                                <!--
+                                <li><a href="#" class="btn">Continue shopping</a></li>
+                                <li><a href="#" class="btn">Proceed to Checkout</input></li>
+
+                                {% if not request.session.win_price %}
+                                <li><a href="{% url 'catalog_home' %}" class="btn">Continue Shopping</a></li>
+                              {% endif %}
+                                <li><input type="image" style="border:none;" src="/static/images/siteImg/aimkon_checkout.jpg" title="Checkout" name="beginCheckout" value="Checkout" alt="Proceed to checkout"/></li>
+-->
+                            </ul>
+                            <div style="float:right; margin-top: 20px;">
+                              {% if not request.session.win_price %}
+                                <a href="{% url 'catalog_home' %}" class="btn">Continue shopping</a>
+                              {% endif %}
+
+                              <button type="submit" class="btn btn-outline-dark" name="beginCheckout" value="Checkout" style="white-space: normal;text-transform:uppercase;">Proceed to checkout</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Embedding JavaScript just before the closing </body> tag inside a <script> tag -->
+    <script>
+
+        function updateTotal() {
+            const quantityInput = document.getElementById('quantity');
+            const priceInput = document.getElementById('item-price');
+            const subtotalElement = document.getElementById('subtotal');
+            const cart_totalElement = document.getElementById('cart_total');
+            const totalElement = document.getElementById('total');
+
+            const currentQuantity = parseInt(quantityInput.value, 10);
+            const pricePerItem = parseFloat(priceInput.value);
+            const subtotal = currentQuantity * pricePerItem;
+
+            subtotalElement.textContent = "$" + subtotal.toFixed(2);  // Display with 2 decimal places
+            totalElement.textContent = subtotal.toFixed(2);  // Display with 2 decimal places
+            cart_totalElement.textContent = subtotal.toFixed(2);  // Display with 2 decimal places
+        }
+
+        document.querySelector('.increment').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let currentQuantity = parseInt(quantityInput.value, 10);
+            quantityInput.value = currentQuantity + 1;
+            updateTotal();
+        });
+
+        document.querySelector('.decrement').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let currentQuantity = parseInt(quantityInput.value, 10);
+
+            if (currentQuantity > 1) {
+                quantityInput.value = currentQuantity - 1;
+                updateTotal();
+            }
+        });
+
+        // Initializing the total at the start
+        updateTotal();
+
+    </script>
+{% endblock %}

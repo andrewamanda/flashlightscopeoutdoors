@@ -1,0 +1,50 @@
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+<div class="col-lg-4">
+    <div class="payment-method-wrap">
+        <h3>Your cart</h3>
+        <div class="cart-product-list">
+            <ul>
+              {% if cart_items %}
+                {% for item in cart_items %}
+
+                <li>
+                    <div class="product-img-wrap">
+                        <div class="cart-prod-img">
+                            <a href="{{ item.get_absolute_url }}"><img src="{% thumbnail_image_url item.product.image.url %}"></a>
+                        </div>
+                        <div class="cart-pro-info">
+                            <p><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
+                            <h6>Qty: {{ item.quantity }}</h6>
+                        </div>
+                    </div>
+                    <p>{{ item.total|currency }}</p>
+                </li>
+                {% endfor %}
+                {% endif %}
+
+            </ul>
+        </div>
+        <div class="price-list">
+            <ul>
+                <li>
+                    <p>Subtotal:</p>
+                    <p>{{ cart_subtotal }}</p>
+                </li>
+                <li>
+                    <p>Shipping:</p>
+                    <p>{{ shipping_charge }}</p>
+                </li>
+                <li>
+                    <p>Grand total:</p>
+                    <p>{{ cart_subtotal }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="cart-order-btn">
+            <a href="#" class="btn">Place order</a>
+        </div>
+    </div>
+</div>

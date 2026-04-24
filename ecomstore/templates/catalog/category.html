@@ -1,0 +1,343 @@
+{% extends "base_withLeftFrame.html" %}
+{% load catalog_tags %}
+
+{% block pre_body_scripts %}
+{{ block.super }}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/tabview.css">
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/yahoo.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/event.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/dom.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/element-beta.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/tabview.js"></script>
+<script type="text/javascript">
+(function() {
+    YAHOO.util.Event.onDOMReady(function() {
+        if (document.getElementById('demo')) {
+            new YAHOO.widget.TabView('demo');
+        }
+    });
+})();
+</script>
+{% endblock %}
+
+
+{% load pagination_tags %}
+
+
+{% block fb_og %}
+{% secure_domain as canonical_domain %}
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ canonical_domain }}{{ request.path }}" />
+<meta property="og:image" content="{{ canonical_domain }}/static/images/siteImg/logo2.png" />
+<meta property="og:site_name" content="{{ site_name }}" />
+<meta property="fb:admins" content="100002250704805" />
+{% endblock %}
+
+{% block structured_data %}
+{% secure_domain as canonical_domain %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{% if page_subjects.display_name %}{{ page_subjects.display_name|escapejs }}{% else %}{{ page_subjects.name|escapejs }}{% endif %}",
+  "description": "{{ seo_tags.meta_description|default:meta_description|escapejs }}",
+  "url": "{{ canonical_domain }}{{ request.path }}"
+}
+</script>
+{% endblock %}
+
+{% block breadcrumb %}
+	{% if method == 'show_brandseries' %}
+        <li class="breadcrumbRight">
+		 <a href="{{ page_subjects.brand.get_absolute_url }}">{{ page_subjects.brand.name }}</a>
+	</li>
+	{% endif %}
+	{% if method == 'show_subcategory' %}
+        <li class="breadcrumbRight">
+		 <a href="{{ page_subjects.category.get_absolute_url }}">{{ page_subjects.category.name }}</a>
+	</li>
+	{% endif %}
+	{% if method == 'show_pricerange' or method == 'show_brightnessrange' %}
+        <li class="breadcrumbRight">
+		<a href="{{ current_depart.get_absolute_url }}">{{ current_depart.name }}</a>
+	</li>
+	{% endif %}
+        <li class="breadcrumbRight">
+		{% if page_subjects.display_name %}
+			{{ page_subjects.display_name }}
+		{% else %}
+			{{ page_subjects.name }}
+		{% endif %}
+	</li>
+        <li class="breadcrumbRight">
+	{% if method == 'dealoftheday' %}
+		 Deal Of The Day
+	{% endif %}
+	{% if method == 'clearance' %}
+		 Clearance Center
+	{% endif %}
+	{% if method == 'newarrivals' %}
+		 New Arrivals
+	{% endif %}
+	{% if method == 'show_allbundles' %}
+		All Bundles
+	{% endif %}
+	</li>
+{% endblock %}
+
+
+<!--
+	<div class="GreenLine">&nbsp;</div>
+-->
+{% block content %}
+
+{% if method == 'dealoftheday' %}
+	<div style="float:left;">
+		<img src="/static/images/calendar_folder/{{ calendar_spec }}" alt="" class="CalenderIcon"/>
+	</div>
+
+	<div style="float:right;">
+		<img src="/static/images/siteImg/gold-light.gif">
+		<img src="/static/images/siteImg/dealoftheday.png">
+		<img src="/static/images/siteImg/gold-light.gif">
+
+	</div>
+
+	<div class="clr"></div>
+ <br><br>
+<!--
+<div style="padding: 20px; background-color: #f44336; color: white; font-size: large;">
+  <strong>Dear loyal customers!</strong> The ongoing supply disruption due to the coronavirus outbreak in China has put a lot of our popular products in short supply.
+	As a result, we will not be able to offer the same Deal Of the Day program until the supply is restored. In the interim,
+	We will be offering good deals on some products which we currently have large quantity. We will constantly update our lists here based on the change of our inventory level.
+	Thank you for understanding
+</div>
+-->
+<div style="padding: 20px; background-color: #f44336; color: white; font-size: large;">
+  <strong>Have a great year of 2021!</strong>
+	We will update our listing throughout the week
+</div>
+
+{% else %}
+	<div>
+	{% if method != "clearance" %}
+
+		<div style="float:left;">
+		<form name=sortForm action="{{ request.path }}" method=GET>
+			<br />
+ 			<span class="dropdownlabel">Sort by: </span>
+			<select name=sortby size=1 class="dropdown-menu"  onChange="sortForm.submit();">
+				<option value="ranking" {% sortdropdownselected request 'ranking' %}>Popular Results</option>
+				<option value="titleAsc" {% sortdropdownselected request 'titleAsc' %}>Brand & Title (A-Z)</option>
+				<option value="titleDes" {% sortdropdownselected request 'titleDes' %}>Brand & Title (Z-A)</option>
+				<option value="priceAsc" {% sortdropdownselected request 'priceAsc' %}>Price low to high </option>
+				<option value="priceDes" {% sortdropdownselected request 'priceDes' %}>Price high to low </option>
+				<option value="lumenAsc" {% sortdropdownselected request 'lumenAsc' %}>Lumens low to high </option>
+				<option value="lumenDes" {% sortdropdownselected request 'lumenDes' %}>Lumens high to low </option>
+
+			</select>
+		</form>
+		</div>
+	{% endif %}
+	{% if method != "clearance" %}
+		<div align="right">
+		<div style="text-align: left;display:inline-block;">
+			{% autopaginate products 30 %}
+			{% paginate 3 %}
+		</div>
+		</div>
+
+	{% endif %}
+	</div>
+	<div class="clr"></div>
+
+{% endif %}
+
+{% if method != "clearance" %}
+	<div class="clr"></div>
+		<div class="yui-skin-sam" style="width:100%; margin:8px 0px 0 0;">
+			<div id="doc">
+				<div id="demo" class="yui-navset">
+					<ul class="yui-nav">
+						<li class="selected">
+							<a href="#All" class="prodname">
+<!--
+									{{ page_subjects.name }}
+-->
+							</a>
+						</li>
+					</ul>
+       					<div class="yui-content">
+              					<div id="All">
+							<div>
+								<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+									{% for p in products %}
+										{% include 'tags/product_tab_list.html' %}
+
+										<tr>
+											<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+										</tr>
+									{% endfor %}
+
+								</table>
+	  						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  		<div class="clr"></div>
+
+		{% paginate 3 %} <br />
+	  		<div class="clr"></div>
+
+{% else %}
+<div class="yui-skin-sam" style="width:100%; margin:8px 0px 0 0;">
+<div id="doc">
+
+
+<div id="demo" class="yui-navset">
+	<ul class="yui-nav">
+		<li class="{% navselected request method %}"><a href="#All" class="prodname">
+			{% if method != 'dealoftheday' %}
+					<em>All</em>
+			{% endif %}
+			</a>
+		</li>
+      	{% for u in active_submenu.all %}
+	       	{% if forloop.counter0 == 0 %}
+                		<li class="{% navselected request u.slug %} "><a href="#{{ u.name }}" class="prodname tt"><em>
+					{% if u.display_name %}
+						{{ u.display_name }}
+					{% else %}
+			            	{{ u.name }}
+					{% endif %}
+				</em>
+					{% if u.display_name %}
+						<span class="tooltip1"><span class="top"></span><span class="middle">{{ u.name }} </span><span class="bottom"></span></span>
+					{% endif %}
+				</a>
+				</li>
+	            {% else %}
+                 		<li class="{% navselected request u.slug %}"><a href="#{{ u.name }}" class="prodname tt"><em>
+					{% if u.display_name %}
+						{{ u.display_name }}
+					{% else %}
+			            	{{ u.name }}
+					{% endif %}
+				</em>
+					{% if u.display_name %}
+						<span class="tooltip1"><span class="top"></span><span class="middle">{{ u.name }} </span><span class="bottom"></span></span>
+					{% endif %}
+				</a>
+				</li>
+
+       	     {% endif %}
+
+            {% endfor %}
+    	 </ul>
+
+       <div class="yui-content">
+              <div id="All">
+			<div>
+
+				<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+
+					{% for p in products %}
+							{% include 'tags/product_tab_list.html' %}
+
+							<tr>
+								<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+							</tr>
+					{% endfor %}
+
+				</table>
+	  		</div>
+
+	  		<div class="clear"></div>
+		  </div>
+
+            {% for u in active_submenu.all %}
+              <div id="{{ u.name }}">
+			<div>
+
+				<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+
+					{% for p in products %}
+    					{% if 'clearance' in method and p.brand.name == u.name %}
+
+						{% include 'tags/product_tab_list.html' %}
+						<tr>
+							<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+						</tr>
+
+					{% else %}
+    						{% if 'brand' in method and p.series.name == u.name %}
+
+							{% include 'tags/product_tab_list.html' %}
+							<tr>
+								<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+							</tr>
+
+						{% else %}
+							{% if method == 'show_category' or method == 'show_subcategory'%}
+								{% for sub in p.subcategory.all %}
+									{% if sub.name == u.name %}
+										{% include 'tags/product_tab_list.html' %}
+										<tr>
+											<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+										</tr>
+
+									{% endif %}
+								{% endfor %}
+							{% else %}
+    								{% if 'show_pricerange' in method and u.name in p.all_categories %}
+
+									{% include 'tags/product_tab_list.html' %}
+									<tr>
+										<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+									</tr>
+								{% else %}
+    									{% if 'show_brightnessrange' in method and u.name in p.brand.name %}
+
+										{% include 'tags/product_tab_list.html' %}
+										<tr>
+											<td colspan="3" style="border-bottom: 2px dotted #000;"></td>
+										</tr>
+									{% endif %}
+
+								{% endif %}
+
+							{% endif %}
+						{% endif %}
+					{% endif %}
+					{% endfor %}
+
+
+				</table>
+	  		</div>
+
+	  		<div class="clr"></div>
+		  </div>
+            {% endfor %}
+
+		<br /><br />
+
+
+</div>
+
+<br /><br />
+
+</div>
+
+</div>
+
+{% endif %}
+
+
+<br />
+<div class="fb-like fr" data-href="{{ site_url }}" data-send="false" data-width="450" data-show-faces="true" data-font="arial"></div>
+
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% load cache %}
+	<div class="facet-category">&nbsp;Olight by Categories</div>
+
+
+			<ul>
+
+				{% for s in active_series %}
+					<li > <a href="{{ s.get_absolute_url }}">
+					{% if s.display_name %}
+						<span class="facet-value">{{ s.display_name }}</span>
+					{% else %}
+						<span class="facet-value">{{ s.name }} </span>
+					{% endif %}
+					</a></li>
+				{% endfor %}
+			</ul>
+
+

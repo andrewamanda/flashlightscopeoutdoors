@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load catalog_tags %}
+
+{% block site_wrapper %}
+	<div id="page-header">
+        	<div class="item" id="page-header-text">
+            		<span itemprop="name">All Departments</span>
+        	</div>
+        	<div class="cb"></div>
+    	</div>
+
+
+
+       	<div class="page-width-container">
+		<div id="shop-by-brand-cat-lists" class="shop-by-category">
+			{% for d in departments %}
+        		<div class="department-list">
+        			<ul class="shop-by-lists">
+            				<li>
+                				<ul>
+                    					<li class="shop-by-pic-link">
+                        					<a href="{{ d.get_absolute_url }}">
+                                                            <img src="{% if d.image %}{% large_image_url d.image.url %}{% endif %}" alt="{{ d.meta_description }}" width="160" loading="lazy" decoding="async" />
+                                                        <span class="department-name">{{ d.name }}</span>
+                        					</a>
+                    					</li>
+                				</ul>
+                				<table>
+							{% active_categories_4d d as cats %}
+							{% for cat in cats %}
+							{% if forloop.counter0|divisibleby:5 %}
+							<tr>
+							{% endif %}
+								<td><a href="{{ cat.get_absolute_url }}"><b>{{ cat.name }}</b></a>
+									<table>
+										{% active_subcategory_list cat as sub %}
+										{% for s in sub %}
+									<tr>
+											<td style="margin-left:20px;"><a href="{{ s.get_absolute_url }}">{{ s.display_name }}</a></td>
+									</tr> 
+										{% endfor %}
+									</table>
+
+								</td>
+							{% if forloop.counter|divisibleby:5 or forloop.last %}
+							</tr>
+							<br />
+							{% endif %}
+							{% endfor %}
+                                    		</table>
+            				</li>
+        			</ul>
+    			</div>
+			{% endfor %}
+		</div>
+	</div>
+    
+{% endblock %}

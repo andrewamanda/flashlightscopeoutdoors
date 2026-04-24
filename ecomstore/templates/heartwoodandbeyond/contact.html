@@ -1,0 +1,58 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li><a href="{% url 'show_about' %}" class="">About</a></li><li>Contact Us</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+    <article about="/contact" typeof="sioc:Item foaf:Document" class="node node--webform node--full node--webform--full">
+  <header>
+
+          <h1 class="node__title">Contact Us</h1>
+      </header>
+
+  <div class="node__content">
+    <div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><p>If you have any questions about us please fill out the form below and we'll get back to you as soon as possible! If you need immediate assistance, please give us a call at <a href="tel:+19195424394">919-542-4394</a>. We look forward to hearing from you!</p>
+</div></div></div>
+
+
+{% include 'heartwoodandbeyond/tags/contact_us.html' %}
+
+
+
+
+</div>
+
+    </article>
+  </div>
+</div>
+          </div>
+
+      <aside class="l-region l-region--sidebar">
+    <div id="block-menu-block-3" class="block block--menu-block block--nav-submenu block--menu-block-3">
+        <div class="block__content">
+    <div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-2">
+  <ul class="menu"><li class="first leaf menu-mlid-705"><a href="{% url 'leave_review' %}" class="menu-705">Leave a Review</a></li>
+<li class="leaf menu-mlid-847"><a href="{% url 'shipping' %}">Shipping</a></li>
+<li class="last leaf active-trail active menu-mlid-848"><a href="{% url 'contact' %}" class="active-trail active-trail active">Contact</a></li>
+</ul></div>
+  </div>
+</div>
+
+   {% include "heartwoodandbeyond/left_panel.html" %}
+</aside>
+</div>
+{% endblock %}

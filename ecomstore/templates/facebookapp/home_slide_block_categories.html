@@ -1,0 +1,20 @@
+
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>Categories</span></strong></div>
+<div class="block-content">
+<br />
+
+<ul id="categories_fb">
+{% with active_categories as cats %}
+        {% for c in cats %}
+                <li>
+                      <a target="_blank" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                </li>
+        {% endfor %}
+{% endwith %}
+</ul>
+
+<div class="cb"><br /></div>
+</div>
+</div>
+

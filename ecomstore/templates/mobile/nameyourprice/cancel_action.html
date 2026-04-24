@@ -1,0 +1,43 @@
+<div id="PreCancelOffer">
+<a href="#" id="CheckStatus" data-role="button" data-theme="b">Check Status</a>
+<a href="#" id="cancelbutton" data-role="button" data-theme="c">Cancel Offer</a>
+</div>
+<div id="PostCancelOffer" style="display:none">
+<a href="#" data-role="button" id="MakeNewOffer" data-theme="b">Make a New Offer</a>
+</div>
+			<script type="text/javascript"> 
+				$(document).delegate('#CheckStatus', 'click', function() {
+					window.location = "/nameyourprice/makeoffer/";
+					return true
+				})
+				$(document).delegate('#MakeNewOffer', 'click', function() {
+					window.location = "/nameyourprice/makeoffer/";
+					return true
+				})
+				$(document).delegate('#cancelbutton', 'click', function() {
+					$('<div>').simpledialog2({
+						mode: 'button',
+						headerText: 'Cancel??',
+						headerClose: true,
+						buttonInput: true,
+						buttonPrompt: 'Enter a comment(optional)',
+						buttons : {
+							'OK': {
+								click: function () { 
+									bid = jQuery("#b_id").val();
+									comment = $.mobile.sdLastInput; 
+									ConfirmCancelOffer(bid, comment);
+									$('#offerstatus').text("You have cancelled your offer");
+									$(".errorList").hide();
+									$("#PreCancelOffer").hide();
+									$("#PostCancelOffer").show();
+								}
+							},
+						}
+					})
+				});
+
+			</script>
+
+
+

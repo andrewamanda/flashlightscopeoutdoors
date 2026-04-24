@@ -1,0 +1,313 @@
+{% extends "mobile/home/base.html" %}
+
+{% load checkout_tags %}
+{% load catalog_filters %}
+
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% if error_message %}
+  <div class="messages ui-body ui-body-e ui-corner-all">
+    <div class="errorMessageHeader"i>Error:</div>
+    <ul class="errorList">
+        <li class="errorMessage">{{ error_message }}</li>
+    </ul>
+  </div>
+{% endif %}
+
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Billing Addresses</li>
+    <li>
+        <span class="address">
+                {{ billing_name }}
+                <br/>
+                {{ billing_address_1 }}
+                <br/>
+                {% if billing_address_2 != '' %}
+                        {{ billing_address_2 }}
+                        <br/>
+                {% endif %}
+                {{ billing_city }}, {{ billing_state }} {{ billing_zip }}
+                <br/>
+                {{ billing_country }}
+		<br/>
+		Email: {{ email }}
+		<br/>
+		Phone: {{ phone }}
+        </span>
+      </li>
+    <li data-icon="plus"><a href="{% url 'beginCheckout' %}">Change ...</a></li>
+  </ul>
+
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Shipping Addresses</li>
+    <li>
+        <span class="address">
+                {{ shipping_name }}
+                <br/>
+                {{ shipping_address_1 }}
+                <br/>
+                {% if shipping_address_2 != '' %}
+                        {{ shipping_address_2 }}
+                        <br/>
+                {% endif %}
+                {{ shipping_city }}, {{ shipping_state }} {{ shipping_zip }}
+                <br/>
+                {{ shipping_country }}
+		<br/>
+		Email: {{ email }}
+		<br/>
+		Phone: {{ phone }}
+        </span>
+      </li>
+    <li data-icon="plus"><a href="{% url 'beginCheckout' %}">Change ...</a></li>
+  </ul>
+
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Shipping Method</li>
+    <li>
+        <span class="address">
+                {{ shipping_method_name }}
+                <br/>
+                {{ shipping_description}}
+                <br/>
+        </span>
+      </li>
+    <li data-icon="plus"><a href="{% url 'beginCheckout' %}">Change ...</a></li>
+  </ul>
+
+  {% if haveNote == "Yes" or isItGift == "Yes" or isItReferral == "Yes" %}
+  <ul data-role="listview" data-inset="true" data-theme="d">
+    <li role="heading" data-role="list-divider">Additional Order Information</li>
+    {% if haveNote == "Yes" %}
+	<li>
+		<span class="address">Your Note: {{ note }}</span>
+		<br/>
+	</li>
+    {% endif %}
+    {% if isItGift == "Yes" %}
+	<li>
+		<span class="address">Gift Message: {{ giftmessage }}</span>
+		<br/>
+	</li>
+    {% endif %}
+    {% if isItReferral == "Yes" %}
+	<li>
+		<span class="address">Referral Code: {{ referralCode }}</span>
+		<br/>
+	</li>
+    {% endif %}
+    <li data-icon="plus"><a href="{% url 'beginCheckout' %}">Change ...</a></li>
+  </ul>
+
+  {% endif %}
+
+<div data-role="collapsible" data-collapsed="false" class="orderItemsCollapsible">
+  <h3>Cart Items</h3>
+
+	{% if cart_items %}
+		{% for item in cart_items %}
+      			<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+        			<div class="ui-grid-a" id="grid">
+          				<div class="ui-block-a" style="width:100%">
+            					<a href="{{ item.get_absolute_url }}" rel="external">
+              						{{ item.name }}<br/>
+            					</a>
+						{% optionalchoices item "description" %}
+
+            					<fieldset class="ui-grid-a">
+              						<div class="ui-block-a">Quantity:</div>
+              						<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ item.quantity }}</div>
+            					</fieldset>
+            					<fieldset class="ui-grid-a" id="fieldset-price">
+              						<div class="ui-block-a">Price:</div>
+              						<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ item.price|currency }}</div>
+            					</fieldset>
+
+            					<fieldset class="ui-grid-a" id="fieldset-item-total">
+              						<div class="ui-block-a">Item Total:</div>
+              						<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ item.total|currency }}</div>
+            					</fieldset>
+
+          				</div>
+        			</div>
+      			</div>
+
+		{% endfor %}
+	{% endif %}
+
+
+  <div class="ui-body ui-body-c ui-corner-all">
+    <fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      <div class="ui-block-a"><b>Cart Subtotal:</b></div>
+      <div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ cart_subtotal|currency }}</div>
+    </fieldset>
+    {% if request.session.win_price %}
+    	<fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      		<div class="ui-block-a"><b>Your Deal Price:</b></div>
+      		<div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ request.session.win_price|currency }}</div>
+    	</fieldset>
+    {% endif %}
+  </div>
+  <div class="ui-body ui-body-c ui-corner-all">
+    <fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      <div class="ui-block-a"><b>Coupon Discount:</b></div>
+      <div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ discount|currency }}</div>
+    </fieldset>
+  </div>
+  <div class="ui-body ui-body-c ui-corner-all">
+    <fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      <div class="ui-block-a"><b>Shipping Charge:</b></div>
+      <div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ shipping_charge|currency }}</div>
+    </fieldset>
+  </div>
+  <div class="ui-body ui-body-c ui-corner-all">
+    <fieldset class="ui-grid-a" id="fieldset-cart-total" style="padding-top:3px">
+      <div class="ui-block-a"><b>Total Due:</b></div>
+      <div class="ui-block-b" style="font-weight:bold; text-align:right;">{{ total_amt_due|currency }}</div>
+    </fieldset>
+  </div>
+
+</div>
+
+<form action="{% url 'payment' %}" method="post" name="paymentForm">{% csrf_token %}
+        <div class="ui-body ui-body-c ui-corner-all">
+                <label for="havePromo" id="havePromo">I have a coupon: </label>
+                <input type="checkbox" name="havePromo" id="havePromo" class="havePromo" />
+
+		<div id="promo" style="display:none;">
+                <fieldset data-role="controlgroup">
+                        <div data-role="fieldcontain">
+                                <label for="promoCode">Enter your coupon code:</label>
+                                <input type="text" name="promoCode" id="promoCode"></input>
+                        </div>
+
+                </fieldset>
+		<fieldset>
+                        <input type="hidden" name="payment_type"  value="ApplyPromotion"/>
+			 <input type="submit" value="Add"/>
+		</fieldset>
+		</div>
+
+        </div>
+</form>
+
+<form action="{% url 'payment' %}" method="post" name="paymentForm" class="PaypalForm">{% csrf_token %}
+       <input type="hidden" name="total_amt_due"  value="{{ total_amt_due }}"/>
+       <input type="hidden" name="shipping_description"  value="{{ shipping_description }}"/>
+       <input type="hidden" name="shipping_method_name"  value="{{ shipping_method_name }}"/>
+       <input type="hidden" name="shipping_charge"  value="{{ shipping_charge }}"/>
+       <input type="hidden" name="promotion_code"  value="{{ promotion_code }}"/>
+       <input type="hidden" name="discount"  value="{{ discount }}"/>
+
+       <input type="hidden" name="payment_type"  value="PaypalOrder"/>
+
+	<button type="submit" id="paypalBtn" data-theme="b" value="PaypalOrder">Checkout with Paypal</button>
+
+
+</form>
+
+
+<div class="line-wrapper">
+        <div class="line">&nbsp;</div>
+        <small>OR</small>
+</div>
+
+<div data-role="collapsible" data-theme="b" data-collapsed="true">
+<h3>Pay by Credit Card</h3>
+For your protection, the credit card processor requires the billing address to match with the shipping address.
+If you require your order to be shipped to an address different from the billing address, please choose to pay by: <b>Checkout With PayPal</b></p>
+<form action="{% url 'payment' %}" method="post" name="paymentForm">{% csrf_token %}
+        <input type="hidden" name="payment_type"  value="CreditCardOrder"/>
+        <input type="hidden" name="email"  value="{{ email }}"/>
+        <input type="hidden" name="phone"  value="{{ phone }}"/>
+        <input type="hidden" name="shipping_name"  value="{{ shipping_name }}"/>
+        <input type="hidden" name="shipping_address_1"  value="{{ shipping_address_1 }}"/>
+        <input type="hidden" name="shipping_address_2"  value="{{ shipping_address_2 }}"/>
+        <input type="hidden" name="shipping_city"  value="{{ shipping_city }}"/>
+        <input type="hidden" name="shipping_state"  value="{{ shipping_state }}"/>
+        <input type="hidden" name="shipping_zip"  value="{{ shipping_zip }}"/>
+        <input type="hidden" name="shipping_country"  value="{{ shipping_country }}"/>
+        <input type="hidden" name="billing_name"  value="{{ billing_name }}"/>
+        <input type="hidden" name="billing_address_1"  value="{{ billing_address_1 }}"/>
+        <input type="hidden" name="billing_address_2"  value="{{ billing_address_2 }}"/>
+        <input type="hidden" name="billing_city"  value="{{ billing_city }}"/>
+        <input type="hidden" name="billing_state"  value="{{ billing_state }}"/>
+        <input type="hidden" name="billing_zip"  value="{{ billing_zip }}"/>
+        <input type="hidden" name="billing_country"  value="{{ billing_country }}"/>
+        <input type="hidden" name="shipping_method"  value="{{ shipping_method_name }}"/>
+        <input type="hidden" name="isItGift"  value="{{ isItGift }}"/>
+        <input type="hidden" name="pricePrinted"  value="{{ pricePrinted }}"/>
+        <input type="hidden" name="giftmessage"  value="{{ giftmessage }}"/>
+        <input type="hidden" name="promotion"  value="{{ promotion_code }}"/>
+        <input type="hidden" name="total_amt_due"  id="total_amt_due" value="{{ total_amt_due }}"/>
+
+
+        <div class="clr"></div>
+<!--
+  <div class="ui-body ui-body-c ui-corner-all">
+
+  	<fieldset id="cardNumber_fieldset"  class="newCardFieldset">
+    		<label for="id_credit_card_type" id="cardType_label">Card Type *:</label>
+		{{ form.credit_card_type }}
+  	</fieldset>
+  	<fieldset id="cardNumber_fieldset"  class="newCardFieldset">
+    		<label for="id_credit_card_number" id="cardNumber_label">Card Number *:</label>
+		{{ form.credit_card_number }}
+  	</fieldset>
+  	<fieldset id="cardNumber_fieldset"  class="newCardFieldset">
+    		<label for="id_credit_card_expire_month" id="cardExpMonth_label">Expiration Month *:</label>
+		{{ form.credit_card_expire_month }}
+  	</fieldset>
+  	<fieldset id="cardNumber_fieldset"  class="newCardFieldset">
+    		<label for="id_credit_card_expire_year" id="cardExpMonth_label">Expiration Year *:</label>
+		{{ form.credit_card_expire_year }}
+  	</fieldset>
+  	<fieldset id="cardNumber_fieldset"  class="newCardFieldset">
+    		<label for="id_credit_card_cvv" id="cardCvv_label">Card Security Verification Code *:</label>
+		{{ form.credit_card_cvv }}
+  	</fieldset>
+
+  </div>
+  <br/>
+
+  <input type="submit" id="checkoutInfoFormSubmit" value="Submit Secure Order" data-icon="check" data-theme="b"/>
+  -->
+</form>
+<!-- Stripe integration -->
+{% include 'tags/stripe.html' %}
+<!-- end of stripe integration -->
+
+</div>
+
+
+
+
+      <script type="text/javascript">
+      /*<![CDATA[*/
+        $(document).on("pagecreate", function() {
+                /* Gifting Display */
+                $(".havePromo").change(function() {
+                        if( $(this).is(":checked") )
+                        { $("#promo").show(); }
+                        else
+                        { $("#promo").hide(); }
+                }).triggerHandler("click");
+                /* ------------------- */
+                console.log("on pagecreate... current url = ", window.location.href);
+                if (window.location.href.includes("checkout_shipping_method")) {
+                  curr = window.location.href.replace("checkout_shipping_method", "checkout_payment");
+                  window.location.href = curr;
+                }
+
+        });
+     /*]]>*/
+      </script>
+      <!-- beginning of Stripe Integration -->
+     {% include 'tags/stripeJS.html' %}
+      <!-- end of Stripe Integration -->
+{% endblock %}

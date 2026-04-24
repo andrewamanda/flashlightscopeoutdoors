@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load catalog_filters %}
+
+{% block site_wrapper %}
+	<h1 class="headingPageTitle2">Order Confirmation </h1>
+
+	<table id="receipt">
+		<caption>Your order has been placed!<br /><br />
+			Your Order Number is: {{ order_number }}
+		</caption>
+		<thead>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Price</th>
+			<th scope="col">Quantity</th>
+			<th class="right" scope="col">Total</th>
+		</tr>
+		</thead>
+		<tfoot>
+			{% if order.isItAuction %}
+			<tr>
+				<td colspan="4" class="right" style="height:30px;">
+				Deal Price: {{ order.auction_price|currency }}
+				</td>
+			</tr>
+			{% endif %}
+			<tr>
+				<td colspan="4" class="right" style="height:30px;">
+				Order Total w/ Shipping: {{ total_amt_due|currency }}
+				</td>
+			</tr>
+		<!--
+			<tr>
+				<td colspan="4" class="right" style="height:30px;">
+				Click <b>{{ order.invoice }}</b> to get a copy of your invoice
+				</td>
+			</tr>
+		-->
+
+		</tfoot>
+		<tbody>
+		{% for item in order_items %}
+		<tr>
+			<td>{{ item.name }}
+				{% if item.options %}
+					<br />
+					{{ item.options }}
+				{% endif %}
+			</td>
+			<td>{{ item.price|currency }}</td>
+			<td>{{ item.quantity }}</td>
+			<td class="right">{{ item.total|currency }}</td>
+		</tr>
+		{% endfor %}
+		{% if not order.isItAuction %}
+		<tr>
+			<td>Promotion - </td>
+			<td>{{ promotion_code }}</td>
+			<td>{{ promotion_desc }}</td>
+			<td class="right">{{ discount|currency }}</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>Shipping - </td>
+			<td>{{ shipping }}</td>
+			<td>{{ shipping_desc }}</td>
+			<td class="right">{{ shipping_charge|currency }}</td>
+		</tr>
+
+            {% if valid_giftcode %}
+		<tr>
+			<td>Paid with gift card - </td>
+			<td>{{ valid_giftcode }}</td>
+			<td>Value paid: </td>
+			<td class="right">{{ gift_discount|currency }}</td>
+		</tr>
+            {% endif %}
+
+
+
+		</tbody>
+	</table>
+{% endblock %}
+
+{% block right_column %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}
+
+
+{% block receipt_analytics %}
+	{% include 'marketing/google_analytics_order.html' %}
+{% endblock %}

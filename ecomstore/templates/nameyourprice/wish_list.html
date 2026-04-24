@@ -1,0 +1,110 @@
+<div class="clr"></div>
+{% load static %}
+
+{% block base_extra_css %}
+{{ block.super }}
+<link type="text/css" href="{% static 'multiselect-master/css/ui.multiselect.css' %}" rel="stylesheet" />
+<link type="text/css" href="{% static 'css/nameyourprice/viewalloffers.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block pre_view_specific_static %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/localisation/jquery.localisation-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/scrollTo/jquery.scrollTo-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/ui.multiselect.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/select_product.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewalloffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/validation.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewoffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/wish_list.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/cart_offer.js' %}"></script>
+{% endblock %}
+
+<br>
+<h1 class="headingPageTitle2">Update quantites & Make Offer</h1>
+<div>
+<div class="box_r fr" id="MakeInitialOffer">
+	<div>
+		<p style="float:left;width:50px;font-size:11px;font-weight:bold;">&nbsp;</p>
+		<p style="display:inline;font-size:11px;font-weight:bold;">Make your offer</p>
+		<p style="float:right;font-size:11px;font-weight:bold;">&nbsp;</p>
+	</div>
+	<div>
+		<p style="float:left;width:100px;color:#CC0000;">Enter Your Offer:</p>
+		<p style="display:inline;font-size:11px;font-weight:bold;">&nbsp;</p>
+		<p style="float:right;font-size:11px;font-weight:bold;">$ <input type="text" id="BuyerOfferPrice" size="10" value={{subtotal}} onkeypress="return isNumber(event)" STYLE="color: #463E3F; font-family: Verdana; font-weight: bold; font-size: 12px; background-color: #ADFF2F;"  /></p>
+	</div>
+	<div>
+		<p style="float:left;width:100px;color:#CC0000;">Shipping Country:</p>
+		<p style="display:inline;font-size:11px;font-weight:bold;">&nbsp;</p>
+		<p style="float:right;font-size:11px;font-weight:bold;"><input type="text" id="ShippingCountry" size="10" placeholder="United States" value="United States" /></p>
+	</div>
+	<div>
+		<p style="float:left;width:100px;color:#CC0000;">Your Comment:</p>
+		<p style="display:inline;font-size:11px;font-weight:bold;">&nbsp;</p>
+		<p style="float:right;font-size:11px;font-weight:bold;">&nbsp;</p>
+	</div>
+	<div>
+		<p style="float:left;color:#CC0000;">&nbsp;</p>
+		<p style="display:inline;font-size:11px;font-weight:bold;">&nbsp;</p>
+		<p style="float:right;font-size:11px;font-weight:bold;"><textarea id="buyer_comment" style="float:right;" placeholder="Enter a comment, if any" rows="3" cols="30" onkeyup="return limitlength(this, 300)"/></p>
+	</div>
+	<br><br>
+		<p style="float:right;"><input type="image" src="/static/images/siteImg/button-make-offer.png" class="fr nobackground_noborder"
+		id="MakeOffer" value="makeoffer" onClick=MakeOffer() /></p>
+        <div id='loadingmessage_makeoffer' style='display:none'>
+                <img src='/static/images/siteImg/ajax-loader.gif'/>
+        </div>
+
+	<div>
+		<p style="float:left;width:100px;color:#CC0000;">&nbsp;</p>
+		<p style="display:inline;font-size:11px;font-weight:bold;">&nbsp;</p>
+		<p style="float:right;font-size:11px;font-weight:bold;text-align:right;color: #CC0000;">
+                *** We welcome any reasonable offer. We will respond promptly
+                </p>
+	</div>
+</div>
+
+
+<div class="box fl" id="wish_list">
+	<div>
+		<p style="float:left;width:300px;font-size:11px;font-weight:bold;">Product</p>
+		<p style="display:inline;font-size:11px;font-weight:bold;">Unit Price</p>
+		<p style="float:right;font-size:11px;font-weight:bold;">Quantity</p>
+	</div>
+	{% for p in products %}
+		<div>
+			<p style="float:left;width:300px;"><a href="{{p.get_absolute_url}}" target="_blank" style="color: #CC0000">{{ p.name }}</a></p>
+			<p style="display:inline;">$<span>{{ p.sale_price }}</span></p>
+                        <p style="float:right;">
+				<input type="text" name="{{ p.sale_price }}" value="1" id="{{ p.id }}"  size="1" class="quantity" maxlength="5" onKeyUp=updateSubtotal({{p.id}}) onkeypress="return isNumber(event)" />
+			</p>
+
+		</div>
+
+	{% endfor %}
+	<div>
+                <p style="float:left;width:300px;font-size:11px;font-weight:bold;">&nbsp;</p>
+                <p style="display:inline;font-size:11px;font-weight:bold;">Subtotal</p>
+                <p style="float:right;font-size:11px;font-weight:bold;">$<span id="subtotal">{{ subtotal }}</span></p>
+	</div>
+	<div>
+		<span style="float:right;font-size:11px;font-weight:bold;text-align:right;color: #CC0000;">
+                *** You can update the quantity, the subtotal will be updated automatically
+                </span>
+	</div>
+	<div class="fr" id="buyitnow">
+		<input type="image" src="/static/images/siteImg/buy_it_now_button.png" class="nobackground_noborder" title="Buy It Now" id="add2cart" onClick=BuyItNow1() />
+	</div>
+        <div id='loadingmessage_buyitnow' style='float:right;display:none;'>
+                <img src='/static/images/siteImg/ajax-loader.gif'/>
+        </div>
+	<div class="fr" id="Proceed2Checkout" style="display:none;">
+		<a href="{% url 'show_cart' %}" >
+			<input type="image" src="/static/images/siteImg/view-cart-button.png" class="nobackground_noborder" id="beginCheckout" />
+		</a>
+	</div>
+</div>
+
+</div>
+

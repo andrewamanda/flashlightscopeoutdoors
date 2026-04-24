@@ -1,0 +1,102 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li>Gallery</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+
+
+        <div class="block__content">
+
+          {% include "heartwoodandbeyond/woodtypes/tobacco/gallery_antique-southern-yellow-pine.html" %}
+            <br />
+            <br />
+
+          {% include "heartwoodandbeyond/woodtypes/tobacco/gallery_tobacco-pine-rustic.html" %}
+          <br />
+          <br />
+
+
+
+    <article about="/gallery" typeof="foaf:Document" class="node node--page node--full node--page--full">
+  <header>
+
+          <h1 class="node__title">Beautiful Heartpine</h1>
+      </header>
+
+  <div class="node__content">
+    <div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><p>Interested in our genuine antique heartpine flooring but unsure of how it would look in your home? Click through our photo gallery to see a variety of our antique flooring in action. From our elite quartersawn heartpine antique flooring to our antique southern yellow heartpine, there's surely an option to add beauty to every home.</p>
+</div></div></div>  </div>
+
+    </article>
+  </div>
+</div>
+<div id="block-views-galleries-gallery-list" class="block block--views block--views-galleries-gallery-list">
+        <div class="block__content">
+    <div class="view view-galleries view-id-galleries view-display-id-gallery_list view-dom-id-60c60620aa509ef71ad0c4ca1e20418f">
+
+
+
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+
+          <a href="{% url 'gallery_quartersawn_heartpine' %}"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/focal_point_scale_and_crop_250x250/public/image_gallery/images/g1_092a0.jpg?itok=qMnMp9Ag" width="250" height="250" alt="" /></a>
+  <p class="gallery_link">        <a href="{% url 'gallery_quartersawn_heartpine' %}">Quartersawn Heartpine</a>  </p>  </div>
+  <div class="views-row views-row-2 views-row-even">
+
+          <a href="{% url 'select_1_heartpine_0' %}"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/focal_point_scale_and_crop_250x250/public/image_gallery/images/hwp624e1.jpg?itok=DlmusJft" width="250" height="250" alt="" /></a>
+  <p class="gallery_link">        <a href="{% url 'select_1_heartpine_0' %}">Select #1 Heartpine</a>  </p>  </div>
+  <div class="views-row views-row-3 views-row-odd">
+
+          <a href="{% url 'gallery_natural_antique_heartpine' %}"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/focal_point_scale_and_crop_250x250/public/image_gallery/images/00120975.jpg?itok=DqS4NXmZ" width="250" height="250" alt="" /></a>
+  <p class="gallery_link">        <a href="{% url 'natural_antique_heartpine' %}">Natural Antique Heartpine</a>  </p>  </div>
+  <div class="views-row views-row-4 views-row-even">
+
+          <a href="{% url 'gallery_character_heartpine' %}"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/focal_point_scale_and_crop_250x250/public/image_gallery/images/c21cbc.jpg?itok=Wm-kq1rk" width="250" height="250" alt="" /></a>
+  <p class="gallery_link">        <a href="{% url 'gallery_character_heartpine' %}">Character Heartpine</a>  </p>  </div>
+  <div class="views-row views-row-5 views-row-odd">
+
+          <a href="{% url 'gallery_antique_southern_yellow_pine' %}"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/focal_point_scale_and_crop_250x250/public/image_gallery/images/g1_1f095.jpg?itok=B15hjrq_" width="250" height="250" alt="" /></a>
+  <p class="gallery_link">        <a href="{% url 'gallery_antique_southern_yellow_pine' %}">Antique Southern Yellow Pine</a>  </p>  </div>
+  <div class="views-row views-row-6 views-row-even">
+
+          <a href="{% url 'gallery_additional_products' %}"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/focal_point_scale_and_crop_250x250/public/image_gallery/images/_MG_92067c15.jpg?itok=waVgMGJI" width="250" height="250" alt="Staircase hand rail " title="Staircase hand rail " /></a>
+  <p class="gallery_link">        <a href="{% url 'gallery_additional_products' %}">Additional Products</a>  </p>  </div>
+  <div class="views-row views-row-7 views-row-odd views-row-last">
+
+          <a href="{% url 'gallery_tobacco_pine_rustic' %}"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/styles/focal_point_scale_and_crop_250x250/public/image_gallery/images/both6037.jpg?itok=sA1tl1lN" width="250" height="250" alt="Both" title="Both" /></a>
+  <p class="gallery_link">        <a href="{% url 'gallery_tobacco_pine_rustic' %}">Tobacco Pine Rustic (Prefinished &amp; Unfinished)</a>  </p>  </div>
+    </div>
+
+
+
+
+
+
+</div>  </div>
+</div>
+          </div>
+
+      <aside class="l-region l-region--sidebar">
+   {% include "heartwoodandbeyond/left_panel.html" %}
+  </aside>
+  </div>
+
+
+
+
+{% endblock %}

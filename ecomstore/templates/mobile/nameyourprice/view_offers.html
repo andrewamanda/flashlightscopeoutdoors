@@ -1,0 +1,121 @@
+{% extends "mobile/home/base.html" %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+
+	<input type="hidden" name="b_id" value="{{bid.id}}" id="b_id" />
+
+{% if request.user.is_authenticated %}
+  <div class="messages ui-body ui-body-e ui-corner-all">
+    <div id="offerstatus" class="offerstatus">You have an open offer:</div>
+    <ul class="errorList">
+        <li class="errorMessage">
+		{% if bid.status == 'WAIT4BUYER' %}
+			You received a counter offer, pending your response
+		{% endif %}
+		{% if bid.status == 'WAIT4SELLER' %}
+			Your offer has been sent, pending seller's response
+		{% endif %}
+		{% if bid.status == 'BUYERACCEPTED' %}
+			You have accepted the offer, proceed to check out
+		{% endif %}
+		{% if bid.status == 'SELLERACCEPTED' %}
+			Your offer has been accepted, proceed to checkout
+		{% endif %}
+
+
+	</li>
+    </ul>
+  </div>
+
+<div class="ui-body ui-body-c ui-corner-all" style="margin-bottom:5px;">
+  <div>
+      <ul data-role="listview" data-inset="true" data-theme="c">
+ 	{% for p in products %}
+		<li>
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a" width="70%;"> {{ p.product.name }} </div>
+				<div class="ui-block-b" width="30%;"><span style="float:right;"> Qty: {{p.qty_offered }} </span></div>
+			</fieldset>
+		</li>
+	{% endfor %}
+
+      </ul>
+  </div>
+
+			<div><span style="font-size:14px;font-weight:bold;">Buy It Now price:</span><span style="font-size:14px;font-weight:bold;">  ${{ buyitnow_price }} </span></div>
+			<div style="font-size:14px;font-weight:bold;">
+	     			{% with offerhistories|first as curroffer %}
+					{% if bid.status == 'WAIT4BUYER' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }} 
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br><br><span class="text-color_1">Andrew's Counter Offer: ${{ curroffer.seller_offer_price }}</span>
+						{% if curroffer.seller_comment %}
+							<br><span class="text-color_1">Andrew's comment: {{curroffer.seller_comment }}</span>
+						{% endif %}
+					{% endif %}
+	
+					{% if bid.status == 'WAIT4SELLER' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }}
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br>
+
+					{% endif %}
+					{% if bid.status == 'BUYERACCEPTED' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }}
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br><br>
+						Andrew's Counter Offer: ${{ curroffer.seller_offer_price }}
+						{% if curroffer.seller_comment %}
+							<br>Andrew's comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.seller_comment }}</span>
+						{% endif %}
+						<br><br><span class="text-color_1" id="Pending">Final Deal Price: ${{curroffer.seller_offer_price}}. Proceed to checkout</span>
+					{% endif %}
+					{% if bid.status == 'SELLERACCEPTED' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }}
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br><br>
+						Andrew accepted your offer!
+						{% if curroffer.seller_comment %}
+							<br>Andrew's comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.seller_comment }}</span>
+						{% endif %}
+						<br><br><span class="text-color_1" id="Pending">Final Deal Price: ${{curroffer.buyer_offer_price}}. Proceed to checkout</span>
+					{% endif %}
+	     			{% endwith %}
+			<div style="font-size:14px;font-weight:bold;display:none;" id="CounterOfferMade"></div>
+		</div>
+</div>
+
+<div class="outstandingoffer">
+{% if bid.status == 'BUYERACCEPTED' or bid.status == 'SELLERACCEPTED' %}
+	{% include "mobile/nameyourprice/offer_accepted.html" %}
+{% else %}
+	{% if bid.status == 'WAIT4BUYER' %}
+		{% include "mobile/nameyourprice/buyer_actions.html" %}
+	{% else %}
+		{% include "mobile/nameyourprice/cancel_action.html" %}
+	{% endif %}
+{% endif %}
+</div>
+<div class="makenewoffer" style="display:none">
+
+</div>
+
+	<div id="SellerOffer"></div>
+	<div id="BuyerOfferMade"></div>
+{% else %}
+        <a id="add_question" class="productspecfont fr" href="{% url 'login' %}?next={{ request.path }}">
+                        Log in to make an offer 
+        </a>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,170 @@
+{% load cache %}
+{% load catalog_tags %}
+
+<header class="l-header">
+
+
+  <div class="header-first-wrap">
+     <div class="container">
+        <p>Specialists in the art of Outdoor Illumination since 2011.</p>
+        <div class="l-region l-region--header-first">
+           <div id="block-menu-block-1" class="block block--menu-block block--nav-utility block--menu-block-1">
+              <div class="block__content">
+                 <div class="menu-block-wrapper menu-block-1 menu-name-menu-utility-menu parent-mlid-0 menu-level-1">
+                    <div class="header-utility-links">
+                       <a href="mailto:sales@andrew-amanda.com" class="email-link">
+                          <i class="fas fa-envelope"></i> sales@andrew-amanda.com
+                       </a>
+                       <form action="{% url 'search_results' %}" method="GET" class="header-search-form">
+                          <input type="text" name="q" placeholder="Enter the search keywords" class="header-search-input">
+
+                          <button type="submit" class="header-search-button"><i class="fas fa-search"></i></button>
+                          <a href="{% url 'show_cart' %}" class="shopping-cart-icon">
+                             <i class="fas fa-shopping-cart"></i>
+                             {% cart_count request as count %}
+                             <span class="item-count">{{ count }}</span>
+
+                          </a>
+                       </form>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+
+
+
+
+
+
+
+   <div class="header-second-wrap">
+      <div class="l-region l-region--header-second">
+         <div id="block-logo-block-logo" class="block block--logo-block block--logo-block-logo">
+            <div class="block__content">
+<!--
+             <a href="{% url 'home' %}" title="Heartwood Pine Floors" class="active"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/logo%402x.png" alt="Heartwood Pine Floors" title="Heartwood Pine Floors" /></a>
+-->
+               <a href="{% url 'home' %}" title="Tar Heel Reclaimed" class="active"><img typeof="foaf:Image" src="{{ MEDIA_URL }}/2023/images/logo.png" alt="Heartwood Pine Floors" title="Heartwood Pine Floors" /></a>
+
+            </div>
+         </div>
+         <div id="block-menu-block-2" class="block block--menu-block block--nav-main block--menu-block-2">
+            <h2 class="block__title">Menu</h2>
+            <div class="block__content">
+               <div class="menu-block-wrapper menu-block-2 menu-name-main-menu parent-mlid-0 menu-level-1">
+                  <ul class="menu">
+                    <!-- Top Brands Menu Item -->
+                    <li class="expanded menu-mlid-696">
+                        <a href="{% url 'our_products' %}" class="menu-696 {% if 'brands' in request.path %}active-trail active{% endif %}">Top Brands</a>
+                        <!-- Submenu for Brands -->
+                        <ul class="menu">
+                            {% all_active_brands as brands %}
+                            {% for c in brands %}
+                                <li class="{% if forloop.first %}first {% endif %}leaf expanded menu-mlid-843">
+                                  <!--
+                                  <div class="menu-item-container">
+                                    -->
+                                      <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                      <!--
+                                      {% if c.series_set.all %}
+                                          <span class="expand-indicator"><img src="{{ MEDIA_URL }}/2023/images/icon-expand-16.png"></span>
+                                      {% endif %}
+                                      -->
+                                <!--
+                                  </div>
+                                  -->
+                                    <!-- Submenu for Series under each Brand -->
+                                    <ul class="menu">
+                                        {% for sub in c.series_set.all %}
+                                            {% if sub.is_active %}
+                                                <li class="leaf menu-mlid-843"><a href="{{ sub.get_absolute_url }}">{{ sub.display_name }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    {% active_categories as cats %}
+                     <li class="expanded menu-mlid-697">
+                        <a href="{% url 'our_products' %}" class="menu-697 {% if 'product' in request.path %}active-trail active{% endif %}">Flashlights & Headlamps</a>
+
+                        <ul class="menu">
+                          {% for c in cats %}
+                            <li class="{% if forloop.first %}first {% endif %}leaf menu-mlid-843">
+                            <!--  <div class="menu-item-container"> -->
+                                  <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                            <!--
+                                  {% if c.subcategory_set.all %}
+                                      <span class="expand-indicator"><img src="{{ MEDIA_URL }}/2023/images/icon-expand-16.png"></span>
+                                  {% endif %}
+                            -->
+                            <!--  </div> -->
+                                <!-- Submenu for Series under each Brand -->
+                                <ul class="menu">
+                                    {% for sub in c.subcategory_set.all %}
+                                        {% if sub.is_active %}
+                                            <li class="leaf menu-mlid-843"><a href="{{ sub.get_absolute_url }}">{{ sub.display_name }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endfor %}
+                            </ul>
+                          </li>
+
+
+
+                     <li class="expanded menu-mlid-699">
+                               <a href="{% url 'natural_antique_heartpine' %}" class="menu-699 {% if 'lumber_' in request.path %}active-trail active{% endif %}">Batteries & Chargers</a>
+                               <ul class="menu">
+                                 <li class="first leaf menu-mlid-725"><a href="{% url 'natural_antique_heartpine' %}" title="Natural Antique Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Natural Heartpine</a></li>
+                                 <li class="leaf menu-mlid-724"><a href="{% url 'oak' %}" title="Antique Oak" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Oak</a></li>
+
+                                  <li class="leaf menu-mlid-724"><a href="{% url 'antique_quartersawn' %}" title="Antique Quartersawn Heart Pine in Moncure, NC" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Quartersawn Heart Pine</a></li>
+                                  <li class="leaf menu-mlid-726"><a href="{% url 'select_1_heartpine' %}" title="Select #1 Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Select #1 Heartpine</a></li>
+                                <li class="leaf menu-mlid-722"><a href="{% url 'character_heartpine' %}" title="Character Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Character Heartpine</a></li>
+                                  <li class="last leaf menu-mlid-1189"><a href="{% url 'antique_southern_yellow_pine' %}" title="Antique Southern Yellow Pine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Southern Yellow Pine</a></li>
+                                 </ul>
+                    </li>
+                    <li class="expanded menu-mlid-699">
+                              <a href="{% url 'natural_antique_heartpine' %}" class="menu-699 {% if 'lumber_' in request.path %}active-trail active{% endif %}">Deals</a>
+                              <ul class="menu">
+                                <li class="first leaf menu-mlid-725"><a href="{% url 'natural_antique_heartpine' %}" title="Natural Antique Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Natural Heartpine</a></li>
+                                <li class="leaf menu-mlid-724"><a href="{% url 'oak' %}" title="Antique Oak" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Oak</a></li>
+
+                                 <li class="leaf menu-mlid-724"><a href="{% url 'antique_quartersawn' %}" title="Antique Quartersawn Heart Pine in Moncure, NC" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Quartersawn Heart Pine</a></li>
+                                 <li class="leaf menu-mlid-726"><a href="{% url 'select_1_heartpine' %}" title="Select #1 Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Select #1 Heartpine</a></li>
+                               <li class="leaf menu-mlid-722"><a href="{% url 'character_heartpine' %}" title="Character Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Character Heartpine</a></li>
+                                 <li class="last leaf menu-mlid-1189"><a href="{% url 'antique_southern_yellow_pine' %}" title="Antique Southern Yellow Pine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Southern Yellow Pine</a></li>
+                                </ul>
+                   </li>
+                   <li class="expanded menu-mlid-699">
+                             <a href="{% url 'natural_antique_heartpine' %}" class="menu-699 {% if 'lumber_' in request.path %}active-trail active{% endif %}">Make Offers</a>
+                             <ul class="menu">
+                               <li class="first leaf menu-mlid-725"><a href="{% url 'natural_antique_heartpine' %}" title="Natural Antique Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Natural Heartpine</a></li>
+                               <li class="leaf menu-mlid-724"><a href="{% url 'oak' %}" title="Antique Oak" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Oak</a></li>
+
+                                <li class="leaf menu-mlid-724"><a href="{% url 'antique_quartersawn' %}" title="Antique Quartersawn Heart Pine in Moncure, NC" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Quartersawn Heart Pine</a></li>
+                                <li class="leaf menu-mlid-726"><a href="{% url 'select_1_heartpine' %}" title="Select #1 Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Select #1 Heartpine</a></li>
+                              <li class="leaf menu-mlid-722"><a href="{% url 'character_heartpine' %}" title="Character Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Character Heartpine</a></li>
+                                <li class="last leaf menu-mlid-1189"><a href="{% url 'antique_southern_yellow_pine' %}" title="Antique Southern Yellow Pine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Southern Yellow Pine</a></li>
+                               </ul>
+                  </li>
+
+
+
+
+
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</header>

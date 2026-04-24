@@ -1,0 +1,13 @@
+<a href="#" class="dropDownLink">By Brightness</a>
+<div class="dropdown-menu">
+ {% with active_brightnesses as cats %}
+       {% for c in cats %}
+                    <div class="dropdown-menu-item">
+                            <a href="{{ c.get_absolute_url }}" class="dropDownLink">{{ c.description }}</a>
+                    </div>
+        {% endfor %}
+ {% endwith %}
+</div>
+
+
+

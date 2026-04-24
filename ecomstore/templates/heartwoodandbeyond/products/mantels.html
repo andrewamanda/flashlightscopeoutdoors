@@ -1,0 +1,29 @@
+{% extends "heartwoodandbeyond/products/product_base.html" %}
+
+{% block product_item %}
+Historic Wood Mantels
+{% endblock %}
+
+{% block product_header %}
+
+<h1 class="node__title">Historic Wood Mantels</h1>
+{% endblock %}
+
+{% block product_content %}
+<div class="field field--name-field-image field--type-image field--label-hidden">
+  <div class="field__items">
+    <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/gallery/mantel_2.jpeg" width="800" height="400" alt="" /></div></div></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><div class="rtecenter" style="margin-bottom: 20px;"><a href="#block-views-services-front-all">VIEW HISTORICAL WOOD MANTELS GALLERY</a></div>
+    </div>
+  </div>
+</div>
+<div class="field field--name-body field--type-text-with-summary field--label-hidden">
+  <div class="field__items">
+    <div class="field__item even" property="content:encoded">
+      <p style="text-align: left;">Warm up your living spaces with our Reclaimed Fireplace Mantels, where history meets hearth. Each mantel, handcrafted from authentic, time-weathered wood, brings a unique narrative, showcasing the beautiful imperfections, knots, and grains from its storied past. These mantels not only serve as a rustic centerpiece for your fireplace but also as a testament to timeless beauty and sustainability. Whether you're igniting a roaring fire or simply enjoying a quiet moment, our mantels add a touch of warmth and historical charm to your cozy gatherings.</p>
+</div>
+</div>
+</div>
+<hr>
+{% include "heartwoodandbeyond/galleries/mantels.html" %}
+{% include "heartwoodandbeyond/galleries/gallery_styles.html" %}
+{% endblock %}

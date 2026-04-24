@@ -1,0 +1,13 @@
+
+        <a href="{% url 'show_cart' %}" >
+        Cart &nbsp;<img src="/static/images/siteImg/cart.jpg" alt="{{ site_name }}-Checkout Cart" title="{{ site_name }}-Checkout Cart"
+        width="18" height="15" border="0" /> | </a>
+        <span id="miniCartView" class="miniCartInfo"> 
+
+		{% with cart_item_count as count %}
+		{{ count }} Item{{ count|pluralize }}
+		{% endwith %}
+	
+	</span>&nbsp; &nbsp; &nbsp;
+
+

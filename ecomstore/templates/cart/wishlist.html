@@ -1,0 +1,22 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+{% block content %}
+
+<h1 class="headingPageTitle2">Your Wish List</h1>
+
+{% product_list_3col wishlists '' %}
+
+
+	{{ google_checkout_xml }}
+
+					
+
+{% endblock %}
+
+{% block rightcolumn %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}

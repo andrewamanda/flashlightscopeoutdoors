@@ -1,0 +1,138 @@
+{% load catalog_tags %}
+{% active_blogs as blogs %}
+<header class="l-header">
+   <div class="header-first-wrap">
+
+      <div class="container">
+         <p>Specialists in the art of reclaimed wood flooring since 1982.</p>
+         <div class="l-region l-region--header-first flex-container">
+           <div class="flex-div">
+            <div id="block-menu-menu-mobile-utility" class="block block--menu block--nav-mobile-utility block--menu-menu-mobile-utility">
+               <div class="block__content">
+                  <ul class="menu">
+                     <li class="first leaf"><a href="tel:+19195424394" class="menu-720">919-542-4394</a></li>
+                     <li class="last leaf"><a href="{% url 'free_quote' %}" class="menu-721">Contact Us</a></li>
+
+                  </ul>
+               </div>
+            </div>
+            <div id="block-menu-block-1" class="block block--menu-block block--nav-utility block--menu-block-1">
+               <div class="block__content">
+                  <div class="menu-block-wrapper menu-block-1 menu-name-menu-utility-menu parent-mlid-0 menu-level-1">
+                     <ul class="menu">
+                        <li class="first leaf menu-mlid-715"><a href="tel:+19195424394" class="menu-715">Call Today! 919-542-4394</a></li>
+                        <li class="leaf menu-mlid-847"><a href="{% url 'free_quote' %}">Contact Us</a></li>
+<!--
+                        <li class="leaf menu-mlid-846"><a target="blank_" href="https://www.heartwoodpine.com">Our Legacy Site</a></li>
+-->
+
+
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            </div>
+            <div class="collov_tool flex-div"></div>
+
+         </div>
+      </div>
+   </div>
+
+   <div class="header-second-wrap">
+      <div class="l-region l-region--header-second">
+         <div id="block-logo-block-logo" class="block block--logo-block block--logo-block-logo">
+            <div class="block__content">
+<!--
+             <a href="{% url 'hpwhome' %}" title="Heartwood Pine Floors" class="active"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/logo%402x.png" alt="Heartwood Pine Floors" title="Heartwood Pine Floors" /></a>
+-->
+               <a href="{% url 'hpwhome' %}" title="Tar Heel Reclaimed" class="active"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/default/files/rusticoak.png" alt="Heartwood Pine Floors" title="Heartwood Pine Floors" /></a>
+
+            </div>
+         </div>
+         <div id="block-menu-block-2" class="block block--menu-block block--nav-main block--menu-block-2">
+            <h2 class="block__title">Menu</h2>
+            <div class="block__content">
+               <div class="menu-block-wrapper menu-block-2 menu-name-main-menu parent-mlid-0 menu-level-1">
+                  <ul class="menu">
+
+                     <li class="first expanded menu-mlid-696">
+                        <a href="{% url 'our_products' %}" {% if 'product' in request.path %}class="active-trail active"{% endif %}>Our Products</a>
+                        <ul class="menu">
+                          <li class="first leaf menu-mlid-843"><a href="{% url 'our_products' %}">Introducing Our Collections</a></li>
+
+                           <li class="leaf menu-mlid-843"><a href="{% url 'product_floors' %}">Reclaimed Wood Flooring</a></li>
+                           <li class="leaf menu-mlid-847"><a href="{% url 'product_stairs' %}">Reclaimed Stair Treads</a></li>
+                           <li class="leaf menu-mlid-847"><a href="{% url 'product_mantels' %}">Fireplace Mantels</a></li>
+                           <li class="leaf menu-mlid-847"><a href="{% url 'product_beams' %}">Historic Wood Beams</a></li>
+                           <li class="leaf menu-mlid-847"><a href="{% url 'product_tabletops' %}">Reclaimed Table Tops & Benches</a></li>
+
+                           <li class="leaf menu-mlid-841"><a href="{% url 'product_panels' %}">Historic Wall Panels & Ceilings</a></li>
+                           <li class="last leaf menu-mlid-841"><a href="{% url 'product_floorregisters' %}">Reclaimed Floor Registers</a></li>
+                        </ul>
+                     </li>
+                     <li class="last leaf menu-mlid-845"><a href="{% url 'installation' %}" {% if 'installation' in request.path %}class="active-trail active"{% endif %}>Floor Installation</a></li>
+
+                     <li class="last leaf menu-mlid-845"><a href="{% url 'milling' %}" {% if 'milling' in request.path %}class="active-trail active"{% endif %}>Milling Services</a></li>
+                     <li class="last leaf menu-mlid-845"><a href="{% url 'wholesalelumber' %}" {% if 'wholesalelumber' in request.path %}class="active-trail active"{% endif %}>Wholesale Lumber</a></li>
+                     <li class="leaf menu-mlid-844"><a href="{% url 'show_gallery' %}" {% if 'gallery' in request.path %}class="active-trail active"{% endif %}>Photo Gallery</a></li>
+                     <li class="expanded menu-mlid-699">
+                               <a href="{% url 'natural_antique_heartpine' %}" class="menu-699 {% if 'lumber_' in request.path %}active-trail active{% endif %}">Lumber Selections</a>
+                               <ul class="menu">
+                                 <li class="first leaf menu-mlid-725"><a href="{% url 'natural_antique_heartpine' %}" title="Natural Antique Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Natural Heartpine</a></li>
+                                 <li class="leaf menu-mlid-724"><a href="{% url 'oak' %}" title="Antique Oak" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Oak</a></li>
+
+                                  <li class="leaf menu-mlid-724"><a href="{% url 'antique_quartersawn' %}" title="Antique Quartersawn Heart Pine in Moncure, NC" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Quartersawn Heart Pine</a></li>
+                                  <li class="leaf menu-mlid-726"><a href="{% url 'select_1_heartpine' %}" title="Select #1 Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Select #1 Heartpine</a></li>
+                                <li class="leaf menu-mlid-722"><a href="{% url 'character_heartpine' %}" title="Character Heartpine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Character Heartpine</a></li>
+                                  <li class="last leaf menu-mlid-1189"><a href="{% url 'antique_southern_yellow_pine' %}" title="Antique Southern Yellow Pine" {% if 'lumber_' in request.path %}class="active-trail active"{% endif %}>Antique Southern Yellow Pine</a></li>
+                                 </ul>
+                    </li>
+
+
+                     <li class="expanded menu-mlid-840">
+                        <a href="{% url 'show_why' %}" {% if 'faq_' in request.path or 'blog' in request.path %}class="active-trail active"{% endif %}>FAQs TIPs</a>
+                        <ul class="menu">
+<!--
+                         <li class="first leaf menu-mlid-843"><a href="{% url 'show_why' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Walk into our business</a></li>
+                           <li class="leaf menu-mlid-841"><a href="{% url 'reclaiming_process' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Reclaiming Process</a></li>
+                           <li class="leaf menu-mlid-843"><a href="{% url 'installation_tips' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Installation Tips</a></li>
+                           <li class="leaf menu-mlid-847"><a href="{% url 'post_installation' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Choices Of Wood Finishes</a></li>
+-->
+                           {% for blog in blogs %}
+                           <li class="leaf menu-mlid-847"><a href="{{ blog.get_absolute_url }}" {% if 'blog' in request.path %}class="active-trail active"{% endif %}>{{blog.name}}</a></li>
+                           {% endfor %}
+                           <li class="leaf menu-mlid-847"><a href="{% url 'shipping' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Shipping</a></li>
+                           <li class="leaf menu-mlid-847"><a href="{% url 'hpw_makeapayment' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Make your payment</a></li>
+                          <li class="leaf menu-mlid-847"><a href="{% url 'leave_review' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Leave a review</a></li>
+                           <li class="last menu-mlid-841"><a href="{% url 'contact' %}" {% if 'faq_' in request.path %}class="active-trail active"{% endif %}>Contact Us</a></li>
+
+                        </ul>
+                     </li>
+<!--
+                   <li class="last leaf menu-mlid-845"><a href="{% url 'heartpine_pricing' %}" {% if 'pricing' in request.path %}class="active-trail active"{% endif %}>Special Offers</a></li>
+-->
+
+<!--
+                     <li class="expanded menu-mlid-699">
+                               <a href="{% url 'pricing_explain' %}" class="menu-699 {% if 'pricing' in request.path %}active-trail active{% endif %}">Pricing Structures</a>
+                               <ul class="menu">
+                                 <li class="first leaf menu-mlid-725"><a href="{% url 'pricing_explain' %}" title="Pricing Explained" {% if 'pricing_explain' in request.path %}class="active-trail active"{% endif %}>Pricing Explained</a></li>
+                                 <li class="leaf menu-mlid-724"><a href="{% url 'pricing_floors' %}" title="Pricing Stairs" {% if 'pricing_floors' in request.path %}class="active-trail active"{% endif %}>Floor Pricing</a></li>
+                                 <li class="leaf menu-mlid-724"><a href="{% url 'pricing_stairs' %}" title="Pricing Stairs" {% if 'pricing_stairs' in request.path %}class="active-trail active"{% endif %}>Stair Pricing</a></li>
+                                 <li class="leaf menu-mlid-724"><a href="{% url 'pricing_panels' %}" title="Pricing Stairs" {% if 'pricing_panels' in request.path %}class="active-trail active"{% endif %}>Wall Panel Pricing</a></li>
+                                 <li class="leaf menu-mlid-724"><a href="{% url 'pricing_registers' %}" title="Pricing Stairs" {% if 'pricing_registers' in request.path %}class="active-trail active"{% endif %}>Floor Register Pricing</a></li>
+
+                                 </ul>
+                    </li>
+-->
+                    <!--
+                    <li class="last leaf menu-mlid-845 collov_tool"><a href="#">Design My Space</a></li>
+                    -->
+
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</header>

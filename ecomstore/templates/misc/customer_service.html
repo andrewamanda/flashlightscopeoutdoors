@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block pre_body_scripts %}
+{{ block.super }}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/tabview.css">
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/yahoo.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/event.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/dom.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/element-beta.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/tabview.js"></script>
+<script type="text/javascript">
+(function() {
+    YAHOO.util.Event.onDOMReady(function() {
+        if (document.getElementById('demo')) {
+            new YAHOO.widget.TabView('demo');
+        }
+    });
+})();
+</script>
+{% endblock %}
+
+
+{% block site_wrapper %}
+
+
+
+
+<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+
+<h1 class="headingPageTitle2">CUSTOMER SERVICE</h1>
+<br />
+
+<div class="yui-skin-sam" style="width:100%; margin:8px 10px 0 0;">
+		<div id="demo" class="yui-navset">
+			<ul class="yui-nav">
+				<li class="selected"><a href="#contactus"><em class="yuinavfont">
+			            Contact Us</em></a>
+				</li>
+
+				<li><a href="#shippingpolicy"><em class="yuinavfont">
+			            Shipping Policy</em></a>
+				</li>
+				<li><a href="#cancellationpolicy"><em class="yuinavfont">
+			            Cancellation Policy</em></a>
+				</li>
+				<li><a href="#returnpolicy"><em class="yuinavfont">
+			            Return Policy</em></a>
+				</li>
+
+                 		<li><a href="#privacypolicy"><em class="yuinavfont">
+			    		Privacy Policy</em></a>
+				</li>
+
+                 		<li><a href="#dealpolicy"><em class="yuinavfont">
+			    		Promotion Policy</em></a>
+				</li>
+
+
+    	 		</ul>
+
+       		<div class="yui-content">
+              		<div id="contactus" class="flatpage_paragraph">
+	<br /><br />
+<p><div style="font-weight: bold;">How can we help you today?</div>Whatever your question, problem, or comment, {{ site_name }}'s Customer Service is here to help. If there's anything we can do, just let us know!</p><br /><br />
+
+<p><div style="font-weight: bold;">Email Us</div>Email your questions, comments and feedback and we will get back to you within one business day. {{ EMAIL_ORDER }} </p><br /><br />
+
+<p><div style="font-weight: bold;">Phone Us</div>For Customer assistance or to order by phone, call us toll free at {{SUPPORT_PHONE_NUM}}.</p><br /><br />
+ 	<br /><br />
+				</div>
+
+              		<div id="shippingpolicy" class="flatpage_paragraph">
+
+				<span style="font-size:20px;font-weight:bold;">Shipping Policy</span>
+				<br /><br />
+
+
+				We ship all orders within 48 hours. If you choose the Overnight Air Express, we will ship the same day if you place the order by 9am Pacific Standard Time.
+				We ship most orders via USPS. Some by UPS or Fedex.
+
+				<br /><br />
+
+				</div>
+              		<div id="cancellationpolicy" class="flatpage_paragraph">
+				<span style="font-size:20px;font-weight:bold;">Order Cancellation Policy</span>
+				<br /><br />
+
+
+				Your order begins processing immediately after you submit your order on the payment page. We process the order quickly and try our best to ship the order within 48 hours. During processing time it may be possible to cancel your order, but once the order moves into the shipping process, it cannot be canceled.
+To attempt to cancel your order during processing:
+				<br /><br />
+
+				<ul class="withBullets">
+<li>Sign in to your account. </li>
+<li>Find the order on your account Main Page.  </li>
+<li>Click the order number to see the Order Details.</li>
+				</ul>
+				<br /><br />
+
+
+				If the order status is "in process", you can immediately write to <b>{{ EMAIL_ORDER }}</b> to cancel the order. If the order is already being shipped, it cannot be canceled.
+				<br /><br />
+
+
+				If you have changed your mind about the order and it is too late to cancel, you can return any unwanted items in accordance with the retailer's returns policy.
+				</div>
+
+
+              		<div id="returnpolicy" class="flatpage_paragraph">
+
+				<span style="font-size:20px;font-weight:bold;">Return Policy</span>
+	<br /><br />
+
+					We stand behind our products and want you to be completely satisfied. If you are not completely satisfied for any reason, please return your merchandise within 15 days for a full refund or exchange.
+
+					To return your purchase, please contact us for an RMA # (Return Authorization Number). Please email <b>{{ EMAIL_ORDER}}</b>.  Please indicate reason for return and the action to be taken (exchange/refund). After receiving the RMA #, please return the item(s) in its original packaging. For your protection, please insure your package for its full value.
+
+					<br /><br />
+
+					We will apply your refund, less shipping, to the original form of payment. If you would prefer an exchange we will send it promptly.
+
+
+
+	<br /><br />
+
+
+					If your items arrive damaged, please keep all boxes and packing materials and immediately contact customer service at {{SUPPORT_PHONE_NUM}} for further instructions.
+
+	<br /><br />
+
+
+					Should you have any questions about your return, please email us at {{ EMAIL_ORDER }} or call {{SUPPORT_PHONE_NUM}}.
+
+<!--
+					<div style="width: 100%;">
+					<div style="margin: 0px auto; text-align: center;">
+					<input style="margin: 25px 10px 0px; font-size: 16px; font-family: Arial; width: 268px;background-color: #4CAF50;color: white;padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;" title="Return Label for US Customers" tabindex="4" target="_blank" onclick="window.open('https://fulfillment.fedex.com/web/commerce/rma-web?customerId=2554523&token=eyJjdHkiOiJKV1QiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..CykC6GiZf9sxT-p2okRDmA.kGWq7Xvjt7kJK4it_Oho_bmRIHD3W5yFl1gefu5u0xrOCfH2v9c5kkOg2urbeZ7FRPp97QKR-Wu3x7RYcWjdw0dDq5NyQ7ZcEwsXRSL7ppV5bqhsXSz2AE7dZTbr4HpfdfEx3NT-kStIJ04wMdKEURknBvt6PG8v-DmC0Qz4gmCY1yqvJmRoqoE13WdO8owxpFEFhjLMsOGAxroF9dFiocxbHH52iMixbZ2ZO3nvfbpB0jt5DumTK3lfh1mbxj476zxQt7tywM_V8CC4D8QhRKkscyxTnGhuGnh-FDN0AO_QFeiVumuNEk7WJ5ChMmyXV5Yxz6Uocoi0Tbt9Tmy_AbqBAN1b1DNL8LIfhmu9TmeBSubIBQqU8gr235BSOkC_.uM-dPyx3G6nbtPV9UtRHGw', '_blank')" value="Return Label for US Customers" type="button" />
+					</div>
+					</div>
+
+-->
+					<div class="cb"><br /><br /></div>
+
+		  		</div>
+              		<div id="privacypolicy" class="flatpage_paragraph">
+				<span style="font-size:20px;font-weight:bold;">Privacy Policy</span>
+	<br /><br />
+
+
+				Our site uses an order form for our customers to make purchase order. We request contact information (name, address, and email address) and financial information (payment information to make purchases) from our customers. The contact information provided on the order form is used to ship our customer order(s) and when necessary to contact our customer. The financial information provided is used for billing purposes on products and services ordered. However, we do NOT save your financial information; your financial information is directly transmitted to one of the three most reputable payment gateways: Authorized.net for credit card transaction; Paypal or Google Checkout, through an encrypted secure connection. So your financial information is as secure as it can be.
+	<br /><br />
+
+				The web site has security measures in place to protect the loss, misuse and alteration of the information under our control. We use 128-bit SSL encryption to protect your information. You have the option to change and modify information previously provided by logging in through our home page and then accessing account administration.
+
+ 	<br /><br />
+
+				We do not in any way share your personal information with any thirdparty affiliates.
+
+ 	<br /><br />
+
+				If you have any questions about this privacy statement, the practices of this site, or your dealings with this Web site, please send an email to <b>{{ EMAIL_ORDER}}</b>.
+
+				</div>
+
+              		<div id="dealpolicy" class="flatpage_paragraph">
+				<span style="font-size:20px;font-weight:bold;">Deal and Promotion Policy</span>
+	<br /><br />
+
+
+				We treat our customers as a community of friends and outdoor enthusiasts. As a way to better serve our community, we offer one top selling product each day at a discounted price at our Deal Of the Day program. We also periodically offer deep discount on selected popular products via newsletters.
+<br />Coupons can not be stacked on one single order; promotion coupons can not be applied toward a Deal of the Day offering or a clearance item, nor can it be applied to any MakeOffer wins
+	<br /><br />
+				</div>
+
+
+
+
+
+
+			</div>
+		</div>
+</div>
+
+
+
+
+{% endblock %}

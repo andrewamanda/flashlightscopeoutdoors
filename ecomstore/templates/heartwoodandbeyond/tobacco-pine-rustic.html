@@ -1,0 +1,28 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li>Tobacco Pine Rustic (Prefinished & Unfinished)</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+          {% include "heartwoodandbeyond/woodtypes/tobacco/gallery_tobacco-pine-rustic.html" %}
+  </div>
+</div>
+          </div>
+
+      </div>
+{% endblock %}

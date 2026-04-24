@@ -1,0 +1,318 @@
+{% load cache %}
+{% load autocomplete %}
+{% load catalog_tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html>
+   <head prefix="">
+      <meta name="viewport" content="width=device-width" />
+      <meta property="fb:app_id" content="817698254957707" />
+      <meta property="og:type" content="" />
+      <meta property="og:title" content="Andrew & Amanda Outdoors" />
+      <meta property="og:image" content="" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta property="og:description" content="" />
+      <meta property="og:site_name" content="Andrew & Amanda Outdoors" />
+      <title>Andrew & Amanda Outdoors</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <link rel="canonical" href="http://www.andrew-amanda.com" />
+
+
+      <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/jquery.mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+      <link rel="stylesheet" href="/static/mobile/css/mobile.css" />
+<!--
+      <script type="text/javascript" src="//connect.facebook.net/en_US/all.js#xfbml=1"></script>
+-->
+
+
+
+      <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.0.min.js"></script>
+
+
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}/js/jstorage.js"></script>
+
+      <script type="text/javascript">
+    	$(document).on( "mobileinit", function(){
+        //alert("mobileinit fired");
+        $.support.cors = true;
+        $.mobile.allowCrossDomainPages = true;
+    	});
+
+      </script>
+      <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+
+        <script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery.cookie.js"></script>
+      <script type="text/javascript" src="/static/mobile/js/mobile.js"></script>
+      <script type="text/javascript" src="/static/js/nameyourprice/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/static/mobile/css/jquery.mobile.simpledialog.min.css" />
+<script type="text/javascript" src="/static/mobile/js/jquery.mobile.simpledialog2.min.js"></script>
+
+      <link rel="stylesheet" href="{{ MEDIA_URL }}/js/Nivo-Slider-master/nivo-slider-mobile.css" type="text/css" media="screen" />
+      <link rel="stylesheet" href="{{ MEDIA_URL }}/js/Nivo-Slider-master/themes/default/default.css" type="text/css" media="screen" />
+      <script src="{{ MEDIA_URL }}/js/Nivo-Slider-master/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+      <script src="{{ MEDIA_URL }}/js/Nivo-Slider-master/jquery.nivo.slider.js" type="text/javascript"></script>
+
+<link type="text/css" rel="stylesheet" href="/static/js/magiczoomplus/magiczoomplus.css"/>
+<script type="text/javascript" src="/static/js/magiczoomplus/magiczoomplus.js"></script>
+<link href="/static/js/magicslideshow/magicslideshow.css" rel="stylesheet" type="text/css" media="screen"/>
+<script src="/static/js/magicslideshow/magicslideshow.js" type="text/javascript"></script>
+<style type="text/css">.mss-slide div { text-align:center; }</style>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37084333-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+   </head>
+   <body>
+      <div data-role="page" id="main"   >
+         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+         <script type="text/javascript">
+            /*<![CDATA[*/
+                $(document).on("pagecreate", function() {
+			updateShoppingCartSize("/mobile/getcartsize{% if request.is_secure %}_ssl{% endif %}/");
+			//getAllProducts("/mobile/productautocomplete{% if request.is_secure %}_ssl{% endif %}/");
+			//Remember, jQuery Mobile page events must always be added with event delegation.
+                    	//$("#searchInput" ).on("listviewbeforefilter", function (e, data) {
+			//prepopulateSearchList($("#searchInput"));
+
+			$('.searchItem').bind('click', function(e) {
+				$("#aa-search-input").val($(this).text());
+				$(".searchlist").parent().find("input").val($(this).text());
+				$(".searchlist").hide();
+				$.mobile.silentScroll(0);
+				document.location.href = "{% url 'search_results' %}?q=" + $(this).text();
+			});
+
+			$(document).on("listviewbeforefilter", "#searchInput",function(e,data){
+				// we no longer use this original version, because it is too slow
+                        	//productAutocomplete($(this), data);
+				//instead ...
+				$(".searchlist").show();
+				var f = $(data.input);
+				$("#aa-search-input").val(f.val());
+
+
+                    	});
+                });
+
+
+            /*]]>*/
+         </script>
+
+
+
+         <div data-role="content">
+            <div style="background-color:#FFFAFA !important;" class="ui-corner-all">
+               <div style="height: 40px;" class="bootstrap header">
+		  <a href="#menu" class="menu example8"><span></span></a>
+                  <a class="logo-mobile" data-ajax="false" href="/" data-direction="reverse"></a>
+<!--
+                  <a class="search-img fa-stack " href="javascript: toggleSearchPanel()"><i class="fa fa-fw fa-search fa-stack-1x"></i></a>
+-->
+                  <a class="bag-img" href="/cart" rel="external">
+                  <span class="fa-stack fa-fw">
+                  <i class="fa fa-fw fa-stack-1x fa-shopping-cart"><span class="cartSize ltTen" id="cartSize">0</span></i>
+                  </span>
+                  </a>
+		  {% if not request.user.is_authenticated %}
+                  	<a class="user-img fa-stack" data-inline="true" rel="external" href="/accounts/login?next={% url 'my_account' %}"><i class="fa fa-fw fa-user fa-stack-1x"></i></a>
+		  {% else %}
+                  	<a class="user-img fa-stack" data-inline="true" rel="external" href="{% url 'my_account' %}"><i class="fa fa-fw fa-user fa-stack-1x"></i></a>
+		  {% endif %}
+               </div>
+		<div style="clear:both;"></div>
+		<div>
+               		<fieldset class="ui-grid-a">
+                  		<div class="ui-block-a" style="width:80%">
+					{% cache 3600 searchpanel_html %}
+					{% autocomplete_searchlist %}
+					{% endcache %}
+                  		</div>
+                  		<div class="ui-block-b" style="width:20%">
+                     			<form id="aa-search-form" method="GET" data-ajax="false" action="/search/results/">
+                        		<input type="hidden" id="aa-search-input" name="q" value="" class="default"/>
+                        		<button type="submit" data-theme="d" ><span class="boostrap"><i class="fa fa-search fa-lg"></i></span></button>
+                     			</form>
+                  		</div>
+               		</fieldset>
+		</div>
+            </div>
+
+
+	<div style="clear:both;"></div>
+            <div class="promoBanner ui-body ui-body-b ui-corner-all">
+               <a href="#" data-rel="dialog" class="largeOrange">
+	    		{% block pageheader %} {% endblock %}
+		</a>
+	   </div>
+
+        <div data-role="panel" id="menu" data-display="overlay">
+            <div class="ui-panel-inner">
+                <ul data-role="listview" class="mainMenu">
+		    <li data-icon="delete" data-theme="a"><a href="#" data-rel="close">Store Menu</a></li>
+                    <li><a href="{% url 'home' %}" class="ui-link-inherit">Home</a></li>
+                    <li><a href="{% url 'show_cart' %}" class="ui-link-inherit">Your Cart</a></li>
+                    <li><a href="{% url 'newarrival' %}">New Arrivals</a></li>
+		    <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b">Score a Saving</li>
+			{% if request.user.is_authenticated %}
+               		<li><a href="/nameyourprice/makeoffer/" rel="external">Make an Offer</a></li>
+			{% else %}
+               		<li><a href="#" class="signin4offerbutton">Make an Offer</a></li>
+			{% endif %}
+                    <li><a href="{% url 'dealoftheday' %}" rel="external">Deal Of The Day</a></li>
+                    <li><a href="{% url 'clearance' %}" rel="external">Clearance Center</a></li>
+		    <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b">Shop By Categories</li>
+                        {% for c in active_categories %}
+                                <li><a href="{{ c.get_absolute_url }}" {% if request.is_secure %}rel="external"{% endif %}>{{ c.name }}</a></li>
+                        {% endfor %}
+		    <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b">Shop By Brand</li>
+                        {% for c in active_brands %}
+                                <li><a href="{{ c.get_absolute_url }}" {% if request.is_secure %}rel="external"{% endif %}>{{ c.name }}</a></li>
+                        {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+	    {% block content %} {% endblock %}
+
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	    <br>
+
+
+        <div data-role="collapsible" class="navigationCollapsible" data-collapsed="false" data-theme="c" data-content-theme="e">
+            <h3 class="navigationTitle">Today's News</h3>
+              <ul data-role="listview" class="navigation">
+                  {% active_todaysnews as todaysnews %}
+                  {% for p in todaysnews %}
+                    {% include "tags/home_todaysnews.html" with news=p %}
+                  {% endfor %}
+
+                </ul>
+            </div>
+            <div data-role="collapsible" class="navigationCollapsible" data-collapsed="false" data-theme="c" data-content-theme="e">
+               <h3 class="navigationTitle">Shop by Categories</h3>
+                <ul data-role="listview" class="navigation">
+                        {% for c in active_categories %}
+                                <li><a href="{{ c.get_absolute_url }}" {% if request.is_secure %}rel="external"{% endif %}>{{ c.name }}</a></li>
+                        {% endfor %}
+                </ul>
+            </div>
+            <div data-role="collapsible" class="navigationCollapsible" data-collapsed="false" data-theme="c" data-content-theme="e">
+               <h3 class="navigationTitle">Shop by Brands</h3>
+                <ul data-role="listview" class="navigation">
+                        {% for c in active_brands %}
+                                <li><a href="{{ c.get_absolute_url }}" {% if request.is_secure %}rel="external"{% endif %}>{{ c.name }}</a></li>
+                        {% endfor %}
+                </ul>
+            </div>
+            <div data-role="collapsible" class="navigationCollapsible" data-collapsed="false" data-theme="c" data-content-theme="e">
+               <h3 class="navigationTitle">Score a Saving</h3>
+                <ul data-role="listview" class="navigation">
+		{% if request.session.open_offer_count == 1 %}
+               		<li data-theme="e"><a href="/nameyourprice/makeoffer/" rel="external">You have an open offer!</a></li>
+		{% else %}
+			{% if request.user.is_authenticated %}
+               		<li><a href="/nameyourprice/makeoffer/" rel="external">Make an Offer</a></li>
+			{% else %}
+               		<li><a href="#" class="signin4offerbutton">Make an Offer</a></li>
+			{% endif %}
+		{% endif %}
+               <li><a href="{% url 'dealoftheday' %}" rel="external">Deal Of The Day</a></li>
+               <li><a href="{% url 'clearance' %}" rel="external">Clearance Center</a></li>
+                </ul>
+            </div>
+            <ul data-role="listview" data-inset="true" data-theme="d">
+               <li><a href="#" class="newsletter" rel="external">SIGN UP for our NEWSLETTER</a></li>
+               <li><a href="{% url 'store_policy' %}" rel="external">STORE POLICY</a></li>
+               <li><a href="{% url 'customer_service' %}" rel="external">CUSTOMER SERVICE</a></li>
+               <li><a href="{% url 'messageoftheday_mobile' %}" rel="external">MESSAGE of the DAY</a></li>
+               <li><a href="{% url 'aboutus' %}" rel="external">ABOUT US</a></li>
+               <li data-icon="home"><a href="{% url 'home' %}" rel="external">HOME</a></li>
+            </ul>
+            <div align="center"><a href="{{ request.path }}?flavour=full" rel="external">Classic Site</a></div>
+      </div>
+
+<script type="text/javascript">
+                                $(document).delegate('.signin4offerbutton', 'click', function() {
+                                        $('<div>').simpledialog2({
+                                                mode: 'blank',
+                                                headerText: 'Not signed in',
+                                                headerClose: true,
+                                                width: "90%",
+                                                themeDialog: "b",
+                                                themeHeader: "b",
+                                                blankContent: '<div class="sdCont">You need to sign in using your account with us or using social accounts in order to submit and track your offers<div class="ui-grid-a"><div class="ui-block-a"><button id="btnSignIn4Offer" data-inline->OK</button></div><div class="ui-block-b"><button id="btnCancel" data-theme="c" data-icon="delete" rel="close">Cancel</button></div></div></div>'
+
+                                        });
+
+                                });
+
+                                $(document).on("click", "#btnSignIn4Offer", function(){
+
+                                         window.location = "/accounts/login";
+                                         $.mobile.sdCurrentDialog.close();
+                                });
+                                $(document).delegate('.newsletter', 'click', function() {
+                                        $('<div>').simpledialog2({
+                                                mode: 'button',
+                                                headerText: 'Sign up',
+                                                headerClose: true,
+                                                buttonInput: true,
+                                                buttonPrompt: 'Enter your email',
+                                                buttons : {
+                                                        'OK': {
+                                                                click: function () {
+
+                                                                        email = $.mobile.sdLastInput;
+                                                                        SubscribeNewsletter(email);
+                                                                }
+                                                        },
+                                                }
+                                        })
+                                });
+$(document).on("pagechange", function() {
+            $('[data-role="page"] #slider').nivoSlider({
+                  effect:'random', //Specify sets like: 'fold,fade,sliceDown'
+                  slices:15,
+                  animSpeed:500, //Slide transition speed
+                  pauseTime:3000,
+                  startSlide:0, //Set starting Slide (0 index)
+                  directionNav:true, //Next &amp; Prev
+                  directionNavHide:true, //Only show on hover
+                  controlNav:true, //1,2,3...
+                  controlNavThumbs:false, //Use thumbnails for Control Nav
+                  controlNavThumbsFromRel:false, //Use image rel for thumbs
+                  controlNavThumbsSearch: '.jpg', //Replace this with...
+                  controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
+                  keyboardNav:true, //Use left &amp; right arrows
+                  pauseOnHover:true, //Stop animation while hovering
+                  manualAdvance:true, //Force manual transitions
+                  captionOpacity:0.8, //Universal caption opacity
+                  beforeChange: function(){},
+                  afterChange: function(){},
+                  slideshowEnd: function(){}, //Triggers after all slides have been shown
+                  pauseTime:3000,
+                  lastSlide: function(){}, //Triggers when last slide is shown
+                  afterLoad: function(){} //Triggers when slider has loaded
+
+                });
+    });
+</script>
+
+{% include 'tags/livechat.html' %}
+
+
+   </body>
+</html>

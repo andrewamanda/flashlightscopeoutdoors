@@ -1,0 +1,14 @@
+{% load cache %}
+{% load catalog_tags %}
+
+	{% for i in individual_choices %}
+		<option value="{{ i.description }}">{{ i.description }} 
+			{% if i.quantity <= 0 %}
+				- Sold Out
+			{% endif %}
+
+			{% if i.additional_price > 0 %}
+				- Add ${{ i.additional_price }}
+			{% endif %}
+		</option>
+	{% endfor %}

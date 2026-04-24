@@ -1,0 +1,11 @@
+<ul class="productList" name="keywords" data-id="newId" data-icon="plus" data-role="listview" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Find a product..." data-theme="e">
+	{% for p in products %}
+		<li product-id="{{p.id}}" product-name="{{p.name}}" sale-price="{{p.price}}">
+			<input type="hidden" class="product_id" value="{{p.id}}" />
+			<input type="hidden" class="sale_price" value="{{p.price}}" />
+			<a class="offerItem" id="offerItem{{forloop.counter}}" href="#"><p>{{p.name}}</p></a>
+		</li>
+	{% endfor %}
+
+</ul>
+

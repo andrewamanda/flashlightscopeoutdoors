@@ -1,0 +1,218 @@
+{% extends "2023/base.html" %}
+{% load cache %}
+{% load catalog_tags %}
+{% load catalog_filters %}
+{% load checkout_tags %}
+
+
+{% block title %}
+    <title>Andrew & Amanda Outdoors Home</title>
+{% endblock %}
+
+{% block additional_meta %}
+
+{% endblock %}
+
+{% block breadcrum %}
+<div class="l-breadcrumb">
+<ul class="breadcrumb"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'home' %}">Pricing Structures</a></li><li>{% block pricing_item %}{% endblock %}</li></ul>    </div>
+{% endblock %}
+
+{% block main_area %}
+    <main>
+      		<script src="/static/js/ziplookup/zipLookup.js" type="text/javascript">
+      		</script>
+              <script type="text/javascript">
+                  $(document).ready(function() {                                  // When the document loads,
+
+
+                      $('[name=shipping_zip]').blur(function(){                        // Set on blur
+                          $.zipLookup(                                            // Do a Zip code Lookup
+                              $(this).val(),                                      // Zip code Field Value
+                              function(cityName, stateName, stateShortName){      // If Successful,
+                                  $('input[name=shipping_city]').val(cityName);            // Set City name
+                                  $('input[name=state_short]').val(stateName);    // Set State abbreviation
+                                  $('input[name=shipping_state]').val(stateShortName);     // Set State name
+                                  $('.message').html("Found Zipcode");            // Add a message
+                              },
+                              function(errMsg){                                   // If Zip couldn't be found,
+                                  $('.message').html("Error: " + errMsg);         // Add an error message
+                              });
+                      });
+                      $('[name=billing_zip]').blur(function(){                        // Set on blur
+                          $.zipLookup(                                            // Do a Zip code Lookup
+                              $(this).val(),                                      // Zip code Field Value
+                              function(cityName, stateName, stateShortName){      // If Successful,
+                                  $('input[name=billing_city]').val(cityName);            // Set City name
+                                  $('input[name=state_short]').val(stateName);    // Set State abbreviation
+                                  $('input[name=billing_state]').val(stateShortName);     // Set State name
+                                  $('.message').html("Found Zipcode");            // Add a message
+                              },
+                              function(errMsg){                                   // If Zip couldn't be found,
+                                  $('.message').html("Error: " + errMsg);         // Add an error message
+                              });
+                      });
+
+                  });
+              </script>
+
+
+
+        <section class="cart-sec common-inner-gap">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <div class="cart-wrap">
+                        <h2>Billing & Shipping Addresses</h2>
+                        <div class="row">
+                              <div class="col-lg-8">
+      <form id="forvalidation_address" action="." method="post">{% csrf_token %}
+
+      {% if not request.user.is_authenticated %}
+      <div class="fr AddressPageLogin">
+      	<a href="{% url 'login' %}?next={{ request.path }}">
+      	Have an account?<br />Sign in now!
+      	</a> Or <a href="{% url 'register' %}?next={{ request.path }}">Sign up</a>
+      </div>
+      <br />
+      {% else %}
+
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" name="saveinfo">
+        <label class="form-check-label" for="exampleCheck1">Save the information</label>
+      </div>
+
+      {% endif %}
+
+      {% if error_message %}
+      	<ul class="errorlist">
+      		<li>{{ error_message }}</li>
+      	</ul>
+      {% endif %}
+
+
+      <div class="card">
+          <div class="card-header custom-header">
+              Contact Info
+          </div>
+          <div class="card-body table-responsive">
+              <!-- Form inputs here -->
+              <table class="table table-striped custom-table">
+              {% form_table_row form.email %}
+              {% form_table_row form.phone %}
+              </table>
+          </div>
+      </div>
+<br>
+      <div class="card">
+          <div class="card-header custom-header">
+              Shipping Info
+          </div>
+          <div class="card-body table-responsive">
+              <!-- Form inputs here -->
+              <table class="table table-striped custom-table">
+                {% form_table_row form.shipping_country %}
+            		{% form_table_row form.shipping_zip %}
+
+
+            		{% form_table_row form.shipping_name %}
+            		{% form_table_row form.shipping_address_1 %}
+            		{% form_table_row form.shipping_address_2 %}
+            		{% form_table_row form.shipping_city %}
+            		{% form_table_row form.shipping_state %}
+              </table>
+          </div>
+      </div>
+<br>
+      <div class="card">
+          <div class="card-header custom-header">
+              Billing Info
+          </div>
+
+
+          <div>
+            <input type="checkbox" name="sameasshipping" value="yes"
+                onClick="shipsame(this.form);" style="margin-left:20px;margin-top:20px;font-weight: bold;"><span> Same as Shipping Address</span>
+          </div>
+
+          <div class="card-body table-responsive">
+              <!-- Form inputs here -->
+              <table class="table table-striped custom-table">
+                {% form_table_row form.billing_country %}
+            		{% form_table_row form.billing_zip %}
+
+            		{% form_table_row form.billing_name %}
+            		{% form_table_row form.billing_address_1 %}
+            		{% form_table_row form.billing_address_2 %}
+            		{% form_table_row form.billing_city %}
+            		{% form_table_row form.billing_state %}
+              </table>
+          </div>
+      </div>
+
+
+      	{% if stage == 'account' %}
+      	<div style="float:right;">
+
+      	<input type="image" style="border:none;float:right;" src="/static/images/siteImg/submit.jpg" alt="Submit" />
+      </div>
+          {% else %}
+      	<div style="float:right; margin-top: 20px;">
+
+            <a href="{% url 'catalog_home' %}" class="btn">Continue shopping</a>
+            <button type="submit" class="btn btn-outline-dark" name="continueCheckout" value="Continue" style="white-space: normal;text-transform:uppercase;">Next:  Shipping Method</button>
+
+
+      	</div>
+      	{% endif %}
+
+
+      </form>
+    </div>
+
+    {% include "2023/checkout/sidepanel_cart.html" %}
+
+
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</section>
+
+      <script type="text/javascript">
+
+      	function shipsame(form){
+
+      		if(form.sameasshipping.checked){
+
+           			form.billing_name.value = form.shipping_name.value;
+           			form.billing_address_1.value = form.shipping_address_1.value;
+           			form.billing_address_2.value = form.shipping_address_2.value;
+           			form.billing_city.value = form.shipping_city.value;
+           			form.billing_state.value = form.shipping_state.value;
+           			form.billing_zip.value = form.shipping_zip.value;
+           			form.billing_country.value = form.shipping_country.value;
+
+           		}else{
+
+           			form.billing_name.value = "";
+           			form.billing_address_1.value = "";
+           			form.billing_address_2.value = "";
+           			form.billing_city.value = "";
+           			form.billing_state.value = "";
+           			form.billing_zip.value = "";
+           			form.billing_country.value = "";
+
+           		}
+      	}
+
+
+
+      </script>
+
+
+
+
+    </main>
+{% endblock %}

@@ -1,0 +1,20 @@
+	{% if request.META.HTTP_HOST != DISTRIBUTOR_SITE_DOMAIN %}
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>Get Social and Score Savings!</span></strong></div>
+<div class="block-content">
+<br /><br />
+<a href="{% url 'nameyourprice' %}"><img class="seo-col-2 nobackground_noborder" src="/static/images/siteImg/MakeAnOffer.jpg" alt="Name your price, make an offer on a combination of products"/></a>
+<a href="http://www.facebook.com/AndrewAmandaStore" target="_blank"><img class="seo-col-1" src="/static/images/siteImg/facebook_icon_new.png" alt="Like us on Facebook to receive a special fans-only discount code and more!"/></a>
+<a href="{% url 'email_signup' %}"><img class="seo-col-3" src="/static/images/siteImg/social-email.png" alt="Sign up for our email newsletter and get a valuable single-use coupon right away!"/></a>
+<div class="cb"><br /></div>
+</div>
+<div class="block-content">
+<br /><br />
+<a href="studio.youtube.com/channel/UCES4MH1-D00MhRt02n86r1w?c=UCES4MH1-D00MhRt02n86r1w"><img class="seo-col-2 nobackground_noborder" src="https://www.andrew-amanda.com/static/images/siteImg/youtubechannel.png" alt="Subscribe to our Youtube Channel"/></a>
+<a href="twitter.com/AndrewAmandas" target="_blank"><img class="seo-col-1" src="/static/images/siteImg/twitter2.png" alt="Follow our Twitter updates"/></a>
+<a href="https://www.instagram.com/andrew7193"><img class="seo-col-3" height="100px" src="/static/images/siteImg/social-Instagram-Icon.png" alt="Sign up for our Instagram Channel!"/></a>
+<div class="cb"><br /></div>
+</div>
+</div>
+
+{% endif %}

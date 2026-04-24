@@ -1,0 +1,28 @@
+{% url 'product_floors' as product_floors_url %}
+{% url 'product_stairs' as product_stairs_url %}
+{% url 'product_mantels' as product_mantels_url %}
+{% url 'product_beams' as product_beams_url %}
+{% url 'product_tabletops' as product_tabletops_url %}
+{% url 'product_panels' as product_panels_url %}
+{% url 'contact' as contact_url %}
+{% url 'product_floorregisters' as product_floorregisters_url %}
+
+<div id="block-menu-block-3" class="block block--menu-block block--nav-submenu block--menu-block-3">
+    <div class="block__content">
+<div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-2">
+<ul class="menu">
+  <li class="first leaf menu-mlid-843 {% if request.path == product_floors_url %}active-trail active {% endif %}"><a href="{% url 'product_floors' %}">Reclaimed Wood Flooring</a></li>
+<li class="third leaf menu-mlid-841 {% if request.path == product_stairs_url %}active-trail active {% endif %}"><a href="{% url 'product_stairs' %}">Reclaimed Stair Treads</a></li>
+  <li class="second leaf menu-mlid-843 {% if request.path == product_mantels_url %}active-trail active {% endif %}"><a href="{% url 'product_mantels' %}">Fireplace Mantels</a></li>
+<li class="third leaf menu-mlid-841 {% if request.path == product_beams_url %}active-trail active {% endif %}"><a href="{% url 'product_beams' %}">Historic Wood Beams</a></li>
+<li class="third leaf menu-mlid-841 {% if request.path == product_tabletops_url %}active-trail active {% endif %}"><a href="{% url 'product_tabletops' %}">Reclaimed Tabletops & Benches</a></li>
+<li class="fourth leaf menu-mlid-841 {% if request.path == product_panels_url %}active-trail active {% endif %}"><a href="{% url 'product_panels' %}">Historic Wall Panels & Ceilings</a></li>
+<li class="last leaf menu-mlid-841 {% if request.path == product_floorregisters_url %}active-trail active {% endif %}"><a href="{% url 'product_floorregisters' %}">Reclaimed Floor Registers</a></li>
+
+
+
+</ul></div>
+</div>
+</div>
+
+<hr>

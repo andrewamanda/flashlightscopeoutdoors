@@ -1,0 +1,9 @@
+<div data-role="footer" data-position="fixed" style="opacity:0.9" data-tap-toggle="false" class="pageFooter">
+	<h1>
+  	<a data-role="button" data-rel="dialog" data-icon="plus" data-theme="e" href="javascript: share('http://{{ request.META.HTTP_HOST }}{{ request.get_full_path }}', '{{ page_title }}')">Share</a>
+        {% if request.path != "/" %}
+             <a href="#" data-rel="back" text-align="right" data-theme="e" data-role="button" role="button" data-icon="back">Back</a>
+        {% endif %}
+	</h1>
+</div>
+

@@ -1,0 +1,29 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% block content %}
+<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+<h1 class="headingPageTitle1">List all emails from table:</h1>
+
+<div> Emails from Users table:
+  {{ users_emails }}
+</div>
+
+<br /><br />
+
+<div> Emails from Newsletter table:
+  {{ newsletter_emails }}
+</div>
+
+<br /><br />
+
+<div> Emails from Orders table:
+  {{ orders_emails }}
+</div>
+
+<br /><br />
+<div> Emails from emails_from_paypal table:
+  {{ all_emails }}
+</div>
+
+
+{% endblock %}

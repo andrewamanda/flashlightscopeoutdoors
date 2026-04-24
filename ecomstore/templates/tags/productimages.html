@@ -1,0 +1,68 @@
+{% load catalog_tags %}
+
+<!--
+<div class="MagicSlideshow" data-options="width: auto; height: auto; arrows:true; autoplay: false; selectors: bottom; selectors-style: thumbnails;fullscreen: false;" id="zoom-slideshow">
+
+                <div data-thumb-image="{% thumbnail_image_url p.image.url %}"><a href="{% super_image_url p.image.url %}" class="MagicZoomPlus" rel="zoom-position: inner"><img src="{% large_image_url p.image.url %}" /></a>
+        </div>
+        {% for i in more_images %}
+                        <div data-thumb-image="{% thumbnail_image_url i.a_image.url %}"><a href="{% super_image_url i.a_image.url %}" class="MagicZoomPlus" rel="zoom-position: inner"><img src="{% large_image_url i.a_image.url %}" /></a>
+                </div>
+        {% endfor %}
+</div>
+
+-->
+                        <div class="product_image">
+<div class="MagicSlideshow" data-options="width: auto; height: 75%; autoplay: false; selectors: bottom; selectors-style: thumbnails;" id="zoom-slideshow">
+        <div data-thumb-image="{% thumbnail_image_url p.image.url %}"><a href="{% super_image_url p.image.url %}" class="MagicZoomPlus" rel="zoom-position: inner;buttons-position: top right"><img src="{% large_image_url p.image.url %}" loading="eager" decoding="async" fetchpriority="high"/></a></div>
+        {% for i in more_images %}
+             {% if not 'mazon' in i.image_caption %}
+        	<div data-thumb-image="{% thumbnail_image_url i.a_image.url %}"><a href="{% super_image_url i.a_image.url %}" class="MagicZoomPlus" rel="zoom-position: inner;buttons-position: top right"><img src="{% large_image_url i.a_image.url %}" loading="lazy" decoding="async"/></a></div>
+	     {% endif %}
+	{% endfor %}
+</div>
+</div>
+
+<!--
+
+                        <div class="product_thumb">
+                                {% if more_images %}
+                                        <div class="MagicScroll" id="ZoomScroll">
+                                                <a href="{% super_image_url p.image.url %}" rel="zoom-id:zoomer" rev="{% large_image_url p.image.url %}">
+                                                        <img src="{% thumbnail_image_url p.image.url %}" border="1" /></a>
+                                {% endif %}
+                                {% for i in more_images %}
+                                        <a href="{% super_image_url i.a_image.url %}" rel="zoom-id:zoomer" rev="{% large_image_url i.a_image.url %}">
+                                                <img src="{% thumbnail_image_url i.a_image.url %}"  /></a>
+                                {% endfor %}
+
+                                {% if more_images %}
+                                        </div>
+                                {% endif %}
+                        </div>
+
+                        <div class="product_image" >
+
+                                {% if p.image %}
+                                        <a href="{% super_image_url p.image.url %}" class="MagicZoomPlus" id="zoomer"
+                                                rel="thumb-change:mouseover;zoom-position:right;zoom-width:450px;zoom-height:400px;opacity: 50;
+                                                smoothing: true;smoothing-speed: 20;fps: 35;zoom-fade: true;zoom-fade-in-speed: 800;zoom-fade-out-speed: 800;
+                                                selectors-effect: false;selectors-mouseover-delay: 0;selectors-effect-speed: 0;zoom-distance: 20;
+                                                show-title:bottom;hint-position: br; hint-text:;" rev="{% large_image_url p.image.url %}">
+                                                <img src="{% large_image_url p.image.url %}"  border="0" alt="{{ p.name }}"></a>
+                                        <br />
+
+                                {% else %}
+                                        <img src="{% large_image_url p.image.url %}"  border="0" alt="{{ p.name }}"</a>
+                                {% endif %}
+                                <br />
+
+                        </div>
+
+
+-->
+
+
+
+
+

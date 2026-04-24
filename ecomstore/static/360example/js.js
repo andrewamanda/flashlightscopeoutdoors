@@ -1,0 +1,1 @@
+$('#image360').reel({ frames: 36, speed: 0.2, saves: false, klass: 'spinner' });

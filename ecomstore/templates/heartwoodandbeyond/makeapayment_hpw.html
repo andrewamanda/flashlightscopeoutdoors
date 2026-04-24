@@ -1,0 +1,35 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li><a href="{% url 'show_about' %}" class="">About</a></li><li>Shipping</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+    <article about="/about/shipping" typeof="foaf:Document" class="node node--page node--full node--page--full">
+  <header>
+
+          <h1 class="node__title">Make a payment</h1>
+      </header>
+
+    {% include "tags/payment_stripe.html" %}
+    </article>
+  </div>
+</div>
+          </div>
+
+
+  </div>
+{% endblock %}

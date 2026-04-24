@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block extra-head %}
+
+<style type="text/css">
+.error { color:red; }
+.correct { color:blue; }
+</style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#user_mail").keyup(function () {
+    $("a#iscr").attr("href", "/newsletter/iscrivi/?val=" + $('#user_mail').val());
+    $("a#disiscr").attr("href", "/newsletter/disiscrivi/?val=" + $('#user_mail').val());
+	});
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+<p>{{var|safe}}</p>
+<br/>
+<label>Inserisci Email: &nbsp;</label><input type="text" name="user_mail" id="user_mail"/>
+
+<a id="iscr" href="#">Iscrivi</a>
+<a id="disiscr" href="#">Disiscrivi</a>
+
+<br />
+<p>Per tornare alla home clicchi <a href="/">qui</a></p>
+{% endblock %}

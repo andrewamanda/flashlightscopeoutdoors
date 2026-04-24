@@ -1,0 +1,32 @@
+{% extends "heartwoodandbeyond/products/product_base.html" %}
+
+{% block product_item %}
+Reclaimed Wood Table Tops & Benches
+{% endblock %}
+
+{% block product_header %}
+
+<h1 class="node__title">Reclaimed Wood Table Tops & Benches</h1>
+{% endblock %}
+
+{% block product_content %}
+<div class="field field--name-field-image field--type-image field--label-hidden">
+  <div class="field__items">
+    <div class="field field--name-field-image field--type-image field--label-hidden"><div class="field__items"><div class="field__item even"><img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/gallery/tabletop_2.jpeg" width="800" height="400" alt="" /></div></div></div><div class="field field--name-body field--type-text-with-summary field--label-hidden"><div class="field__items"><div class="field__item even" property="content:encoded"><div class="rtecenter" style="margin-bottom: 20px;"><a href="#block-views-services-front-all">VIEW RECLAIMED WOOD TABLETOPS & BENCHES GALLERY</a></div>
+    </div>
+  </div>
+</div>
+<div class="field field--name-body field--type-text-with-summary field--label-hidden">
+  <div class="field__items">
+    <div class="field__item even" property="content:encoded">
+      <p style="text-align: left;">We can build your countertops or tabletops with our stock lumber. All you need to do is bring in your dimensions and we can work with you or your builder to design a custom heartwood pine countertop for your kitchen, bathroom, wine room. </p>
+      <p style="text-align: left;">We can help with the right selection of the grade of wood that you want in order to get the look you are trying to achieve, be it rustic or vertical grain.
+      </p>
+
+</div>
+</div>
+</div>
+<hr>
+{% include "heartwoodandbeyond/galleries/tabletops.html" %}
+{% include "heartwoodandbeyond/galleries/gallery_styles.html" %}
+{% endblock %}

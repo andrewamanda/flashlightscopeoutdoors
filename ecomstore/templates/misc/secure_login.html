@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block site_wrapper %}
+
+
+					<div class="cb"> </div>
+
+
+					<div class="Welcometext">
+						<h1><b>{{ page_title }}</b></h1>
+ 
+<p align="justify" style="margin-top: 0; margin-bottom: 0">Our web site does not require you to have an account to place an order. You can check out as a guest. The only exception is our <a href="{% url 'nameyourprice' %}"><b>Name Your Price</b></a> program. We need your account to associate and track your offers throughout the negotiation process.
+<br>
+<br>
+Create an account with us is really easy. Just visit the <a href="{% url 'my_account' %}"><b>My Account</b></a> page, enter your email address and enter your password of your choice twice. The entire process is SSL encrypted with 128 bit security certificate.
+<br>
+<br>
+Alternatively, if you do not want to create an account and remembering another password, we are sponsored by many popular social login systems, such as Amazon login, facebook login, twitter login, google login, yahoo login, etc. You could login using your existing user id with one of those social login accounts. The login process is easy and secure. The authentication is done through their web sites. 
+  </p>
+
+
+{% endblock %}
+

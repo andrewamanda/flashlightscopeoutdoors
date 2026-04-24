@@ -1,0 +1,34 @@
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+<div class="dis_cat_3col">
+
+        <ul>
+     <li>
+
+<div class="imgsw">
+
+	{% if p.image %}
+		<a href="{% large_image_url p.image.url %}" class="MagicZoomPlus" rel="zoom-position:inner;opacity: 50;smoothing: true;smoothing-speed: 20;fps: 35;zoom-fade: true;zoom-fade-in-speed: 800;zoom-fade-out-speed: 800;selectors-effect-speed: 800;show-title:bottom"><img src="{% thumbnail_image_url p.image.url %}"  width="180" height="120" border="0" alt="{{ p.name }}"></a>
+		<br />
+
+	{% else %}
+		<img src="{% thumbnail_image_url p.image.url %}" width="180" height="120" border="0" alt="{{ p.name }}"</a> 
+	{% endif %}
+</div>
+<div>
+	<h2><a href="{{ p.get_absolute_url }}" class="tooltip">{{ p.name }}<b><em></em>Click to see product details </b></a>
+	</h2> 
+      <span style="float:right; font-weight:bold; font-size:13px; margin:6px 5px 0px 0px;">{{ p.price|currency }}</span>
+</div>
+
+
+          </li>
+
+     
+     </ul>
+
+
+     </div>
+
+

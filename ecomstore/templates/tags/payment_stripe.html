@@ -1,0 +1,404 @@
+
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="/static/stripe/js/index.js" data-rel-js></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="/static/stripe/css/base.css" data-rel-css="" />
+
+  <!-- CSS for each example: -->
+  <link rel="stylesheet" type="text/css" href="/static/stripe/css/example1.css" data-rel-css="" />
+	<!--
+
+  <link rel="stylesheet" type="text/css" href="/static/stripe/css/example2.css" data-rel-css="" />
+  <link rel="stylesheet" type="text/css" href="/static/stripe/css/example3.css" data-rel-css="" />
+  <link rel="stylesheet" type="text/css" href="/static/stripe/css/example4.css" data-rel-css="" />
+  <link rel="stylesheet" type="text/css" href="/static/stripe/css/example5.css" data-rel-css="" />
+	-->
+	<div class="globalContent">
+		<main>
+
+		<section class="container-lg">
+			<!--Intro-->
+      <center>
+      <h1 >** Credit card transactions subject to 3.3% payment processing fees</h1>
+      </center>
+      <br><br><br><br>
+			<!--Example 1-->
+      <div class="cell example example1" id="example-1">
+
+        <form id="payment-form">	              {% csrf_token %}
+          <fieldset>
+            <div class="row">
+              <label for="example1-name" data-tid="elements_examples.form.name_label">Name</label>
+              <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" required="" autocomplete="name">
+            </div>
+						<div class="row">
+              <label for="example1-amount" data-tid="elements_examples.form.amount_label">Amount $</label>
+              <input id="example1-amount" name="amount" data-tid="elements_examples.form.amount_placeholder" type="number" min="1" step="0.01" placeholder="2000.00" required="" autocomplete="amount">
+						</div>
+						<div class="row">
+              <label for="example1-fee" data-tid="elements_examples.form.fee_label">Fee $</label>
+              <input id="example1-fee" name="fee" data-tid="elements_examples.form.fee_placeholder" type="number" min="1" step="0.01" placeholder="3.3%"  autocomplete="fee">
+            </div>
+
+						<div class="row">
+              <label for="example1-invoice" data-tid="elements_examples.form.invoice_label">Invoice #</label>
+              <input id="example1-invoice" data-tid="elements_examples.form.invoice_placeholder" type="invoice" placeholder="Optional" autocomplete="invoice">
+            </div>
+						<div class="row">
+              <label for="example1-reason" data-tid="elements_examples.form.reason_label">Purpose</label>
+              <input id="example1-reason" data-tid="elements_examples.form.reason_placeholder" type="text" placeholder="Optional" autocomplete="reason">
+            </div>
+
+            <div class="row">
+              <label for="example1-email" data-tid="elements_examples.form.email_label">Email</label>
+              <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="Optional" autocomplete="email">
+            </div>
+            <div class="row">
+              <label for="example1-phone" data-tid="elements_examples.form.phone_label">Phone</label>
+              <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="Optional"  autocomplete="tel">
+            </div>
+          </fieldset>
+          <fieldset>
+            <div class="row">
+              <div id="example1-card"></div>
+            </div>
+          </fieldset>
+
+          <button type="submit" id="submit" data-tid="elements_examples.form.pay_button">Pay <span id="order-amount"></span></button>
+
+          <div class="error" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+              <path class="base" fill="#000" d="M8.5,17 C3.80557963,17 0,13.1944204 0,8.5 C0,3.80557963 3.80557963,0 8.5,0 C13.1944204,0 17,3.80557963 17,8.5 C17,13.1944204 13.1944204,17 8.5,17 Z"></path>
+              <path class="glyph" fill="#FFF" d="M8.5,7.29791847 L6.12604076,4.92395924 C5.79409512,4.59201359 5.25590488,4.59201359 4.92395924,4.92395924 C4.59201359,5.25590488 4.59201359,5.79409512 4.92395924,6.12604076 L7.29791847,8.5 L4.92395924,10.8739592 C4.59201359,11.2059049 4.59201359,11.7440951 4.92395924,12.0760408 C5.25590488,12.4079864 5.79409512,12.4079864 6.12604076,12.0760408 L8.5,9.70208153 L10.8739592,12.0760408 C11.2059049,12.4079864 11.7440951,12.4079864 12.0760408,12.0760408 C12.4079864,11.7440951 12.4079864,11.2059049 12.0760408,10.8739592 L9.70208153,8.5 L12.0760408,6.12604076 C12.4079864,5.79409512 12.4079864,5.25590488 12.0760408,4.92395924 C11.7440951,4.59201359 11.2059049,4.59201359 10.8739592,4.92395924 L8.5,7.29791847 L8.5,7.29791847 Z"></path>
+            </svg>
+            <span class="message"></span></div>
+        </form>
+        <div class="success">
+          <div class="icon">
+            <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <circle class="border" cx="42" cy="42" r="40" stroke-linecap="round" stroke-width="4" stroke="#000" fill="none"></circle>
+              <path class="checkmark" stroke-linecap="round" stroke-linejoin="round" d="M23.375 42.5488281 36.8840688 56.0578969 64.891932 28.0500338" stroke-width="4" stroke="#000" fill="none"></path>
+            </svg>
+          </div>
+          <h3 class="title" data-tid="elements_examples.success.title">Payment successful</h3>
+          <p class="message"><span data-tid="elements_examples.success.message">Thanks for your payment. Your payment id is: </span><span class="token">tok_189gMN2eZvKYlo2CwTBv9KKh</span></p>
+          <a class="reset" href="#">
+            <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path fill="#000000" d="M15,7.05492878 C10.5000495,7.55237307 7,11.3674463 7,16 C7,20.9705627 11.0294373,25 16,25 C20.9705627,25 25,20.9705627 25,16 C25,15.3627484 24.4834055,14.8461538 23.8461538,14.8461538 C23.2089022,14.8461538 22.6923077,15.3627484 22.6923077,16 C22.6923077,19.6960595 19.6960595,22.6923077 16,22.6923077 C12.3039405,22.6923077 9.30769231,19.6960595 9.30769231,16 C9.30769231,12.3039405 12.3039405,9.30769231 16,9.30769231 L16,12.0841673 C16,12.1800431 16.0275652,12.2738974 16.0794108,12.354546 C16.2287368,12.5868311 16.5380938,12.6540826 16.7703788,12.5047565 L22.3457501,8.92058924 L22.3457501,8.92058924 C22.4060014,8.88185624 22.4572275,8.83063012 22.4959605,8.7703788 C22.6452866,8.53809377 22.5780351,8.22873685 22.3457501,8.07941076 L22.3457501,8.07941076 L16.7703788,4.49524351 C16.6897301,4.44339794 16.5958758,4.41583275 16.5,4.41583275 C16.2238576,4.41583275 16,4.63969037 16,4.91583275 L16,7 L15,7 L15,7.05492878 Z M16,32 C7.163444,32 0,24.836556 0,16 C0,7.163444 7.163444,0 16,0 C24.836556,0 32,7.163444 32,16 C32,24.836556 24.836556,32 16,32 Z"></path>
+            </svg>
+          </a>
+        </div>
+
+
+			</div>
+      <br><br>
+
+      <center>
+				<img src="/static/images/siteImg/stripe_credit-card-logos.png" style="width: 30%" alt="Checkout Through Stripe Credit Card" />
+				<img class="secure-badge" src="/static/images/siteImg/secure_badge.svg" alt="Secure Payments: AES-256 Encryption">
+			</center>
+      </section>
+		</main>
+	</div>
+
+	<!-- Simple localization script for Stripe's examples page. -->
+	<script src="/static/stripe/js/l10n.js" data-rel-js></script>
+
+	<!-- Scripts for each example: -->
+	<script src="/static/stripe/js/example1.js" data-rel-js></script>
+	<!--
+
+	<script src="/static/stripe/js/example2.js" data-rel-js></script>
+	<script src="/static/stripe/js/example3.js" data-rel-js></script>
+	<script src="/static/stripe/js/example4.js" data-rel-js></script>
+	<script src="/static/stripe/js/example5.js" data-rel-js></script>
+	-->
+
+</script>
+		<script type="text/javascript">
+				$(document).ready(function() {                                  // When the document loads,
+					exampleName = "example1";
+					var formClass = '.' + exampleName;
+					var example = document.querySelector(formClass);
+
+					var form = example.querySelector('form');
+					var resetButton = example.querySelector('a.reset');
+					var error = form.querySelector('.error');
+					var errorMessage = error.querySelector('.message');
+					var elements = [];
+					var additionalData;
+
+ 					document.getElementById("submit").setAttribute("disabled","disabled");
+
+						$('[name=amount]').blur(function(){                        // Set on blur
+							console.log("Amount = ", $(this).val());
+
+							document.getElementById("example1-fee").value = (Number($(this).val()) * 0.033).toFixed(2);
+							document.getElementById("example1-fee").disabled = true;
+							var total_amount = Number($(this).val()) * 1.033;
+              var pennies = total_amount * 100;
+              total_amount = Math.round(pennies)/100;
+							document.getElementById("order-amount").textContent = "$" + total_amount.toFixed(2);
+							var orderData = {
+								items: [{ id: "products" }],
+								total: Math.round(Number($(this).val()) * 103.3),
+								currency: "usd",
+							};
+							fetch("/checkout/create-payment-intent", {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify(orderData)
+							})
+								.then(function(result) {
+									//console.log("result json = ", result.json());
+									return result.json();
+								})
+								.then(function(data) {
+									return setupElements(data);
+								})
+								.then(function({ stripe, card, receipt_email, clientSecret }) {
+									//document.getElementById("submitStripe").disabled = False;
+									document.getElementById("submit").removeAttribute("disabled");
+									// Handle form submission.
+									var form = document.getElementById("payment-form");
+
+									form.addEventListener("submit", function(event) {
+										event.preventDefault();
+										// Initiate payment when the submit button is clicked
+
+										// Trigger HTML5 validation UI on the form if any of the inputs fail
+										// validation.
+
+										var plainInputsValid = true;
+										Array.prototype.forEach.call(form.querySelectorAll('input'), function(
+											input
+										) {
+											if (input.checkValidity && !input.checkValidity()) {
+												plainInputsValid = false;
+												return;
+											}
+										});
+										if (!plainInputsValid) {
+											triggerBrowserValidation();
+											return;
+										}
+
+										// Show a loading screen...
+										example.classList.add('submitting');
+
+										// Disable all inputs.
+										disableInputs();
+
+										// Gather additional customer data we may have collected in our form.
+										var name = form.querySelector('#' + exampleName + '-name');
+										var address1 = form.querySelector('#' + exampleName + '-address');
+										var invoice = form.querySelector('#' + exampleName + '-invoice');
+										var reason = form.querySelector('#' + exampleName + '-reason');
+										var city = form.querySelector('#' + exampleName + '-city');
+										var state = form.querySelector('#' + exampleName + '-email');
+										var zip = form.querySelector('#' + exampleName + '-zip');
+										var address = "Invoice: " + invoice + " Payment Reason: " + reason + " Email: " + state;
+										additionalData = {
+											name: name ? name.value : undefined,
+											//invoice_number: invoice ? invoice.value: undefined,
+											//payment_reason: reason ? reason.value: undefine,
+											//address_line1: reason ? reason.value: undefine,
+											//address_city: invoice ? invoice.value: undefined,
+											//address_state: state ? state.value : undefined,
+											//address_zip: zip ? zip.value : undefined,
+											address: address,
+										};
+
+										pay(stripe, card, receipt_email, clientSecret);
+									});
+
+									resetButton.addEventListener('click', function(e) {
+										e.preventDefault();
+										// Resetting the form (instead of setting the value to `''` for each input)
+										// helps us clear webkit autofill styles.
+										form.reset();
+
+										// Clear each Element.
+										elements.forEach(function(element) {
+											element.clear();
+										});
+
+										// Reset error state as well.
+										error.classList.remove('visible');
+
+										// Resetting the form does not un-disable inputs, so we need to do it separately:
+										enableInputs();
+										example.classList.remove('submitted');
+									});
+								});
+
+
+
+																  function enableInputs() {
+																    Array.prototype.forEach.call(
+																      form.querySelectorAll(
+																        "input[type='text'], input[type='email'], input[type='tel']"
+																      ),
+																      function(input) {
+																        input.removeAttribute('disabled');
+																      }
+																    );
+																  }
+
+																  function disableInputs() {
+																    Array.prototype.forEach.call(
+																      form.querySelectorAll(
+																        "input[type='text'], input[type='email'], input[type='tel']"
+																      ),
+																      function(input) {
+																        input.setAttribute('disabled', 'true');
+																      }
+																    );
+																  }
+
+																  function triggerBrowserValidation() {
+																    // The only way to trigger HTML5 form validation UI is to fake a user submit
+																    // event.
+																    var submit = document.createElement('input');
+																    submit.type = 'submit';
+																    submit.style.display = 'none';
+																    form.appendChild(submit);
+																    submit.click();
+																    submit.remove();
+																  }
+
+								// Set up Stripe.js and Elements to use in checkout form
+								var setupElements = function(data) {
+									stripe = Stripe(data.publishableKey);
+									var s_elements = stripe.elements();
+									var style = {
+										base: {
+											color: "#32325d",
+											fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+											fontSmoothing: "antialiased",
+											fontSize: "16px",
+											"::placeholder": {
+												color: "#aab7c4"
+											}
+										},
+										invalid: {
+											color: "#fa755a",
+											iconColor: "#fa755a"
+										}
+									};
+									var card = s_elements.create("card", { style: style});
+									card.mount("#example1-card");
+
+
+								  // Listen for errors from each Element, and show error messages in the UI.
+								  var savedErrors = {};
+
+									elements[0] = card;
+								  elements.forEach(function(element, idx) {
+								    element.on('change', function(event) {
+								      if (event.error) {
+								        error.classList.add('visible');
+								        savedErrors[idx] = event.error.message;
+								        errorMessage.innerText = event.error.message;
+								      } else {
+								        savedErrors[idx] = null;
+
+								        // Loop over the saved errors and find the first one, if any.
+								        var nextError = Object.keys(savedErrors)
+								          .sort()
+								          .reduce(function(maybeFoundError, key) {
+								            return maybeFoundError || savedErrors[key];
+								          }, null);
+
+								        if (nextError) {
+								          // Now that they've fixed the current error, show another one.
+								          errorMessage.innerText = nextError;
+								        } else {
+								          // The user fixed the last error; no more errors.
+								          error.classList.remove('visible');
+								        }
+								      }
+								    });
+								  });
+
+
+									return {
+										stripe: stripe,
+										card: card,
+                    receipt_email: data.receipt_email,
+										clientSecret: data.clientSecret
+									};
+								};
+								/*
+							 	* Calls stripe.confirmCardPayment which creates a pop-up modal to
+							 	* prompt the user to enter extra authentication details without leaving your page
+							 	*/
+							  var pay = function(stripe, card, receipt_email, clientSecret) {
+							 	 //changeLoadingState(true);
+							 	 // Initiate the payment.
+							 	 // If authentication is required, confirmCardPayment will automatically display a modal
+
+								 							      example.classList.remove('submitting');
+
+							 	 stripe
+							 		 .confirmCardPayment(clientSecret, {
+                     receipt_email: receipt_email,
+							 			 payment_method: {
+							 				 card: card,
+											 billing_details: additionalData,
+							 			 }
+							 		 })
+							 		 .then(function(result) {
+							 			 if (result.error) {
+							 				 	 console.log("Pay error: ", result.error.message);
+												 enableInputs();
+
+							 				 // Show error to your customer
+							 				 showError(result.error.message);
+							 			 } else {
+							 				 // The payment has been processed!
+							 				 	 console.log("Pay no error, result = ", result);
+												 example.querySelector('.token').innerText = result.paymentIntent['id'];
+												 example.classList.add('submitted');
+							 				 //orderComplete(clientSecret);
+							 			 }
+							 		 });
+							  };
+
+								function submitForm(form) {
+								    const submitFormFunction = Object.getPrototypeOf(form).submit;
+								    submitFormFunction.call(form);
+								}
+
+								var orderComplete = function(clientSecret) {
+									var form2 =document.getElementById("payment-form");
+									form2.action = "/checkout/makeapaymentcomplete/";
+
+						 		 if (form2) {
+						 			 console.log("Form2 submit");
+						 		 		submitForm(form2);
+
+						 	 		}
+							  };
+                var showError = function(errorMsgText) {
+                  if (confirm(errorMsgText)) {
+                    location.reload();
+                  }
+                  else {
+                    location.reload();
+                  }
+                };
+
+
+
+
+						});
+
+				});
+		</script>

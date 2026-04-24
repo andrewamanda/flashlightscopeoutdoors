@@ -1,0 +1,530 @@
+{% extends "base_withRightFrame.html" %}
+
+{% load checkout_tags %}
+{% load catalog_filters %}
+
+
+{% block content %}
+<div id="paymentTemplate">
+
+	{% if error_message %}
+		<ul class="errorlist">
+			<li>{{ error_message }}</li>
+		</ul>
+	{% endif %}
+
+	<h1 class="headingPageTitle2">Order Overview and Payment </h1>
+	<div class="billShipInfoContainer">
+
+		<h2 class="headingPageSection headingPayment">Billing/Shipping Information</h2>
+
+		<br />
+
+
+		<div class="addressContainer">
+			<h4>Billing Address</h4>&nbsp;&nbsp;&nbsp;
+			<a href="javascript:history.go(-2)">change this</a>
+			<ul style="list-style: none;">
+    				<li>{{ billing_name }} </li>
+	      		<li>{{ billing_address_1 }}</li>
+	      		<li>{{ billing_address_2 }}</li>
+				<li>{{ billing_city }} , {{ billing_state }} {{ billing_zip }}</li>
+				<li>{{ billing_country }}</li>
+				<li>{{ phone }}</li>
+				<li>{{ email }} </li>
+			</ul>
+		</div>
+
+		<div class="shippingAddressContainer">
+			<h4>Shipping Address</h4>&nbsp;&nbsp;&nbsp;
+			<a href="javascript:history.go(-2)">change this</a>
+			<ul style="list-style: none;">
+    				<li>{{ shipping_name }} </li>
+	      		<li>{{ shipping_address_1 }}</li>
+	      		<li>{{ shipping_address_2 }}</li>
+				<li>{{ shipping_city }} , {{ shipping_state }} {{ shipping_zip }}</li>
+				<li>{{ shipping_country }}</li>
+				<li>{{ phone }}</li>
+				<li>{{ email }} </li>
+			</ul>
+ 		</div>
+
+
+		<div class="addressContainer"><br />
+			{% if isItGift == 'Yes' %}
+				<h4>This order is a gift</h4>&nbsp;&nbsp;&nbsp;
+
+					<a href="javascript:history.go(-1)">change this</a><p>
+						<br />Prices will {% if pricePrinted == 'No' %}<b>not</b>{% endif %} be printed on the shipping invoice.
+					</p>
+
+					<b>Gift Message</b>
+					<p class="giftMessage">{{ giftmessage }}</p>
+					<p></p>
+  			{% else %}
+					<h4>This order is not a gift</h4>&nbsp;&nbsp;&nbsp;
+
+					<a href="javascript:history.go(-1)">change this</a>
+					<p></p>
+
+			{% endif %}
+		</div>
+
+		<div class="shippingAddressContainer"><br />
+			{% if haveNote == 'Yes' %}
+				<h4>Your note for this order:</h4>&nbsp;&nbsp;&nbsp;
+
+					<a href="javascript:history.go(-1)">change this</a><br />
+
+					<p class="giftMessage">{{ note }}</p>
+					<p></p>
+  			{% else %}
+					<h4>You have not entered a note for this order</h4>&nbsp;&nbsp;&nbsp;
+
+					<a href="javascript:history.go(-1)">change this</a>
+					<p></p>
+
+			{% endif %}
+		</div>
+
+
+		<div class="giftingContainer">
+			{% if isItReferral == 'Yes' %}
+				<h4>This order is referred by {{referralCode }}</h4>&nbsp;&nbsp;&nbsp;
+
+			{% endif %}
+		</div>
+
+
+
+	</div><!-- billShipInfoContainer -->
+
+	<div class="SeparationLine"> </div>
+
+
+	<div class="clr"><!--  --></div>
+ 	<br \> <br \>
+
+			<!-- Review Order -->
+	<h2 class="headingPageSection headingPayment">Review Your Order</h2>
+ 	<br \> <br \>
+	<table summary="Your Shopping Cart" id="shopping_cart">
+		<colgroup>
+			<col class="infoCol" />
+			<col class="availabilityCol" />
+			<col class="quantityCol" />
+
+			<col class="shippingMethodCol" />
+			<col class="priceCol" />
+		</colgroup>
+
+
+		<tfoot>
+			<tr>
+				<th class="right headingPageSection" colspan="5">
+					Cart Subtotal:
+				</th>
+				<th class="right headingPageSection">
+					{{ cart_subtotal|currency }}
+				</th>
+			</tr>
+			{% if request.session.win_price %}
+			<tr>
+				<th class="right headingPageSection" colspan="5">
+					Your Deal Price:
+				</th>
+				<th class="right headingPageSection">
+					{{ request.session.win_price|currency }}
+				</th>
+			</tr>
+			{% endif %}
+			<tr>
+				<th class="right" colspan="5">
+					Shipping and Handling Charges:
+				</th>
+				<th class="right">
+					${{ shipping_charge }}
+				</th>
+			</tr>
+			<tr>
+				<form action="." method="post" name="paymentForm">{% csrf_token %}
+
+				<th class="right top" colspan="5">
+					Enter the promotion code:
+				</th>
+				<th class="right">
+					<div class="formEntry ">
+						{% if promotion_code|length >= 1 %}
+							<input class="promo-code-input formField" id="promoCode" name="promoCode" type="text" value="{{ promotion_code }}" autocomplete="OFF" size="15" maxlength="25"/>
+							<p class="errorText">Discount: ${{ discount }}</p>
+						{% else %}
+							<input class="promo-code-input formField" id="promoCode" name="promoCode" type="text" value="" autocomplete="OFF" size="15" maxlength="25"/>
+						{% endif %}
+
+
+					</div>
+					<div class="formEntry">
+						<input type="hidden" name="payment_type"  value="ApplyPromotion"/>
+
+						<input class="noBorder" title="Apply Promotion Code" type="image" src="/static/images/siteImg/neutral_recalculate.jpg" alt="Apply Promotion Code" name="submit" value="ApplyPromotion" />
+
+					</div>
+				</th>
+				</form>
+
+			</tr>
+
+			<tr>
+				<form action="." method="post" name="paymentForm">{% csrf_token %}
+
+				<th class="right top" colspan="5">
+					If you have a gift certificate, enter the 16 character code here:
+				</th>
+				<th class="right">
+					<div class="formEntry ">
+						{% if valid_giftcode|length >= 1 %}
+							<input class="promo-code-input formField" id="promoCode" name="giftCode" type="text" value="{{ valid_giftcode }}" autocomplete="OFF" size="15" maxlength="25"/>
+							<p class="errorText">Gift card applied: ${{ gift_discount }}</p>
+						{% else %}
+							<input class="promo-code-input formField" id="promoCode" name="giftCode" type="text" value="" autocomplete="OFF" size="15" maxlength="25"/>
+						{% endif %}
+
+
+					</div>
+					<div class="formEntry">
+						<input type="hidden" name="payment_type"  value="GiftCertificate"/>
+
+						<input class="noBorder" title="Apply Promotion Code" type="image" src="/static/images/siteImg/neutral_recalculate.jpg" alt="Apply Promotion Code" name="submit" value="ApplyPromotion" />
+
+					</div>
+				</th>
+				</form>
+
+			</tr>
+
+
+			<tr>
+				<th class="right headingPageSection" colspan="5">
+					Total Amount Due:
+				</th>
+				<th class="right headingPageSection">
+					<span class="totalLarge">{{ total_amt_due|currency }}</span>
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+
+			{% if cart_items %}
+				{% for item in cart_items %}
+
+					<tr valign="top">
+						<td class="infoCell">
+							<strong><a href="{{ item.get_absolute_url }}">
+								{{ item.name }}
+							</a></strong>
+							{% optionalchoices item "description" %}
+						</td>
+
+			  			<td class="availabilityCell">
+						<strong class="blk">Availability:</strong>
+						<span class="">{% optionalchoices item "availability" %}</span>
+						</td>
+			  			<td class="quantityCell">
+
+				 			<strong>Qty:</strong>
+				 			<span class="qty">{{ item.quantity }}</span>
+							<div class="clr"><!--  --></div>
+							{% if item.product.slug != "gift-certificate" %}
+							<span>
+							<div class="price">{{ item.price|currency }} each
+							</div>
+							</span>
+							{% endif %}
+						</td>
+
+						{% if item.product.slug != "gift-certificate" %}
+
+						<td class="shippingMethodCell">
+
+							<strong>Shipping Method:</strong>
+							{{ shipping_method_name }}<p>{{ shipping_description }}</p>
+						</td>
+
+						<td class="priceCell">
+						</td>
+
+						<td class="priceCell">
+						<strong>Price:</strong>
+						<span>{{ item.total|currency }}</span>
+						</td>
+						{% endif %}
+
+
+					</tr>
+				{% endfor %}
+			{% else %}
+		     		<tr>
+					<td colspan="6" style="height:30px;">
+					Your cart is empty.
+					</td>
+				</tr>
+			{% endif %}
+		</tbody>
+	</table>
+
+
+
+
+
+	<div class="clr"><!--  --></div>
+
+	{% if total_amt_due == 0.0 %}
+
+		<form action="." method="post" name="paymentForm">{% csrf_token %}
+			<div class="formArea">
+				<input type="hidden" name="email"  value="{{ email }}"/>
+				<input type="hidden" name="phone"  value="{{ phone }}"/>
+				<input type="hidden" name="shipping_name"  value="{{ shipping_name }}"/>
+				<input type="hidden" name="shipping_address_1"  value="{{ shipping_address_1 }}"/>
+				<input type="hidden" name="shipping_address_2"  value="{{ shipping_address_2 }}"/>
+				<input type="hidden" name="shipping_city"  value="{{ shipping_city }}"/>
+				<input type="hidden" name="shipping_state"  value="{{ shipping_state }}"/>
+				<input type="hidden" name="shipping_zip"  value="{{ shipping_zip }}"/>
+				<input type="hidden" name="shipping_country"  value="{{ shipping_country }}"/>
+				<input type="hidden" name="billing_name"  value="{{ billing_name }}"/>
+				<input type="hidden" name="billing_address_1"  value="{{ billing_address_1 }}"/>
+				<input type="hidden" name="billing_address_2"  value="{{ billing_address_2 }}"/>
+				<input type="hidden" name="billing_city"  value="{{ billing_city }}"/>
+				<input type="hidden" name="billing_state"  value="{{ billing_state }}"/>
+				<input type="hidden" name="billing_zip"  value="{{ billing_zip }}"/>
+				<input type="hidden" name="billing_country"  value="{{ billing_country }}"/>
+				<input type="hidden" name="shipping_method"  value="{{ shipping_method_name }}"/>
+				<input type="hidden" name="isItGift"  value="{{ isItGift }}"/>
+				<input type="hidden" name="pricePrinted"  value="{{ pricePrinted }}"/>
+				<input type="hidden" name="giftmessage"  value="{{ giftmessage }}"/>
+				<input type="hidden" name="promotion"  value="{{ promotion_code }}"/>
+				<input type="hidden" name="total_amt_due"  value="{{ total_amt_due }}"/>
+				<div class="clr"><!--  --></div>
+
+
+				<div class="buttonContainer">
+					<div style="float:right;margin-right:10px;">
+						<input type="hidden" name="payment_type"  value="GiftCertificateOrder"/>
+						<input class="noBorder" title="Send Order To {{ site_name }}" type="image" src="/static/images/siteImg/5submit.gif" alt="Send Order To {{ site_name }}" name="submit" value="GiftCertificateOrder" />
+					</div>
+					<div style="float:right;margin-top:5px;">
+						<a href="{% url 'show_cart' %}" ><img src="/static/images/siteImg/neutral_returntocart.jpg"></a>
+					</div>
+
+				</div>
+			</div>
+
+		</form>
+
+	{% endif %}
+
+						<!--Payment Area-->
+	<div class="GreenLine">&nbsp;</div>
+
+		{% if total_amt_due == 0.0 %}
+		<div id="paymentArea" style="display:none;">
+		{% else %}
+		<div id="paymentArea" style="display:block;">
+		{% endif %}
+
+
+			<h2 class="headingPageSection headingPayment">Make A Payment</h2>
+<br>
+			<fieldset class="checkout">
+<legend>Payment Options</legend>
+
+<div style="background-color: 009900; margin: 18px; font-size: 15px;">
+	<div class="clr"><!--  --></div>
+
+			<p align="justify">	We provide two well known third party payment options. Our web site does not obtain, nor save your payment information.
+				For your protection, the credit card processor requires the billing address to match with the shipping address.
+				If you require your order to be shipped to an address different from the billing address, please choose to pay by: <b>Checkout With PayPal</b></p>
+</div>
+</fieldset>
+
+<!-- Stripe integration -->
+{% include 'tags/stripe.html' %}
+<!-- end of stripe integration -->
+
+
+
+			<div class="paymentOptionType">
+
+				<form id="forvalidation_creditcard" action="." method="post" name="paymentForm">{% csrf_token %}
+					<div class="formArea">
+						<input type="hidden" name="email"  value="{{ email }}"/>
+						<input type="hidden" name="phone"  value="{{ phone }}"/>
+						<input type="hidden" name="shipping_name"  value="{{ shipping_name }}"/>
+						<input type="hidden" name="shipping_address_1"  value="{{ shipping_address_1 }}"/>
+						<input type="hidden" name="shipping_address_2"  value="{{ shipping_address_2 }}"/>
+						<input type="hidden" name="shipping_city"  value="{{ shipping_city }}"/>
+						<input type="hidden" name="shipping_state"  value="{{ shipping_state }}"/>
+						<input type="hidden" name="shipping_zip"  value="{{ shipping_zip }}"/>
+						<input type="hidden" name="shipping_country"  value="{{ shipping_country }}"/>
+						<input type="hidden" name="billing_name"  value="{{ billing_name }}"/>
+						<input type="hidden" name="billing_address_1"  value="{{ billing_address_1 }}"/>
+						<input type="hidden" name="billing_address_2"  value="{{ billing_address_2 }}"/>
+						<input type="hidden" name="billing_city"  value="{{ billing_city }}"/>
+						<input type="hidden" name="billing_state"  value="{{ billing_state }}"/>
+						<input type="hidden" name="billing_zip"  value="{{ billing_zip }}"/>
+						<input type="hidden" name="billing_country"  value="{{ billing_country }}"/>
+						<input type="hidden" name="shipping_method"  value="{{ shipping_method_name }}"/>
+						<input type="hidden" name="isItGift"  value="{{ isItGift }}"/>
+						<input type="hidden" name="pricePrinted"  value="{{ pricePrinted }}"/>
+						<input type="hidden" name="giftmessage"  value="{{ giftmessage }}"/>
+						<input type="hidden" name="promotion"  value="{{ promotion_code }}"/>
+
+						<input type="hidden" id="total_amt_due" name="total_amt_due"  value="{{ total_amt_due }}"/>
+
+						<div class="clr"><!--  --></div>
+
+
+<!--
+					<fieldset class="checkout">
+							<legend>Checkout with credit card</legend>
+							<table>
+							{% form_table_row form.credit_card_number %}
+							{% form_table_row form.credit_card_type %}
+							{% form_table_row form.credit_card_expire_month %}
+							{% form_table_row form.credit_card_expire_year %}
+							{% form_table_row form.credit_card_cvv %}
+							</table>
+						<div class="buttonContainer">
+
+<div id="DigiCertClickID_cfAOP91w" data-language="en_US">
+	<a href="http://www.digicert.com/ssl-certificate.htm">SSL Certificate</a>
+</div>
+<script type="text/javascript">
+var __dcid = __dcid || [];__dcid.push(["DigiCertClickID_cfAOP91w", "13", "m", "black", "cfAOP91w"]);(function(){var cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
+</script>
+
+
+							<div style="float:right;margin-right:10px;">
+								<input type="hidden" name="payment_type"  value="CreditCardOrder"/>
+
+								<input class="noBorder" title="Send Order To {{ site_name }}" type="image" src="/static/images/siteImg/5submit.gif" alt="Send Order To {{ site_name }}" name="submit" value="CreditCardOrder" />
+							</div>
+							<div style="float:right;margin-top:5px;">
+								<a href="{% url 'show_cart' %}" ><img src="/static/images/siteImg/neutral_returntocart.jpg"></a>
+							</div>
+
+						</div>
+
+						</fieldset>
+-->
+
+					</div>
+
+				</form>
+
+				<div class="clr"><!--  --></div>
+			</div> <!--paymentOptionType-->
+
+
+			<fieldset class="checkout">
+				<legend>Or Checkout With...</legend>
+					<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+			<tr>
+			<td>
+
+			<div class="paymentOptionType">
+
+
+				<form action="." method="post" name="paymentForm">{% csrf_token %}
+					<div class="formArea">
+
+						<input type="hidden" name="total_amt_due"  value="{{ total_amt_due }}"/>
+						<input type="hidden" name="shipping_description"  value="{{ shipping_description }}"/>
+						<input type="hidden" name="shipping_method_name"  value="{{ shipping_method_name }}"/>
+						<input type="hidden" name="shipping_charge"  value="{{ shipping_charge }}"/>
+						<input type="hidden" name="promotion_code"  value="{{ promotion_code }}"/>
+						<input type="hidden" name="discount"  value="{{ discount }}"/>
+
+						<input type="hidden" name="payment_type"  value="PaypalOrder"/>
+<center>
+						<input class="noBorder" title="Send Order To {{ site_name }}" type="image" src="/static/images/siteImg/x-click-but5.gif" alt="Checkout Through Paypal" name="submit" value="PaypalOrder" />
+</center>
+					</div>
+    				</form>
+
+			</div> <!--paymentOptionType-->
+			</td>
+			<td>
+<!--
+			<div class="paymentOptionType">
+
+
+				<form action="." method="post" name="paymentForm">{% csrf_token %}
+					<div class="formArea">
+						<input type="hidden" name="email"  value="{{ email }}"/>
+						<input type="hidden" name="phone"  value="{{ phone }}"/>
+						<input type="hidden" name="shipping_name"  value="{{ shipping_name }}"/>
+						<input type="hidden" name="shipping_address_1"  value="{{ shipping_address_1 }}"/>
+						<input type="hidden" name="shipping_address_2"  value="{{ shipping_address_2 }}"/>
+						<input type="hidden" name="shipping_city"  value="{{ shipping_city }}"/>
+						<input type="hidden" name="shipping_state"  value="{{ shipping_state }}"/>
+						<input type="hidden" name="shipping_zip"  value="{{ shipping_zip }}"/>
+						<input type="hidden" name="shipping_country"  value="{{ shipping_country }}"/>
+						<input type="hidden" name="billing_name"  value="{{ billing_name }}"/>
+						<input type="hidden" name="billing_address_1"  value="{{ billing_address_1 }}"/>
+						<input type="hidden" name="billing_address_2"  value="{{ billing_address_2 }}"/>
+						<input type="hidden" name="billing_city"  value="{{ billing_city }}"/>
+						<input type="hidden" name="billing_state"  value="{{ billing_state }}"/>
+						<input type="hidden" name="billing_zip"  value="{{ billing_zip }}"/>
+						<input type="hidden" name="billing_country"  value="{{ billing_country }}"/>
+						<input type="hidden" name="shipping_method"  value="{{ shipping_method_name }}"/>
+						<input type="hidden" name="isItGift"  value="{{ isItGift }}"/>
+						<input type="hidden" name="pricePrinted"  value="{{ pricePrinted }}"/>
+						<input type="hidden" name="giftmessage"  value="{{ giftmessage }}"/>
+						<input type="hidden" name="promotion"  value="{{ promotion_code }}"/>
+
+						<input type="hidden" name="payment_type"  value="Google"/>
+
+						{% if not has_gift_certificate %}
+
+							<input class="noBorder" title="Google checkout is temporarily unavailable" type="image" src="https://checkout.google.com/buttons/checkout.gif?merchant_id={{ merchant_id }}&w=180&h=46&style=trans&variant=text&loc=en_US"  height="46" width="180" alt="Fast checkout through Google" name="submit" value="GoogleCheckout" disabled="disabled"/>
+
+						{% else %}
+							<input class="noBorder" title="Google checkout is not available for gift card purchase or redemption" type="image" src="https://checkout.google.com/buttons/checkout.gif?merchant_id={{ merchant_id }}&w=180&h=46&style=trans&variant=text&loc=en_US"  height="46" width="180" alt="Fast checkout through Google" name="submit" value="GoogleCheckout" disabled="disabled" />
+						{% endif %}
+					</div>
+    				</form>
+
+			</div>
+-->
+			</td>
+			</tr>
+		</table>
+		</fieldset>
+
+
+
+
+
+
+		</div><!--paymentArea-->
+
+
+</div> <!--paymentTemplate-->
+
+ <!-- beginning of Stripe Integration -->
+
+
+
+{% include 'tags/stripeJS.html' %}
+ <!-- end of Stripe Integration -->
+
+
+
+
+{% endblock %}
+
+{% block right_column %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}

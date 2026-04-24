@@ -1,0 +1,43 @@
+{% load catalog_filters %}
+									<div class="cb"><br /></div>
+
+{% if request.META.HTTP_HOST !=  DISTRIBUTOR_SITE_DOMAIN %}
+
+					<div class="block">
+						<div class="block-title yuinavfont"><strong><span>Message of the Day</span></strong></div>
+						<div class="block-content">
+							<br />
+						{% for message in messageoftheday %}
+							{{ message.description|safe}}
+ <br />
+							<div class="hrule-dots"></div>
+						{% endfor %}
+
+
+						{% for p in dealoftheday %}
+							<span class="msgofdayheader">Today's deal: </span> <a href="{{p.get_absolute_url }}"><span class="prodname">{{ p.meta_description }} (<img title="Cool" src="../../../../static/js/tiny_mce/plugins/emotions/img/smiley-cool.gif" border="0" alt="Cool" />{{p.sale_price|currency }}<img title="Cool" src="../../../../static/js/tiny_mce/plugins/emotions/img/smiley-cool.gif" border="0" alt="Cool" />)</span></a>
+<!--
+<p style="font-family:Georgia; line-height:18px; font-size: 15px !important;margin-left: 10px;">{{ p.description|safe}} </p>
+-->
+<br />
+							<div class="hrule-dots"></div>
+
+						{% endfor %}
+
+						{% for p in new_arrivals %}
+							<span class="msgofdayheader">Newly Arrival: </span> <a href="{{p.get_absolute_url }}"><span class="prodname">{{ p.meta_description }} ({{p.sale_price|currency }})</span></a>
+<br />
+							<div class="hrule-dots"></div>
+
+						{% endfor %}
+
+
+
+
+					</div>
+				</div>
+
+{% endif %}
+
+									<div class="cb"><br /></div>
+

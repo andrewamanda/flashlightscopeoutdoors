@@ -1,0 +1,37 @@
+									<div class="cb"><br /></div>
+
+	{% if request.META.HTTP_HOST !=  DISTRIBUTOR_SITE_DOMAIN %}
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>We offer: Lights & Optics, Lab & Science, Batteries & Chargers</span></strong></div>
+<div class="block-content">
+<br />
+<p class="step-col-1 "><strong>Lights & Optics</strong><br /><br /><span style="font-family:Georgia; line-height:18px; font-size: 12px;">We have the best selection of the LED flashlights which include tactical flashlights, everyday carries, search lights, rechargeable lights and so much more. We carry top brands like Nitecore, Olight, Jetbeam, Niteye, Sunwayman, Eagletac, Zebralight, etc. We also offer the premium NcStar and VISM optical scopes.</span></p>
+
+<p class="step-col-2"><strong>Lab & Science</strong><br /><br /><span style="font-family:Georgia; line-height:18px; font-size: 12px;">Our general lab consumables are aimed at taking the hard work out of scientists searching for those must-have products which all laboratories rely on including syringe filters, sampling and packaging bottles, tubes, pipettors, cell culture portfolio and we are constantly adding more.</span></p>
+
+<p class="step-col-3"><strong>Batteries & Chargers</strong><br /><br /><span style="font-family:Georgia; line-height:18px; font-size: 12px;">View our selection of batteries and chargers. We offer the best protected and unprotected 18650 batteries, CR123A batteries and AA batteries. And we offer the chargers from top brands such as XTAR and Nitecore, from the convenient USB chargers to the sophisticated LCD Li-ion/NI-MH chargers. </span></p>
+
+									<div class="cb"><br /></div>
+<!--
+<p style="font-family:Georgia; font-weight: bold; line-height:18px; font-size: 15px !important; text-align: center;">Thank you for shopping with {{ site_name }}, where the deals are great, the people are passionate, and the products do more than just get you back on the wild.</h3>
+<br /><br />
+-->
+</div>
+</div>
+<div class="cb"><br /></div>
+
+{% else %}
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>Join our dealer network: Great Prices, Full Warranty Service, Virtual Community</span></strong></div>
+<div class="block-content">
+<br />
+<p class="step-col-1 "><strong>Great Prices</strong><br /><br /><span style="font-family:Georgia; line-height:18px; font-size: 12px;">{{ DISTRIBUTOR_NAME}} offers deeply discounted dealer prices to our qualified vendors. Above that, we further offer volume based discount, which a vendor can easily take advantage of. There is no need to spend time in negotiating a dealer price, we believe your valuable time should be spent on promoting the great Olight brand, that serves our mutual benefit. All the prices and the volume discount rate sheet are listed once you have enrolled in our dealer network and login with your exclusive dealer id. </span></p>
+
+<p class="step-col-2"><strong>Full Warranty Service</strong><br /><br /><span style="font-family:Georgia; line-height:18px; font-size: 12px;">We take great care of our loyal vendors. All the products sold by us are backed by the manufacturer's warranty. Simply contact us with the product serial number, you are entitled to a warranty service by {{ DISTRIBUTOR_NAME }}. During the warrenty period, we will repair or replace all parts and defects covered by the Olight manufacturer's warranty.</span></p>
+
+<p class="step-col-3"><strong>Virtual Community</strong><br /><br /><span style="font-family:Georgia; line-height:18px; font-size: 12px;">We offer a social netowrk of Olight dealers and customers who interact through the public social media. The Facebook and Twitter social media cross the geographical boundaries and offer our Olight enthusiatics a great platform to discuss the great products. Olight loves to hear feedback about the products as well. The product invention and high quality can only be driven by the market feedback. </b></span></p>
+
+									<div class="cb"><br /></div>
+
+</div>
+{% endif %}

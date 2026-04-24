@@ -1,0 +1,116 @@
+{% load catalog_filters %}
+{% load catalog_tags %}
+
+	<tr>
+		<td colspan="1">
+			<span class="cathead2"><a target="_blank" href="{{ p.get_absolute_url }}" class="tooltip">{{ p.name }}<b><em></em>Click to see product details </b></a></span>
+						
+		</td>
+		<td colspan="1" valign="bottom">
+			<span><a target="_blank" href="{{ p.get_absolute_url }}"  class="prodname">{{ p.meta_description }}</a></span>
+		</td>
+		<td>
+			<span class="ResultsSku">
+				{% if 'category' in url %}
+					Brand: <a target="_blank" href="{{ p.brand.get_absolute_url }}">{{ p.brand }}</a>
+				{% else %}
+					Category: 
+						{% for cat in p.categories.all %}
+							<a target="_blank" href="{{cat.get_absolute_url }}">{{ cat.name }}&nbsp;</a>
+						{% endfor %}
+				{% endif %}
+			</span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<!--
+			<SPAN class="ResultsSku"> SKU: {{ p.sku }}</SPAN> 
+			-->
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" width="60">
+  			<p>
+<!--
+			{% if p.image_zoom %}
+			<a target="_blank" href="{{ p.image_zoom.url }}" class="MagicZoomPlus" rel="zoom-position:right;zoom-width:400px;zoom-height:400px;opacity: 50;smoothing: true;smoothing-speed: 20;fps: 35;zoom-fade: true;zoom-fade-in-speed: 800;zoom-fade-out-speed: 800;selectors-effect-speed: 800;show-title:bottom"><img src="{{ p.thumbnail.url }}"  border="0" alt="{{ p.name }}"></a>
+			<img src="/static/magiczoomplus/graphics/zoomable_image.gif" width="12px" height="12px"><span style="font-size:11px;padding-top:10px;">&nbsp;Hover to zoom </span> 
+			{% else %}
+			<a target="_blank" href="{{ p.get_absolute_url }}"><img src="{{ p.thumbnail.url }}"  border="0" alt="{{ p.name }}"</a> 
+			{% endif %}
+-->
+			<a target="_blank" href="{{ p.get_absolute_url }}"><img src="{% thumbnail_image_url p.image.url %}"  border="0" alt="{{ p.name }}" width="120px" height="80px"></a> 
+
+			</p>
+					
+		</td>
+		<td colspan="2" valign="top" class="bordr"> 
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+
+        				<td class="Cpadding" valign="top">
+<!--
+						<a target="_blank" href="{{ p.get_absolute_url }}"  class="GridText">{{ p.meta_description }}</a> 
+-->
+					</td>
+
+					<td rowspan="2" valign="top">
+						<table width="100" border="0" align="right" cellpadding="0" cellspacing="5">
+								<tr>
+									<td nowrap align="center">
+										<font class="ItemListPrice">
+											{% ifnotequal request.META.HTTP_HOST  DISTRIBUTOR_SITE_DOMAIN %}
+												{% if p.sale_price %}
+													<span style="color:black">Was: <del>{{ p.old_price|currency }}</del></span>
+													<div class="sale">Sale: <span property="v:price">{{ p.price|currency }}</span></div>
+												{% else %}
+													Price: <span property="v:price">{{ p.price|currency }}															</span>
+												{% endif %}
+											{% else %}
+												Dealer Price: <span property="v:price">
+													{% if perms.dealers.change_dealerdiscountrate %}
+														{% half p.price %}	
+													{% else %}
+														<a target="_blank" href="{% url 'login' %}?next={{ request.path }}" class="large-font-link tooltip">$$$<b><em></em>Sign in</b></a>
+													{% endif %}
+													</span>
+
+											{% endifnotequal %}
+
+										</font> 
+									</td>
+								</tr>
+								<tr>
+									<td align="center">
+										<a target="_blank" href="{{ p.get_absolute_url }}" class="bluesmall">
+											<div class="viewdetails"></div>
+										</a>
+									</td>
+								</tr>
+     							      <tr>
+									<form method="post" action="." >{% csrf_token %}
+										<input name="quantity" id="id_quantity" type="hidden" class="quantity" value="1" size="1" />
+										
+										<input type="hidden" name="product_slug" value="{{ p.slug }}" id="id_product_slug" /> 
+										<td nowrap valign="middle" align="center" height="21">
+
+
+										</td> 
+									</form> 
+					                    </tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="Cpadding" valign="top">
+
+						<div class="prodspec" style="padding:2px 0px 0px 0px;">
+							{% feature_list p %}
+						</div>
+
+					</td>
+				</tr>
+			</table>
+
+		</td>
+	</tr>
+
+

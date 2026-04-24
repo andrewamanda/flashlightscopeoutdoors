@@ -1,0 +1,44 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html front not-logged-in page-node page-node- page-node-25 node-type-page no-sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+<div class="l-preface">
+
+  <div class="l-breadcrumb">
+  <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li>Gallery</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+
+
+{% include "heartwoodandbeyond/galleries/floors.html" %}
+{% include "heartwoodandbeyond/galleries/panels.html" %}
+{% include "heartwoodandbeyond/galleries/stairs.html" %}
+{% include "heartwoodandbeyond/galleries/tabletops.html" %}
+{% include "heartwoodandbeyond/galleries/mantels.html" %}
+{% include "heartwoodandbeyond/galleries/beams.html" %}
+{% include "heartwoodandbeyond/galleries/floorregisters.html" %}
+
+
+</div>
+</div>
+
+{% include "heartwoodandbeyond/galleries/gallery_styles.html" %}
+
+
+
+
+
+
+
+{% endblock hwp_main %}
+
+{% block page_footscript %}
+{% include 'heartwoodandbeyond/tags/footscript.html' %}
+{% endblock page_footscript %}

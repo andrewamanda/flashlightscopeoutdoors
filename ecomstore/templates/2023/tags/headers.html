@@ -1,0 +1,168 @@
+{% load catalog_tags %}
+{% load search_tags %}
+<header class="main-header">
+       <div class="header-top">
+           <div class="container">
+           <div class="row">
+           <div class="col-lg-12">
+           <div class="desktop-view">
+           <div class="header-row">
+               <div class="hdr-info-lt">
+                   <ul>
+                       <li><a href="callto:800-387-7356"><img src="{{ MEDIA_URL }}/2023/images/call.svg"> 800-387-7356</a></li>
+                   </ul>
+               </div>
+
+               <div class="hdr-info-lt">
+                   <p>FREE SHIPPING ALL DOMESTIC ORDERS $25+</p>
+               </div>
+               <div class="hdr-info-lt">
+                   <ul>
+                       <li><a href="index.html#">Customer Service</a></li>
+                       <li><a href="index.html#">Secure Shopping</a></li>
+                       <li><a href="index.html#">Testimonial</a></li>
+                   </ul>
+               </div>
+               </div>
+               </div>
+               <div class="mobile-view scrolling-container">
+                   <marquee>
+               <div class="flex scrolling-text">
+               <div class="hdr-info-lt">
+                   <ul>
+                       <li><a href="callto:800-387-7356"><img src="{{ MEDIA_URL }}/2023/images/call.svg"> 800-387-7356</a></li>
+                   </ul>
+               </div>
+
+               <div class="hdr-info-lt">
+                   <p>FREE SHIPPING ALL DOMESTIC ORDERS $25+</p>
+               </div>
+               <div class="hdr-info-lt">
+                   <ul>
+                       <li><a href="index.html#">Customer Service</a></li>
+                       <li><a href="index.html#">Secure Shopping</a></li>
+                       <li><a href="index.html#">Testimonial</a></li>
+                   </ul>
+               </div>
+               </div>
+                   </marquee>
+               </div>
+           </div>
+       </div>
+       </div>
+</div>
+       <div class="hdr-btm-part">
+       <div class="header-mid">
+               <div class="container">
+               <div class="row">
+                   <div class="col-lg-12 header-row">
+                       <div class="logo">
+                           <a href="/"><img src="{{ MEDIA_URL }}/2023/images/logo.png" alt="logo"></a>
+                       </div>
+                       <div class="header-mid-right header-row">
+
+                           <div class="search-box desktop-view">
+                               <form name="searchForm" class="header_search" method="get" action="{% url 'search_results' %}">
+                                    <input type='hidden' name='form_state' value='searchForm' />
+                                   <input type="text" name="q" id="search-box" placeholder="type here..." class="input-hint search_box form-control">
+                                   <button class="search-btn" type="submit">Search</button>
+                               </form>
+                           </div>
+
+
+
+
+
+
+                          {% cart_box request %}
+                           <ul class="desktop-view">
+                               <li class="user"><a href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/user.svg" alt="user"></a></li>
+<!--                               <li class="cart"><a href="{% url 'show_cart' %}"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart">
+
+                                 <li class="cart"><a href="{% url 'show_cart' %}"><img src="{{ MEDIA_URL }}/images/siteImg/cart.jpg" alt="cart">
+
+                               </a></li>
+-->
+
+                           </ul>
+
+                       </div>
+                   </div>
+               </div>
+           </div>
+</div>
+       <div class="header-btm">
+           <div class="container header-row head-adj">
+               <div class="hdr-lft">
+                       <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample0101" aria-expanded="false" aria-controls="collapseExample">
+                           <div class="hdr-lft-all"><div class="nav_dep">
+                               <i class="fa fa-list" aria-hidden="true"></i>
+                               <span></span>
+                               <span></span>
+                               <span></span>
+                           </div> All Departments</div>
+                         </button>
+                         <div class="collapse" id="collapseExample0101">
+                           <div class="card card-body">
+                                 <div class="form-check">
+                                   <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault14">
+                                   <label class="form-check-label" for="flexRadioDefault14">Floody Beam</label>
+                                 </div>
+                                 <div class="form-check">
+                                   <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault15">
+                                   <label class="form-check-label" for="flexRadioDefault15">Uses AA Battery</label>
+                                 </div>
+                                 <div class="form-check">
+                                   <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault16">
+                                   <label class="form-check-label" for="flexRadioDefault16">Uses 18650 Battery</label>
+                                 </div>
+                                 <div class="form-check">
+                                   <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault17">
+                                   <label class="form-check-label" for="flexRadioDefault17">Uses CR123A Battery</label>
+                                 </div>
+                                 <div class="form-check">
+                                   <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault18">
+                                   <label class="form-check-label" for="flexRadioDefault18">Color LED</label>
+                                 </div>
+                           </div>
+                         </div>
+               </div>
+               <div class="hdr-rt">
+                   <div class="mobile-view">
+                       <ul class=" cart-user">
+                           <li class="user"><a href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/user.svg" alt="user"></a></li>
+                           <li class="cart"><a href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a></li>
+                       </ul>
+                   </div>
+                       <div class="nav_btn">
+                           <span></span>
+                           <span></span>
+                           <span></span>
+                       </div>
+                       <div class="main-menu">
+                           <div class="search-box mobile-view">
+                               <form>
+                                   <input type="search" placeholder="type here..." class="form-control">
+                                   <button class="search-btn" type="submit">Search</button>
+                               </form>
+                           </div>
+                           <ul>
+                           <li class="current-menu-item"><a href="https://html.weavers-web.com/Wangming-Ye/about-us.html">DEALS</a></li>
+                           <li class="has-children"><a href="https://html.weavers-web.com/Wangming-Ye/financing.html">BRANDS</a></li>
+                           {% active_categories as cats %}
+                           	{% for c in cats %}
+                           <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+
+                           	{% endfor %}
+
+
+                           <li><a href="index.html#">NEW</a></li>
+                           <li><a href="index.html#">MAKE YOUR OFFER</a></li>
+
+                           </ul>
+                   </div>
+               </div>
+           </div>
+</div>
+       </div>
+   </header>

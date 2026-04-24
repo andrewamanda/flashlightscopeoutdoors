@@ -1,0 +1,42 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_tags %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+	{% block content %}
+
+  		<fieldset class="ui-grid-a categoryThumbnails">
+       			{% if 'brand' in method %}
+				{% for p in products %}
+					{% if p.series.name == page_subjects.name %}
+
+    						<div class="ui-block-a" style="text-align:center;">
+
+
+							<a href="{{ p.get_absolute_url }}"><img src="{% thumbnail_image_url p.image.url %}" alt="{{p.name}}" width="90%" border="0" /> <div class="categoryDescription" style="margin-top:6px; font-size:small;">{{ p.name }}</div>
+</a>    
+						</div>
+
+					{% endif %}
+				{% endfor %}
+
+
+       			{% else %}
+       
+				{% for p in products %}
+
+    					<div class="ui-block-a" style="text-align:center;">
+
+
+						<a href="{{ p.get_absolute_url }}"><img src="{% thumbnail_image_url p.image.url %}" alt="{{p.name}}" width="90%" border="0" /> <div class="categoryDescription" style="margin-top:6px; font-size:small;">{{ p.name }}</div>
+</a>    
+					</div>
+				{% endfor %}
+
+			{% endif %}
+
+  		</fieldset>
+
+		{% include "mobile/home/pagefooter.html" %}
+	{% endblock %}
+

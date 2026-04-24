@@ -1,0 +1,72 @@
+{% load cache %}
+{% load catalog_tags %}
+
+
+<div class="cb"></div>
+
+
+<span class="preload1"></span>
+<span class="preload2"></span>
+<ul id="nav">
+<!--
+	<li class="top"><a href="{% url 'home' %}" class="top_link"><span>Home</span></a></li>
+-->
+	{% active_departments as departments %}
+	{% for d in departments %}
+		<li class="top"><a href="{{ d.get_absolute_url }}" id="department_{{d.name}}" class="top_link"><span class="down">{{ d.name }}</span></a>
+			<ul class="sub">
+				{% is_flashlight_department d as is_flashlight %}
+				{% if is_flashlight %}
+					<li><a href="#nogo3" class="fly">By Category</a>
+						<ul>
+							{% nav_category_list request.path d %}
+						</ul>
+					</li>
+					<li class="mid"><a href="#nogo3" class="fly">By Brand</a>
+						<ul>
+							{% nav_brand_list request.path d %}
+						</ul>
+					</li>
+					<li class="mid"><a href="#nogo7" class="fly">By Price</a>
+						<ul>
+							{% nav_price_list request.path %}
+
+						</ul>
+					</li>
+
+					<li class="mid"><a href="#nogo7" class="fly">By LED Brightness</a>
+						<ul>
+							{% nav_brightness_list request.path %}
+
+						</ul>
+					</li>
+				{% else %}
+					{% nav_category_list request.path d %}
+				{% endif %}
+			</ul>
+		</li>
+
+	{% endfor %}
+
+<!--
+	<li class="top right"><a href="#" id="products" class="top_link"><span class="down">Channels of Saving</span></a>
+		<ul class="sub">
+			<li><a href="{% url 'dealoftheday' %}" id="deal"><span>Deal Of The Day</span></a>
+			</li>
+			<li><a href="{% url 'clearance' %}" id="deal"><span>Clearance Center</span></a>
+			</li>
+			<li><a href="#nogo3" class="fly">Name Your Price</a>
+
+				<ul>
+					<li><a href="{% url 'nameyourprice' %}" id="forum"><span>Make An Offer</span></a>
+					</li>
+					<li><a href="{% url 'ViewYourOffers' %}" id="forum"><span>View Your Offers</span></a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+-->
+</ul>
+
+		 

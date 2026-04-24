@@ -1,0 +1,171 @@
+{% load catalog_tags %}
+
+<div class="col-lg-3">
+    <div class="prod-sel-sec">
+        <button class="btn prod-toggle-main" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <div class="prod-toggle-btn">
+                <div class="prod-toggle-text">
+                <p>Subcatories</p>
+            </div>
+            <div class="prod-toggle-arrow-main">
+                <img src="{{ MEDIA_URL }}/2023/images/prod-toggle-arrow-2.svg">
+            </div>
+        </div>
+          </button>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              {% for u in active_submenu.all %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">{{ u.name }}</label>
+                  </div>
+              {% endfor %}
+
+            </div>
+          </div>
+    </div>
+    <div class="prod-sel-sec">
+        <button class="btn prod-toggle-btn-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+            <div class="prod-toggle-btn">
+                <div class="prod-toggle-text">
+                <p>Brightness</p>
+            </div>
+            <div class="prod-toggle-arrow-1">
+                <img src="{{ MEDIA_URL }}/2023/images/prod-toggle-arrow-2.svg">
+            </div>
+        </div>
+          </button>
+          <div class="collapse" id="collapseExample2">
+            <div class="card card-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault10">
+                    <label class="form-check-label" for="flexRadioDefault10">0 - 500 Lumens</label>
+                    <div class="radio-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="...">
+                        <label class="radio-check-label" for="checkboxNoLabel">500 - 1000 Lumens</label>
+                      </div>
+                      <div class="radio-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel2" value="" aria-label="...">
+                        <label class="radio-check-label" for="checkboxNoLabel2">1000 - 2000 Lumens</label>
+                      </div>
+                      <div class="radio-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel3" value="" aria-label="...">
+                        <label class="radio-check-label" for="checkboxNoLabel3"> 2000 - 3000 Lumens</label>
+                      </div>
+                      <div class="radio-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel4" value="" aria-label="...">
+                        <label class="radio-check-label" for="checkboxNoLabel4"> 3000 - 4000 Lumens</label>
+                      </div>
+                      <div class="radio-check">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel5" value="" aria-label="...">
+                        <label class="radio-check-label" for="checkboxNoLabel5">4000 - 6000 Lumens</label>
+                      </div>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault11">
+                    <label class="form-check-label" for="flexRadioDefault11">6000 - 10000 Lumens</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12">
+                    <label class="form-check-label" for="flexRadioDefault12">10000 - 30000 Lumens</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault13">
+                    <label class="form-check-label" for="flexRadioDefault13">Above 30000 Lumens</label>
+                  </div>
+
+            </div>
+          </div>
+</div>
+
+    <div class="prod-sel-sec">
+        <button class="btn prod-toggle-btn-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample">
+            <div class="prod-toggle-btn">
+                <div class="prod-toggle-text">
+                <p>Brands</p>
+            </div>
+            <div class="prod-toggle-arrow-2">
+                <img src="{{ MEDIA_URL }}/2023/images/prod-toggle-arrow-2.svg">
+            </div>
+        </div>
+          </button>
+          <div class="collapse" id="collapseExample3">
+            <div class="card card-body">
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault110">
+                    <label class="form-check-label" for="flexRadioDefault110">Acebeam</label>
+                    <div class="radio-check">
+                      <input class="form-check-input" type="checkbox" id="checkboxNoLabel10" value="" aria-label="...">
+                      <label class="radio-check-label" for="checkboxNoLabel10">Acebeam K Series</label>
+                    </div>
+                    <div class="radio-check">
+                      <input class="form-check-input" type="checkbox" id="checkboxNoLabel20" value="" aria-label="...">
+                      <label class="radio-check-label" for="checkboxNoLabel20"> Acebeam X Series</label>
+                    </div>
+                    <div class="radio-check">
+                      <input class="form-check-input" type="checkbox" id="checkboxNoLabel30" value="" aria-label="...">
+                      <label class="radio-check-label" for="checkboxNoLabel30"> T Series</label>
+                    </div>
+                    <div class="radio-check">
+                      <input class="form-check-input" type="checkbox" id="checkboxNoLabel40" value="" aria-label="...">
+                      <label class="radio-check-label" for="checkboxNoLabel40">Headlamp</label>
+                    </div>
+                    <div class="radio-check">
+                      <input class="form-check-input" type="checkbox" id="checkboxNoLabel50" value="" aria-label="...">
+                      <label class="radio-check-label" for="checkboxNoLabel50"> Keychain</label>
+                    </div>
+                  </div>
+                  {% all_active_brands as brands %}
+                  {% for b in brands %}
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault19">
+                    <label class="form-check-label" for="flexRadioDefault_{{ b.name }}">{{ b.name }}</label>
+                  </div>
+                  {% endfor %}
+
+            </div>
+          </div>
+    </div>
+    <div class="prod-sel-sec">
+        <button class="btn prod-toggle-btn-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample">
+            <div class="prod-toggle-btn">
+                <div class="prod-toggle-text">
+                <p>Price</p>
+            </div>
+            <div class="prod-toggle-arrow-3">
+                <img src="{{ MEDIA_URL }}/2023/images/prod-toggle-arrow-2.svg">
+            </div>
+        </div>
+          </button>
+          <div class="collapse" id="collapseExample4">
+            <div class="card card-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault27" checked="">
+                    <label class="form-check-label" for="flexRadioDefault27">Under $50</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault28">
+                    <label class="form-check-label" for="flexRadioDefault28"> $50 - $100</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault29">
+                    <label class="form-check-label" for="flexRadioDefault29">$100 - $150</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault30">
+                    <label class="form-check-label" for="flexRadioDefault30">$150 - $200</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault31">
+                    <label class="form-check-label" for="flexRadioDefault31">$200 - $300</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault32">
+                    <label class="form-check-label" for="flexRadioDefault32">Above $300</label>
+                  </div>
+            </div>
+          </div>
+    </div>
+
+</div>

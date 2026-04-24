@@ -1,0 +1,218 @@
+{% extends "base_withRightFrame.html" %}
+
+{% load checkout_tags %}
+
+
+{% block content %}
+	<img src="/static/images/calendar_folder/{{ calendar_spec }}" alt="" class="CalenderIconRight"/>
+
+	<h1 class="headingPageTitle2">Shipping Method</h1>
+
+<div id="shippingMethodsTemplate">	
+		
+	<form action="." method="post">{% csrf_token %}
+		<div class="methodsContainer">
+			<p class="instructionalText"><strong class="textImportant">NOTE:</strong> <b>Charges and estimated delivery dates</b> will be calculated on the next page. Orders for gift certificates are fulfilled through emails, no shipping charge will incur.</p>
+<!--			<p class="instructionalText"><strong class="textImportant">For International Customers:</strong><b>Shipping cost varies from country to country, it also depends on the package weight, size and shipping option and carrier chosen. We do not overcharge the shipping cost. Please go ahead to check out and pay for the cost of your product, we will process your order, contact and bill you for the ACTUAL shipping cost. Thank you. </p>
+
+
+			<p class="instructionalText"><strong class="textImportant">Signature and Insurance:</strong> <b>Standard Express</b> packages are shipped with Delivery Confirmation, without the requirement of obtaining recipients' signature. To prevent loss and theft, you are recommended to use the <b>Standard Express with Signature</b> as the shipping method, for which we provide insurance. The <b>Overnight Air Express</b> and <b>Guarantee Express</b> packages are automatically insured.</p>
+-->
+			<label for=""><!--  --></label>
+
+			{% if shipping_methods %}
+				{% for sm in shipping_methods %}
+
+				<div class='formEntry'>
+
+						<label>
+							<input class="fl noBorder" name="shippingLevel" type="radio" value="{{ sm.name }}" {% if 'Standard' in sm.name or 'First' in sm.name %}checked="true"{% endif %}/>{{ sm.name }}
+						</label>
+						<div class="content"> {{ sm.description }}  
+						</div>
+                        		<div class="content">
+	                        		<p>Orders placed <strong><span style="color: red;">before {{ sm.cutoff_time }} Eastern Standard Time</span> </strong>will <strong>{% express sm.name %}</strong> the next business day.</p>
+							<p>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -<br />
+							</p>
+						</div>
+	                  		<div class="clr"><!--  --></div>
+
+  				</div>
+				{% endfor %}
+			{% endif %}
+		</div> <!--methodsContainer-->
+					
+					<!-- Gift Order -->
+		<div class="giftContainerCheckout jsOnlyDisplayBlock">
+			<h2 class="headingPageSection">Is this order a gift?</h2>
+			<div class="giftContent">
+				<div class="formEntry">
+					<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+					<tr>
+					<td valign="top"><input type="checkbox" class="fl noBorder js-isItGift" name="isItGift" id="isItGift" /></td>
+					<td><img src="/static/images/siteImg/white-gift-box-icon.png" />
+
+					</td>
+					<td valign="bottom">
+					<span for="isItGift">Yes. (You will be given the opportunity to include a gift message on the shipping invoice.)</span>					</td>
+<br>
+					</tr>
+					</table>
+					<div class="clr"><!--  --></div>
+				</div>
+		
+				<div class="js-giftingDisplay giftingDisplay">
+					<table>
+						<tr><td>
+							<input type="checkbox"  name="pricePrinted" id="pricePrinted" />&nbsp;
+							<span>Check this box if you want prices printed on the shipping invoice that is placed inside the package.</span> 
+						</td></tr>
+						<tr></tr>
+						<tr><td>
+							<span class="bold">Enter a Gift Message:</span>
+							<p class="giftMessage">
+								 <textarea class="js-characterCountMessage1" id="line1" name="giftmessage" type="textarea" value="" COLS=40 ROWS=6></textarea><span class="blk jsOnlyDisplayBlock">(Maximum characters 200) You have "<span class="js-remaining1">30</span>" characters left.</span>
+							</p>
+						</td></tr>
+					</table>
+				</div>
+
+			</div> <!--giftContent-->
+	
+		</div>  <!--giftContainerCheckout-->
+
+					<!-- Order Note -->
+		<div class="giftContainerCheckout jsOnlyDisplayBlock">
+			<h2 class="headingPageSection">Do you want to enter a note for this order?</h2>
+			<div class="giftContent">
+				<div class="formEntry">
+					<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+					<tr>
+					<td valign="top"><input type="checkbox" class="fl noBorder js-haveNote" name="haveNote" id="haveNote" />
+					<span for="isItGift">&nbsp;&nbsp;Yes</span></td>
+<br>
+					</tr>
+					</table>
+					<div class="clr"><!--  --></div>
+				</div>
+		
+				<div class="js-haveNoteDisplay giftingDisplay">
+					<table>
+						<tr></tr>
+						<tr><td>
+							<span class="bold">Enter a Note:</span>
+							<p class="giftMessage">
+								 <textarea class="js-characterCountMessage3" id="line1" name="note" type="textarea" value="" COLS=40 ROWS=6></textarea><span class="blk jsOnlyDisplayBlock">(Maximum characters 200) You have "<span class="js-remaining3">30</span>" characters left.</span>
+							</p>
+						</td></tr>
+					</table>
+				</div>
+
+			</div> <!--giftContent-->
+	
+		</div>  <!--giftContainerCheckout-->
+
+
+					<!-- referral -->
+		<div class="giftContainerCheckout jsOnlyDisplayBlock">
+			<h2 class="headingPageSection">Are you referred by someone?</h2>
+			<div class="giftContent">
+				<div class="formEntry">
+					<table width="100%" border="0" cellspacing="4" cellpadding="0"  >
+					<tr>
+					<td valign="top"><input type="checkbox" class="fl noBorder js-isItReferral" name="isItReferral" id="isItReferral" /></td>
+
+					</td>
+					<td valign="bottom">
+					<span for="isItGift">Yes. (Please enter the referral code below.)</span>					</td>
+<br>
+					</tr>
+					</table>
+					<div class="clr"><!--  --></div>
+				</div>
+		
+				<div class="js-referralDisplay giftingDisplay">
+					<table>
+						<tr><td>
+							<span> Enter your referral code: </span>
+							<input class="promo-code-input formField" id="referralCode" name="referralCode" type="text" value="" autocomplete="OFF" size="15" maxlength="25"/>
+&nbsp;
+						</td></tr>
+						<tr></tr>
+					</table>
+				</div>
+
+			</div> <!--giftContent-->
+	<br />
+		</div>  <!--giftContainerCheckout-->
+
+		<div style="float:right;">
+			<!--
+			<input type="submit" value="Continue" class="submit" />
+			-->
+
+			<a href="{% url 'catalog_home' %}"><img src="/static/images/siteImg/continueshopping.gif"></a>
+			<input class="noBorder" type="image" style="border:none;" src="/static/images/siteImg/aimkon_checkout.jpg" title="Checkout" name="continueCheckout" value="Continue" alt="Proceed to checkout"/>
+
+<!--
+			<label><a href="{% url 'catalog_home' %}" style="margin-right:20px; font-size:18px; color:gray;">Continue Shopping <img src="/static/images/siteImg/arrow.gif"><a></label>
+
+			<input type="image" style="border:none; width:180px; height:30px;" src="/static/images/siteImg/checkout1.png" title="Checkout" name="continueCheckout" value="Continue" alt="Proceed to checkout" onMouseOver="change1 (this, 'checkout2.png')" onMouseOut="change2 (this, 'checkout1.png')"/>
+-->
+		</div>
+
+	</form>
+<script type="text/javascript">
+	 $(document).ready(function() {
+
+		/* Character Count */
+		lib.input.setMaxCharacters(".js-characterCountMessage1", { limit : 200, results : ".js-remaining1" });
+		lib.input.setMaxCharacters(".js-characterCountMessage2", { limit : 200, results : ".js-remaining2" });
+		lib.input.setMaxCharacters(".js-characterCountMessage3", { limit : 200, results : ".js-remaining3" });
+		/* ------------------- */
+
+		/* Gifting Display */
+		$(".js-isItGift").click(function() {
+			if( $(this).is(":checked") )
+			{ $(".js-giftingDisplay").show(); }
+			else
+			{ $(".js-giftingDisplay").hide(); }
+		}).triggerHandler("click");
+		/* ------------------- */
+
+		/* Referral Display */
+		$(".js-isItReferral").click(function() {
+			if( $(this).is(":checked") )
+			{ $(".js-referralDisplay").show(); }
+			else
+			{ $(".js-referralDisplay").hide(); }
+		}).triggerHandler("click");
+		/* ------------------- */
+
+		/* Note Display */
+		$(".js-haveNote").click(function() {
+			if( $(this).is(":checked") )
+			{ $(".js-haveNoteDisplay").show(); }
+			else
+			{ $(".js-haveNoteDisplay").hide(); }
+		}).triggerHandler("click");
+		/* ------------------- */
+
+
+
+	});
+</script></div>
+				
+</div>		
+
+
+{% endblock %}
+
+{% block right_column %}
+
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}
+
+
+	

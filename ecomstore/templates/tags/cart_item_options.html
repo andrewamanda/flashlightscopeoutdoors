@@ -1,0 +1,26 @@
+{% load cache %}
+{% load catalog_tags %}
+
+{% for c in cio %}
+<tr>
+	<td colspan=1></td>
+	<td colspan=3 style="color:gray;text-align:justify;font-weight:bold;">{{ c.title }} - {{ c.option }}
+		{% if c.price > 0 %}
+			- <b>Add ${{c.price}}</b>
+		{% endif %}
+		{% if c.availability == "Soldout" %}
+			- <b>Sold out, in back order </b>
+		{% endif %}
+	</td>
+</tr>
+{% if c.gift_message %}
+<tr>
+	<td colspan=1></td>
+	<td colspan=3 style="color:gray;text-align:justify;font-weight:bold;">Your gift message:
+			<b>{{ c.gift_message|safe }}</b>
+	</td>
+</tr>
+{% endif %}
+
+{% endfor %}
+

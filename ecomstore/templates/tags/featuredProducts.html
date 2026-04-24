@@ -1,0 +1,13 @@
+{% load catalog_tags %}
+
+	<div class="recentlyViewed">
+<!--
+		<h3><img title="Featured Products" src="{{ MEDIA_URL }}assets/images/common/featured_products_h.gif" alt="Featured Products" /></h3>
+-->
+		<h3>Featured Products</h3>
+		<div class="borderTop"><!--  --></div>
+	
+		<div class="content_rvi">
+			{% product_list featured '' %}
+		</div>
+	</div>	

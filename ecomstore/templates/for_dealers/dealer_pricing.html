@@ -1,0 +1,34 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% load catalog_filters %}
+
+{% block content %}
+
+<h1 class="headingPageTitle2">Multitier Dealer Pricing</h1>
+<div style="float: left; padding-bottom: 15px; font-size: 20px; font-family: "Courier New"; color="#333333">
+
+We offer aggressive discount based on the total amount in a single order. Please refer to the following discount table. The discount rate applies to our already low <a href="{% url how_to_order %}"><font color="FF00CC">dealers' price</font></a>.<br />
+The discount will be applied when we send the invoice to you after receiving your order.
+
+<br /><br />
+<table WIDTH="545" border="3" bgcolor="NAVY" cellspacing="2" cellpadding="5" align="right">
+	<tr bgcolor="red">
+		<th><FONT COLOR=WHITE FACE="Geneva, Arial" SIZE=6>From</FONT></th>
+		<th><FONT COLOR=WHITE FACE="Geneva, Arial" SIZE=6>To</FONT></th>
+		<th><FONT COLOR=WHITE FACE="Geneva, Arial" SIZE=6>Discount</FONT></th>
+	</tr>
+	{% for discount in dealerdiscountrate %}
+		{% if forloop.counter0|divisibleby:2 %}
+		<tr bgcolor="cornsilk">
+		{% else %}
+		<tr bgcolor="tan">
+		{% endif %}
+			<td>{{discount.min|currency}}</td>
+			<td>{{discount.max|currency}}</td>
+			<td>{% percentage discount.discount_rate %}</td>
+		</tr>
+	{% endfor %}
+
+</table>
+</div>
+{% endblock %}

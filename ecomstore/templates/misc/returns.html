@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block pre_body_scripts %}
+{{ block.super }}
+<link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}css/tabview.css">
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/yahoo.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/event.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/dom.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/element-beta.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/yui/tabview.js"></script>
+<script type="text/javascript">
+(function() {
+    YAHOO.util.Event.onDOMReady(function() {
+        if (document.getElementById('demo')) {
+            new YAHOO.widget.TabView('demo');
+        }
+    });
+})();
+</script>
+{% endblock %}
+
+
+{% block site_wrapper %}
+
+
+
+
+<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+
+<h1 class="headingPageTitle2">CUSTOMER SERVICE</h1>
+<br />
+
+<div class="yui-skin-sam" style="width:100%; margin:8px 10px 0 0;">
+		<div id="demo" class="yui-navset">
+			<ul class="yui-nav">
+				<li class="selected"><a href="#contactus"><em class="yuinavfont">
+			            Contact Us</em></a>
+				</li>
+
+				<li><a href="#shippingpolicy"><em class="yuinavfont">
+			            Shipping Policy</em></a>
+				</li>
+				<li><a href="#cancellationpolicy"><em class="yuinavfont">
+			            Cancellation Policy</em></a>
+				</li>
+				<li><a href="#returnpolicy"><em class="yuinavfont">
+			            Return Policy</em></a>
+				</li>
+
+                 		<li><a href="#privacypolicy"><em class="yuinavfont">
+			    		Privacy Policy</em></a>
+				</li>
+
+                 		<li><a href="#dealpolicy"><em class="yuinavfont">
+			    		Promotion Policy</em></a>
+				</li>
+
+
+    	 		</ul>
+
+       		<div class="yui-content">
+              		<div id="contactus" class="flatpage_paragraph">
+	<br /><br />
+<p><div style="font-weight: bold;">How can we help you today?</div>Whatever your question, problem, or comment, {{ site_name }}'s Customer Service is here to help. If there's anything we can do, just let us know!</p><br /><br />
+
+<p><div style="font-weight: bold;">Email Us</div>Email your questions, comments and feedback and we will get back to you within one business day. {{ EMAIL_ORDER }} </p><br /><br />
+
+<p><div style="font-weight: bold;">Phone Us</div>For Customer assistance or to order by phone, call us toll free at {{ SUPPORT_PHONE_NUM }}.</p><br /><br />
+ 	<br /><br />
+				</div>
+
+              		<div id="shippingpolicy" class="flatpage_paragraph">
+
+				<span style="font-size:20px;font-weight:bold;">Shipping Policy</span> 
+				<br /><br />
+
+
+				We ship most orders within 24 hours. If you choose the Overnight Air Express, we will ship the same day if you place the order by 9am Eastern Standard Time.
+				We ship most orders via US Postal Service. Some by UPS or Fedex.
+
+				<br /><br />
+
+				Under normal circumstances, most orders ship out within 24 hours. However, due to large order volumes, weather conditions or circumstances beyond our control, we will ship your order out as soon as possible. We use recycled boxes and packing materials for mail orders. 
+
+				<br /><br />
+
+
+				International orders are shipped primarily by USPS. International customers are encouraged to place and order. We will not charge your credit card until we send and you accept a shipping quote. 
+				<br />
+				For large orders, your signature may be required upon delivery. Please ensure that someone will be available for signature request upon delivery or the package may be returned to us.
+
+				<br /><br />
+	
+				* To see your shipping charges in advance of placing an order, place the desired items into your shopping cart by clicking on the Add To Cart buttons. Then proceed to the Checkout; then select a shipping method. This will show you shipping charges before placing your order.
+
+				<br /><br />
+
+
+				<span style="font-size:20px;font-weight:bold;">Shipping Times</span> 
+				<br /><br />
+				Most orders are shipped within 24 hours. Do not count the day the order was shipped. Fed Ex Home Delivery delivers on Saturday at no extra charge but does not deliver on Monday. Small orders that weigh less than two pounds are best shipped via USPS.
+				<br /><br />
+
+				Please note that flashlights do not come with batteries unless stated otherwise.
+				<br /><br />
+
+
+
+				</div>
+              		<div id="cancellationpolicy" class="flatpage_paragraph">
+				<span style="font-size:20px;font-weight:bold;">Order Cancellation Policy</span>
+				<br /><br />
+
+
+				Your order begins processing immediately after you submit your order on the payment page. We process the order quickly and try our best to ship the order within 24 hours. During processing time it may be possible to cancel your order, but once the order moves into the shipping process, it cannot be canceled. 
+To attempt to cancel your order during processing: 
+				<br /><br />
+
+				<ul class="withBullets">
+<li>Sign in to your account. </li>
+<li>Find the order on your account Main Page.  </li>
+<li>Click the order number to see the Order Details.</li>
+				</ul> 
+				<br /><br />
+
+
+				If the order status is "in process", you can immediately write to <b>{{ EMAIL_ORDER }}</b> to cancel the order. If the order is already being shipped, it cannot be canceled. 
+				<br /><br />
+
+
+				If you have changed your mind about the order and it is too late to cancel, you can return any unwanted items in accordance with the retailer's returns policy. 
+				</div>
+
+
+              		<div id="returnpolicy" class="flatpage_paragraph">
+
+				<span style="font-size:20px;font-weight:bold;">Return Policy</span> 
+	<br /><br />
+
+					We stand behind our products and want you to be completely satisfied. If you are not completely satisfied for any reason, please return your merchandise within 15 days for a full refund or exchange. 
+					
+					To return your purchase, please contact us for an RMA # (Return Authorization Number). Please email <b>{{ EMAIL_ORDER }}</b>.  Please indicate reason for return and the action to be taken (exchange/refund). After receiving the RMA #, please return the item(s) in its original packaging. For your protection, please insure your package for its full value.
+					
+					<br /><br />
+
+					We will apply your refund, less shipping, to the original form of payment. If you would prefer an exchange we will send it promptly. 
+	
+				
+
+	<br /><br />
+
+
+					If your items arrive damaged, please keep all boxes and packing materials and immediately contact customer service at {{ SUPPORT_PHONE_NUM }} for further instructions.
+					
+	<br /><br />
+
+					
+					Should you have any questions about your return, please email us at {{ EMAIL_ORDER }} or call {{ SUPPORT_PHONE_NUM }}.
+					
+
+
+					<div class="cb"><br /><br /></div>
+	 
+		  		</div>
+              		<div id="privacypolicy" class="flatpage_paragraph">
+				<span style="font-size:20px;font-weight:bold;">Privacy Policy</span> 
+	<br /><br />
+				 
+
+				Our site uses an order form for our customers to make purchase order. We request contact information (name, address, and email address) and financial information (payment information to make purchases) from our customers. The contact information provided on the order form is used to ship our customer order(s) and when necessary to contact our customer. The financial information provided is used for billing purposes on products and services ordered. However, we do NOT save your financial information; your financial information is directly transmitted to one of the three most reputable payment gateways: Authorized.net for credit card transaction; Paypal or Google Checkout, through an encrypted secure connection. So your financial information is as secure as it can be.
+	<br /><br />
+
+				The web site has security measures in place to protect the loss, misuse and alteration of the information under our control. We use 128-bit SSL encryption to protect your information. You have the option to change and modify information previously provided by logging in through our home page and then accessing account administration.
+
+ 	<br /><br />
+
+				We do not in any way share your personal information with any thirdparty affiliates.
+
+ 	<br /><br />
+
+				If you have any questions about this privacy statement, the practices of this site, or your dealings with this Web site, please send an email to <b>{{ EMAIL_ORDER }}</b>.
+
+				</div>
+
+              		<div id="dealpolicy" class="flatpage_paragraph">
+				<span style="font-size:20px;font-weight:bold;">Deal and Promotion Policy</span> 
+	<br /><br />
+				 
+
+				We treat our customers as a community of friends and outdoor enthusiasts. As a way to better serve our community, we offer one top selling product each day at a discounted price at our Deal Of the Day program. Any eligible coupon code appies to the Deal Of the Day item as well. We also periodically offer deep discount on selected popular products via newsletters. 
+	<br /><br />
+
+				To be fair to all customers,  it is our store's policy that we will issue you a store credit if the product you purchased is on any promotional sale within 30 days of your purchase for a lower price than what
+you had paid. The difference will be issued as a store credit. Just send us an email with your order number.
+
+
+
+ 	<br /><br />
+				</div>
+
+
+
+
+
+
+			</div>
+		</div>
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% load cache %}
+{% load catalog_tags %}
+
+<div id="header-container">
+<!--
+    <span id="header-right">
+        <a href="{% url 'nameyourprice' %}"><span>Name your price</span></a>
+        <a href="{% url 'dealoftheday' %}"><span>Deal of the day</span></a>
+        <a href="{% url 'clearance' %}"><span>Clearance center</span></a>
+    </span>
+-->
+	<div id="header-departments-container">
+<div class="bootstrap">
+  <nav class="bsTopMenu">
+    <ul class="nav">
+     	{% active_departments as departments %}
+     	{% for d in departments %}
+        <li>
+    		<div class="header-departments">
+        		<a class="departments header-departments-icon" href="{{ d.get_absolute_url }}"><span>{{ d.name }}</span></a>
+        		<div class="header-departments-dropdown">
+				{% g_nav_category_list request.path d %}
+				{% g_nav_brand_list request.path d %}
+            			<a class="header-departments-all-link" href="{{ d.get_absolute_url }}">All {{ d.name }}</a>
+        		</div>
+    		</div>
+	</li>
+	{% endfor %}
+        <li>
+    		<div class="deal-departments">
+        		<a class="deals header-departments-icon" href="{% url 'nameyourprice' %}"><span>Make an offer</span></a>
+        		<div class="header-departments-dropdown">
+        			<div class="header-departments-dropdown-left">
+              				<span class="redtext header-departments-dropdown-header">How to make an offer</span>
+
+							<a class="smallmenu tooltip_w"><span>From Name Your Price widget<b><em></em>Click the Make Your Offer link on the top right corner in this panel to launch the NameYourPrice widget. You can search and add multiple products into the offer basket and make one bulk offer</b></span></a>
+							<a class="smallmenu tooltip_w"><span>From product page<b><em></em>Find your product. Click on the Make Offer button. It will add the product to the offer basket. You will have the opportunity to add more products and make a bulk offer</b></span></a>
+							<a class="smallmenu tooltip_w"><span>From shopping cart<b><em></em>Add products into your shopping cart. You can make an offer for all the products in your shopping cart</b></span></a>
+				</div>
+        			<div class="header-departments-dropdown-right">
+              				<span class="redtext header-departments-dropdown-header">Frequently asked questions</span>
+							<a class="smallmenu tooltip_w"><span>Do I need an account to make an offer?<b><em></em>Yes, each offer is registered and tracked under a unique email address. Your email is used to communicate the status change of the offer to you. <br>You can also login using your existing social accounts, such Amazon, gmail, yahoo, facebook, etc</b></span></a>
+							<a class="smallmenu tooltip_w"><span>Can I make an offer for multiple products at one time?<b><em></em>Absolutely. That is the unique feature we offer to our customers. You can add multiple products into your offer basket and enter a combined offer price.</b></span></a>
+							<a class="smallmenu tooltip_w"><span>What can I expect after I enter an offer?<b><em></em>You should receive an email communication when your offer is accepted or if your offer is countered by a new price. This should happen within 12 hours.</b></span></a>
+							<a class="smallmenu tooltip_w"><span>How do I find out if my offer is accepted or countered?<b><em></em>You will receive an email notification when the status of your offer is changed;<br> Or you can click or refresh your offer page on the site to check on the status of your offer</b></span></a>
+							<a class="smallmenu tooltip_w"><span>How do counter offers work?<b><em></em>You can click on your offer and enter a new reasonable amount for your offer. Click Submit, <br>Your counter offer will be submited to the seller for review, much like how eBay's Make Offer works</b></span></a>
+							<a class="smallmenu tooltip_w"><span>Can I take back an offer?<b><em></em>Yes, you can cancel an offer at any time before you have made the payment for an accepted offer</b></span></a>
+							<a class="smallmenu tooltip_w"><span>How many offer can I make at one time?<b><em></em>One. At any given time, you can only have one outstanding offer. You must either clear the payment for an accepted offer or cancel an existing offer before you enter a new offer</b></span></a>
+							<a class="smallmenu tooltip_w"><span>Can I add or remove a product from an offer I have entered? Can I change the quantity?<b><em></em>Once an offer is entered, you can not update the products or quantity. But you can easily cancel the offer and re-enter a new one.</b></span></a>
+				</div>
+            			<a class="redtext header-departments-all-link" href="{% url 'nameyourprice' %}"><span>Make Your Offer</span></a>
+        		</div>
+    		</div>
+				</li>
+        <li>
+    		<div class="deal-departments">
+        		<a class="deals header-departments-icon" href="{% url 'dealoftheday' %}"><span>Deal Of The Day</span></a>
+        		<div class="header-departments-dropdown">
+				{% dealoftheday_all as dealoftheday %}
+				{% for d in dealoftheday %}
+					<div class="header-departments-dropdown-left">
+						<a class="redtext" href="{{ d.get_absolute_url }}"><span class="header-departments-dropdown-header">{{ d.name }} - {{ d.meta_description }}</span></a>
+						<a class="largeOrange" href="{{ d.get_absolute_url }}"><span><del>Was: ${{ d.price }}</del>  Today's Deal: ${{ d.sale_price }}</span></a>
+						<a href="{{ d.get_absolute_url }}"><img src="{% large_image_url d.image.url %}" /></a>
+						<a class="largeOrange" href="{{ d.get_absolute_url }}"><span>View detail and purchase</span></a>
+					</div>
+
+				{% endfor %}
+            			<a class="redtext header-departments-all-link" href="{% url 'dealoftheday' %}"><span>View All</span></a>
+        		</div>
+    		</div>
+			</li>
+	{% active_promotion as promos %}
+	{% for p in promos %}
+		{% if forloop.first %}
+        		<li>
+    				<div class="deal-departments">
+        				<a class="deals header-departments-icon" href="{% url 'promotion' %}"><span>{{ p.title }}</span></a>
+        				<div class="header-departments-dropdown">
+						<div class="redtext header-departments-dropdown-left">
+							<span class="header-departments-dropdown-header">{{ p.description }}</span>
+							<a class="largeOrange"><span>Promotion code: {{ p.code }}</span></a>
+							<a class="largeOrange"><span>Start from: {{ p.valid_from }}</span></a>
+							<a  class="largeOrange"><span>Valid until: {{ p.valid_until }}</span></a>
+						</div>
+
+						<div class="redtext header-departments-dropdown-right">
+      							<span class="header-departments-dropdown-header">Products applied {% if p.exclude %}(Exclusion applies: All {{ p.exclude.name }} products are excluded) {% endif %}</span>
+							{% promotion_products p as pop %}
+							{% if pop %}
+        						<table>
+       								{% for c in pop %}
+                							{% if forloop.counter0|divisibleby:"4" %}
+                        						<tr>
+                							{% endif %}
+                 							<td><a class="largeOrange" href="{{ c.get_absolute_url }}"><span>{{ c.name }}</a></td>
+                							<td></td>
+                							<td></td>
+                							{% if forloop.counter|divisibleby:"4" %}
+                        						</tr>
+                							{% endif %}
+        							{% endfor %}
+        						</table>
+							{% else %}
+								<a><span>Entire Store</span></a>
+							{% endif %}
+
+						</div>
+        				</div>
+    				</div>
+			</li>
+		{% endif %}
+	{% endfor %}
+	<!--
+	<li>
+	<div class="deal-departments">
+			<a class="deals header-departments-icon" href="/blog"><span>Follow Our Blogs</span></a>
+	</div>
+</li>
+-->
+     </ul>
+   </nav>
+</div>
+</div>

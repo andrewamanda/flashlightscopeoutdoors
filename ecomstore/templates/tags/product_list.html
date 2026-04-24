@@ -1,0 +1,11 @@
+{% for p in products %}
+	{% if forloop.first %}
+		<h2 class="product_bucket_title">{{ header_text }}</h2>
+		<hr noshade="noshade" size="1" />
+		<br />
+	{% endif %}
+	{% include 'tags/product_thumbnail.html' %}
+	{% if forloop.last %}
+		<div class="cb"></div>
+	{% endif %}
+{% endfor %}

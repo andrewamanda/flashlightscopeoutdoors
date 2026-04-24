@@ -1,0 +1,63 @@
+{% if messages %}
+  <div id="flash-messages">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags|default:'info' }}">
+        {{ message }}
+        <button type="button" class="close-btn" aria-label="Close" onclick="this.parentElement.remove()">&times;</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<style>
+  #flash-messages {
+<<<<<<< HEAD
+    max-width: 900px;        /* Limit width */
+=======
+    max-width: 1050px;        /* Limit width */
+>>>>>>> 2d6ea56f74713fee4882db8132154354ab822db8
+    margin: 12px auto;       /* Center horizontally */
+    padding: 0 10px;         /* Small side padding */
+  }
+
+  #flash-messages .alert {
+    position: relative;
+    padding: 12px 36px 12px 14px;
+    margin: 10px 0;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  #flash-messages .alert-info    { background:#e8f4ff; border-color:#b9dcff; color:#0b5cad; }
+  #flash-messages .alert-success { background:#e9f7ef; border-color:#c7eed8; color:#1a7f37; }
+  #flash-messages .alert-warning { background:#fff4e5; border-color:#ffe0b2; color:#8a5a00; }
+  #flash-messages .alert-error,
+  #flash-messages .alert-danger  { background:#fdecea; border-color:#f5c6cb; color:#a12622; }
+
+  #flash-messages .close-btn {
+    position:absolute; top:8px; right:10px;
+    width:24px; height:24px; border:0; background:transparent;
+    font-size:18px; line-height:24px; cursor:pointer; color:inherit;
+  }
+  #flash-messages .fade-out { opacity:0; transition: opacity .25s linear; }
+</style>
+
+<script>
+  // Auto-dismiss after 5s (success=3s, warning=6s, error=8s)
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("#flash-messages .alert").forEach(function (el) {
+      var cls = el.className;
+      var timeout = 5000;
+      if (cls.includes("alert-success")) timeout = 3000;
+      if (cls.includes("alert-warning")) timeout = 6000;
+      if (cls.includes("alert-error") || cls.includes("alert-danger")) timeout = 8000;
+
+      setTimeout(function () {
+        el.classList.add("fade-out");
+        setTimeout(function () { el.remove(); }, 300);
+      }, timeout);
+    });
+  });
+</script>

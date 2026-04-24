@@ -1,0 +1,360 @@
+
+{% extends "2023/base.html" %}
+{% load catalog_tags %}
+
+{% block title %}
+    <title>Andrew & Amanda Outdoors Home</title>
+{% endblock %}
+
+{% block additional_meta %}
+
+
+
+
+<script src="{{ MEDIA_URL }}/2023/js/slick.min.js"></script>
+
+
+{% endblock %}
+
+{% block main_area %}
+<main>
+
+<section class="banner-block homepage-banner position-relative">
+    <div class="banner-img">
+        <img src="{{ MEDIA_URL }}/2023/images/banner-bg.jpg" alt="">
+    </div>
+    <div class="banner-cont">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 home-banr-sl">
+                  {% for p in new_arrivals %}
+
+
+                              <div>
+                                <div class="header-row">
+                                    <div class="banner-form-lft">
+                                        <div class="banner-cont-info">
+                                        <h1>New Arrival<br>{{ p.name }}</h1>
+                                        <p>{{ p.meta_description }}</p>
+                                        <a href="{{p.get_absolute_url}}" class="btn">Shop Now</a>
+                                    </div>
+                                    </div>
+                                     <div class="banner-img banner-top-img"><img src="{{ p.image.url }}" alt="banner"></div>
+                                </div>
+                              </div>
+              		{% endfor %}
+                  {% for p in coming_soon %}
+
+
+                              <div>
+                                <div class="header-row">
+                                    <div class="banner-form-lft">
+                                        <div class="banner-cont-info">
+                                        <h1>Coming Soon<br>{{ p.name }}</h1>
+                                        <p>{{ p.meta_description }}</p>
+                                        <a href="{{p.get_absolute_url}}" class="btn">Shop Now</a>
+                                    </div>
+                                    </div>
+                                     <div class="banner-img banner-top-img"><img src="{{ p.image.url }}" alt="banner"></div>
+                                </div>
+                              </div>
+              		{% endfor %}
+
+                  {% for p in featured %}
+
+
+                              <div>
+                                <div class="header-row">
+                                    <div class="banner-form-lft">
+                                        <div class="banner-cont-info">
+                                        <h1>Featured Product<br>{{ p.name }}</h1>
+                                        <p>{{ p.meta_description }}</p>
+                                        <a href="{{p.get_absolute_url}}" class="btn">Shop Now</a>
+                                    </div>
+                                    </div>
+                                     <div class="banner-img banner-top-img"><img src="{{ p.image.url }}" alt="banner"></div>
+                                </div>
+                              </div>
+              		{% endfor %}
+                  {% for banner in banners %}
+                    <div>
+                      <div class="header-row">
+                          <div class="banner-form-lft">
+                              <div class="banner-cont-info">
+                              <h1>lightweight <br>outdoor headlamp</h1>
+                              <p>Lorem ipsum dolor sit amet onsectetur adipiscing elit.cccccccccccccccccccccccccccccccccccccccccccccccc</p>
+                              <a href="{{banner.url_link}}" class="btn">Shop Now</a>
+                          </div>
+
+                          </div>
+                           <div class="banner-img banner-top-img"><img src="{{ MEDIA_URL }}/2023/images/home-banner.png" alt="banner"></div>
+                      </div>
+                    </div>
+                  {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="add-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="add-box-card position-relative">
+                    <div class="add-box-card-info">
+                        <h3>Lights & Optics</h3>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                    <div class="add-box-card-img"><img src="{{ MEDIA_URL }}/2023/images/add-shop-1.png"></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="add-box-card position-relative">
+                    <div class="add-box-card-info">
+                        <h3>Lab & Science</h3>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                    <div class="add-box-card-img"><img src="{{ MEDIA_URL }}/2023/images/add-shop-2.png"></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="add-box-card position-relative">
+                    <div class="add-box-card-info">
+                        <h3>Batteries & Chargers</h3>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                    <div class="add-box-card-img"><img src="{{ MEDIA_URL }}/2023/images/add-shop-3.png"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="product-card-area common-gap-top-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-5 text-center position-relative">
+                <h2>New Arrivals</h2>
+                <div class="test-stoke">New Arrivals</div>
+            </div>
+            <div class="col-lg-12 product-card-sl">
+
+              {% for p in new_arrivals %}
+              <div class="product-card">
+                  <div class="product-card-img"><a href="{{ p.get_absolute_url }}"><img src="{% if p.image %}{% thumbnail_image_url p.image.url %}{% endif %}" alt="product {{ MEDIA_URL }}/2023/images"></a></div>
+                      <div class="product-card-info">
+                      <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                      <h5>{{ p.name }}</h5>
+                      <p class="price">{{ p.price }}</p>
+                      <a href="{{ p.get_absolute_url }}" class="btn">Shop Now</a>
+                  </div>
+              </div>
+
+          		{% endfor %}
+
+            </div>
+        </div>
+    </div>
+   </section>
+
+
+<section class="aboutus-area common-gap-top-bottom-small" style="background: url({{ MEDIA_URL }}/2023/images/aboutus-bg.jpg) no-repeat top center;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center position-relative">
+                <div class="add-aboutus-info mb-4">
+                <h4>Welcome to Andrew & Amanda. It is your source for top quality LED lights, tactical scopes, batteries, gun grips, mounts, and much more.</h4>
+                <a href="index.html#" class="btn">Learn more</a>
+                </div>
+
+                <div class="img"><img src="{{ MEDIA_URL }}/2023/images/aboutus-img.png"></div>
+                <div class="test-stoke">About us</div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="brand-area common-gap-top-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-5 position-relative">
+                <h2>Shop by brand</h2>
+                <div class="test-stoke">Shop by brand</div>
+            </div>
+            <div class="col-lg-12 brand-logo-sl">
+              {% for p in active_brands %}
+                <div class="brand-logo">
+                  <div class="brand-logo-img"><a href="{{ p.get_absolute_url }}"><img src="{% if p.image %}{% thumbnail_image_url p.image.url %}{% endif %}" alt="product {{ MEDIA_URL }}/2023/images"></a>
+                  </div>
+                </div>
+
+          		{% endfor %}
+                <div class="brand-logo">
+                    <div class="brand-logo-img"><img src="{{ MEDIA_URL }}/2023/images/brand-logo-1.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                </div>
+                <div class="brand-logo">
+                    <div class="brand-logo-img"><img src="{{ MEDIA_URL }}/2023/images/brand-logo-2.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                </div>
+                <div class="brand-logo">
+                    <div class="brand-logo-img"><img src="{{ MEDIA_URL }}/2023/images/brand-logo-3.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                </div>
+                <div class="brand-logo">
+                    <div class="brand-logo-img"><img src="{{ MEDIA_URL }}/2023/images/brand-logo-4.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                </div>
+                <div class="brand-logo">
+                    <div class="brand-logo-img"><img src="{{ MEDIA_URL }}/2023/images/brand-logo-5.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                </div>
+                <div class="brand-logo">
+                    <div class="brand-logo-img"><img src="{{ MEDIA_URL }}/2023/images/brand-logo-6.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                </div>
+                <div class="brand-logo">
+                    <div class="brand-logo-img"><img src="{{ MEDIA_URL }}/2023/images/brand-logo-1.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+   <section class="deals-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-3 position-relative">
+                <h2>Deals of the day</h2>
+                <div class="test-stoke">Deals of the day</div>
+            </div>
+            <div class="col-lg-12 deals-prod-sl">
+                <div class="deals-sl deal-bg-green">
+                    <div class="deals-desc">
+                        <h3>Eagletac M30LC2 Kit</h3>
+                        <p><span>$145.90 </span><strong>$82.00</strong></p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                    <div class="deals-img">
+                        <img src="{{ MEDIA_URL }}/2023/images/deals-img-1.png">
+                    </div>
+                </div>
+                <div class="deals-sl deal-bg-orange">
+                    <div class="deals-desc">
+                        <h3>NcStar 3-9x42 P4 SNIPER Scope</h3>
+                        <p><span>$145.90 </span><strong>$82.00</strong></p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                    <div class="deals-img">
+                        <img src="{{ MEDIA_URL }}/2023/images/deals-img-2.png">
+                    </div>
+                </div>
+                <div class="deals-sl deal-bg-green">
+                    <div class="deals-desc">
+                        <h3>Eagletac M30LC2 Kit</h3>
+                        <p><span>$145.90 </span><strong>$82.00</strong></p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                    <div class="deals-img">
+                        <img src="{{ MEDIA_URL }}/2023/images/deals-img-1.png">
+                    </div>
+                </div>
+                <div class="deals-sl deal-bg-orange">
+                    <div class="deals-desc">
+                        <h3>NcStar 3-9x42 P4 SNIPER Scope</h3>
+                        <p><span>$145.90 </span><strong>$82.00</strong></p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                    <div class="deals-img">
+                        <img src="{{ MEDIA_URL }}/2023/images/deals-img-2.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+
+   <section class="product-card-area common-gap-top-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-5 text-center position-relative">
+                <h2>Clearance Corner</h2>
+                <div class="test-stoke">Clearance Corner</div>
+            </div>
+            <div class="col-lg-12 product-card-sl">
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-1.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Eagletac TX3G Pro MKII CW</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-2.jpg" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore-lr40-Green</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-3.jpg" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore NB10000 - Silver</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-4.jpg" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>nitecore-edc27</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-1.png" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Eagletac TX3G Pro MKII CW</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-2.jpg" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore-lr40-Green</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-3.jpg" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore NB10000 - Silver</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-4.jpg" alt="product {{ MEDIA_URL }}/2023/images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="index.html#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>nitecore-edc27</h5>
+                        <p class="price">$234.95</p>
+                        <a href="index.html#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+
+</main>
+
+{% endblock %}

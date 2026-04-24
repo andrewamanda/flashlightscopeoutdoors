@@ -1,0 +1,347 @@
+{% extends "2023/base.html" %}
+{% load catalog_filters %}
+{% load catalog_tags %}
+{% block title %}
+    <title>Andrew & Amanda Outdoors Product</title>
+{% endblock %}
+
+{% block additional_meta %}
+<meta property="og:title" content="{{ p.name }}" />
+<meta property="og:type" content="product" />
+<meta property="og:url" content="{{ site_url }}/{{ p.get_absolute_url }}" />
+<meta property="og:image" content="{{ site_url }}/{{ p.thumbnail.url }}" />
+<meta property="og:site_name" content="{{ p.meta_description }}" />
+<meta property="fb:admins" content="100002250704805" />
+{% endblock %}
+
+{% block breadcrum %}
+<div class="l-breadcrumb">
+<ul class="breadcrumb"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'home' %}">Pricing Structures</a></li><li>{% block pricing_item %}{% endblock %}</li></ul>    </div>
+{% endblock %}
+
+
+{% block main_area %}
+    <main>
+<section class="Product-info-area">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-6">
+
+                <div class="module-gallery module-12345">
+	<div class="maxWidth900 padLR15">
+		<div class="padTB20">
+			<div class="slider-wrapper">
+				<ul class="slider-thumb noPad noMar">
+					<li class="type-image"><img src="{% thumbnail_image_url p.image.url %}" alt=""></li>
+          {% for i in more_images %}
+          {% if not 'mazon' in i.image_caption %}
+					<li class="type-image"><img src="{% thumbnail_image_url i.a_image.url %}" alt=""></li>
+          {% endif %}
+          {% endfor %}
+				</ul>
+
+				<ul class="slider-preview noPad noMar">
+          <li class="type-image"><img src="{% large_image_url p.image.url %}" alt=""></li>
+          {% for i in more_images %}
+          {% if not 'mazon' in i.image_caption %}
+					<li class="type-image"><img src="{% large_image_url i.a_image.url %}" alt=""></li>
+          {% endif %}
+          {% endfor %}
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+            </div>
+            <div class="col-lg-6">
+                <div class="prod-info">
+                    <div class="prod-stars">
+                        <img src="{{ MEDIA_URL }}/2023/images/Stars.svg">
+                        <p>(1 customer review)</p>
+                    </div>
+                    <h4>{{ p.meta_description }}</h4>
+                    <P>Brand:<strong> {{ p.brand }}</strong></P>
+                    <div class="prod-price">
+                      <p>Price:<strong>{{ p.price|currency }}</strong></p>
+                    </div>
+	<form method="post" action="." >{% csrf_token %}
+                    <input type="hidden" name="product_slug" value="{{ p.slug }}" id="id_product_slug">
+                    <div class="prod-quantity">
+                        <p>Quantity</p>
+                        <input type="number" name="quantity" class="form-control" value="1">
+                        <button class="prod-info-btn">Add to cart</button>
+                        <button class="prod-info-btn-black">Make an offer</button>
+                    </div>
+</form>
+                    <p>This product is available to ship immediately.</p>
+                    <div class="prod-payment">
+                        <p>Online payment option</p>
+                        <ul>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-1.svg"></a></li>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-2.svg"></a></li>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-3.svg"></a></li>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-4.svg"></a></li>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-5.svg"></a></li>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-6.svg"></a></li>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-7.svg"></a></li>
+                            <li><a href="#"><img src="{{ MEDIA_URL }}/2023/images/ftr-payment-8.svg"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="tabs-section common-gap-top-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="tab-sec">
+            <div class="tab-sec-nav table-responsive">
+               <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Description</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Features and Specifications</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Reviews (1)</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="Question-tab" data-bs-toggle="tab" data-bs-target="#Question-tab-pane" type="button" role="tab" aria-controls="Question-tab-pane" aria-selected="false">Ask a question</button>
+                  </li>
+              </ul>
+        </div>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0"><h5>{{ p.meta_description }}</h5>
+    <p>
+      <!-- need clean up -->
+      {% if not p.full_description %}
+          {{ p.description|safe }}
+    {% endif %}
+      {% if p.full_description %}
+              {% enclose_description_with_div p.full_description %}
+      {% else %}
+            {% if features %}
+                <ul class="withBullets productspecfont" >
+                  {% for f in features %}
+                    {% if f == '' %}
+                      <br />
+                    {% else %}
+                      {% if '<span>' in f %}
+                        {{ f|safe }}
+                      {% else %}
+                        <li>{{ f|safe }}</li>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <span>{{ p.features|safe}}</span>
+              {% endif %}
+            {% endif %}
+
+      </p></div>
+    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0"><h6>FEATURES</h6>
+    <ul>
+        <li>Dual tail switches intuitive operations, specially designed for law wnforcement, hunting and tactical applications</li>
+        <li>4th generation of the world's first SSR (Smart Selecto Ring) Technology for smoothy and rapidly selecting brightness levels and modes</li>
+        <li>Utilizes a Luminus SFT-70 LED with a max output of 3,000 lumens</li>
+        <li>Stepless brightness adjustmen from 0 - 3,000 lumens</li>
+        <li>Stepless adjustment mode, lockout mode and TAC mode available</li>
+        <li>An optical system combined with crystal coating and "Precision Digital Optics Technology" (PDOT)</li>
+        <li>Max peak beam intensity 07 87,500cd and max throw of 580 meters</li>
+        <li>Max runtime of 800 hours</li>
+        <li>STROBE READY™ Technology to enable a quick access to STROBE Mode (Patent No. ZL201320545349.4)</li>
+        <li>STROBE Mode uses randomly changing frequencies for stronger dizzying effects</li>
+        <li>Equipped with a power indicator</li>
+        <li>Intelligent Li-ion battery charging circuit with a USB-C port</li>
+        <li>NITECORE 21700i Li-ion battery included (NL2150HPi 5,000mAh)</li>
+        <li>Highly efficient constant current circuit provides a stable output</li>
+        <li>Anti-impact reverse polarity protection mechanism specially designed for shooting sports</li>
+        <li>Incorporated Advanced Temperature Regulation (ATR) module (Patent No. ZL201510534543.6)</li>
+        <li>Strike bezel uses high strenght silicon nitride ceramics to enable excellent glass breaking performance</li>
+        <li>Optical lenses with double-sided scratch resistant coating</li>
+        <li>Constructed from aero grade aluminum alloy</li>
+        <li>HA III military grade hard-anodized finish</li>
+        <li>Waterproof and dustproof rating in accordance with IP68 (2 meters submersible)</li>
+        <li>Impact resistant to 2 meters</li>
+        <li>Tail stand capacity</li>
+    </ul>
+    <div class="prod-list-second">
+    <ul>
+        <li>Max Output: 3,000 Lumens</li>
+        <li>Max Beam Distance: 580 Meters</li>
+        <li>Max Beam Intensity: 87,500 cd</li>
+        <li>Max Runtime: 800 h 0 m / 33.33 d</li>
+        <li>Reflector: SMO</li>
+        <li>Battery: 1 × 21700i, 2 × CR123, 2 × RCR123</li>
+        <li>Special Modes: Strobe</li>
+        <li>Beam color: White Light</li>
+        <li>Length: 163 mm / 6.42 in</li>
+        <li>Head Size: 40 mm / 1.57 in</li>
+        <li>Weight: 175 g / 6.17 oz</li>
+        <li>Feature: STROBE READY, Rechargeable, Tail Stand, Smart Selector Ring</li>
+        <li>Activity: Gear, Law Enforcement, Search, Outdoor/Camping</li>
+        <li>Cell: Li-ion</li>
+        <li>Capacity: 20,000mAh 3.85V (77Wh)</li>
+        <li>Rated Energy: 13,500mAh 5V (TYP 2A)</li>
+        <li>Input: USB-C (INPUT): 5V⎓2.4A / 9V⎓2A / 12V⎓1.5A (18W MAX)</li>
+        <li>USB-C (IN): 5V⎓2.4A / 9V⎓3A / 12V⎓2.5A / 15V⎓2A / 20V⎓1.5A (30W MAX)</li>
+        <li>Output: USB-C (OUT1): 5V⎓2.4A / 9V⎓3A / 12V⎓3A / 15V⎓3A / 20V⎓2.25A (45W MAX)</li>
+        <li>USB-A (OUT2/OUT3): 5V⎓2.4A / 9V⎓2A / 12V⎓1.5A</li>
+        <li>Multi Ports: 5V⎓3A (MAX)</li>
+        <li>IP Rating: IPX5</li>
+        <li>Tail stand capacity</li>
+        <li>Weight: 324.5g (11.45oz)</li>
+        <li>Accessories: USB Charging Cable (USB-A to USB-C)</li>
+    </ul>
+</div>
+    </div>
+    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+        <div class="prod-review">
+          <div class="rev-image">
+        <img src="{{ MEDIA_URL }}/2023/images/rev-img.svg">
+          </div>
+          <div class="rev-info">
+            <img src="{{ MEDIA_URL }}/2023/images/Stars.svg">
+            <h6>John Doe</h6>
+            <p>June 26, 2023</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
+          </div>
+    </div>
+    <div class="rev-btn">
+        <a href="#" class="btn">Write a review</a>
+    </div>
+</div>
+    <div class="tab-pane fade" id="Question-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+        <div class="question-form">
+        <label class="form-label">Question</label>
+        <input type="text" class="form-control">
+        <a href="#" class="btn">Submit</a>
+        <a href="#" class="btn btn-black">Cancel</a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- below related products section to be redesigned later -->
+<section class="product-card-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-5 text-center position-relative">
+                <h2>Related Products & Accessories</h2>
+                <div class="test-stoke">Related Products & Accessories</div>
+            </div>
+            <div class="col-lg-12 product-card-sl">
+                <div class="product-card">
+                    <div class="product-card-img"><img src={{ MEDIA_URL }}/2023/images/product-slider-1.png" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Eagletac TX3G Pro MKII CW</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-2.jpg" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore-lr40-Green</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-3.jpg" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore NB10000 - Silver</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-4.jpg" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>nitecore-edc27</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-1.png" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Eagletac TX3G Pro MKII CW</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-2.jpg" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore-lr40-Green</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-3.jpg" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>Nitecore NB10000 - Silver</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ MEDIA_URL }}/2023/images/product-slider-4.jpg" alt="product images"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>nitecore-edc27</h5>
+                        <p class="price">$234.95</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+
+   <section class="product-card-area common-gap-top-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-5 text-center position-relative">
+                <h2>New Arrivals</h2>
+                <div class="test-stoke">New Arrivals</div>
+            </div>
+            <div class="col-lg-12 product-card-sl">
+
+              {% for n in new_arrivals %}
+                <div class="product-card">
+                    <div class="product-card-img"><img src="{{ n.image.url }}" alt="{{ n.name }}"></div>
+                        <div class="product-card-info">
+                        <a class="cart-itm" href="#"><img src="{{ MEDIA_URL }}/2023/images/shopping-cart.svg" alt="cart"></a>
+                        <h5>{{ n.name }}</h5>
+                        <p class="price">{{ n.price }}</p>
+                        <a href="#" class="btn">Shop Now</a>
+                    </div>
+                </div>
+              {% endfor %}
+
+            </div>
+        </div>
+    </div>
+   </section>
+
+    </main>
+{% endblock %}

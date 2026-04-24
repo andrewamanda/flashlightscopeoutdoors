@@ -1,0 +1,317 @@
+#header-container {
+        display: block !important;
+	width: 100%;
+}
+
+#header-right {
+    float: right;
+    margin: 7px 12px 0 12px;
+    line-height: 20px;
+    color: #333;
+}
+#header-right a {
+    display: block;
+    text-decoration: none;
+    color: #2b3e53;
+}
+#header-right a span {
+    border-bottom: 1px solid #c0c9d0;
+    font-size: 12px;
+}
+#header-right a:hover span {
+    border-bottom-color: #397abd;
+}
+
+#header-departments-container {
+    margin-left: 8px;
+}
+#header-departments-container, .header-departments, deal-departments {
+    float: left;
+}
+*+html #header-departments-container {
+    width: 828px;
+}
+/*
+.header-departments .header-departments-dropdown
+{
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+    padding: 25px 20px 12px;
+    border: 1px solid #5798e0;
+    border-top-color: #2882e9;
+    background: #fff url(header-department-selected.gif) repeat-x left -75px;
+    z-index: 10000;
+}
+.deal-departments .header-departments-dropdown {
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+    padding: 25px 20px 12px;
+    border: 1px solid #de0030;
+    border-top-color: #c50000;
+    background: #fff url(header-deals-selected.gif) repeat-x left -75px;
+    z-index: 10000;
+}
+*/
+.deal-departments.header-departments-active a.header-departments-icon {
+    background: url(header-deals-selected.gif) repeat left top;
+    border-top: 1px solid #c50000;
+    border-left: 1px solid #c50000;
+}
+.deal-departments a.header-departments-icon span {
+    /*color: #c03;*/
+color: #e8744f;  /* large orange */
+    width: 45px;
+}
+.deal-departments.header-departments-active a.header-departments-icon span {
+    background-position: left -79px;
+    text-shadow: 1px 1px 1px #c00000;
+}
+a.header-departments-icon, a.header-departments-icon:link, a.header-departments-icon:visited, a.header-departments-icon:active {
+    height: 37px; /* adjust the height of the nav bar */
+    float: left;
+    padding: 1px 9px 1px 10px;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+}
+.header-departments:hover a.departments
+{
+    background: url(header-department-selected.gif) repeat left top;
+    padding: 0 9px;
+    border-top: 1px solid #2882e9;
+    border-left: 1px solid #2882e9;
+}
+.deal-departments:hover a.deals
+{
+    background: url(header-deals-selected.gif) repeat left top;
+    padding: 0 9px;
+    border-top: 1px solid #c50000;
+    border-left: 1px solid #c50000;
+}
+.header-departments:hover a.header-departments-icon span
+{
+	color: #FFFFFF;
+}
+.deal-departments:hover a.header-departments-icon span 
+{
+	color: #FFFFFF;
+}
+a.header-departments-icon span {
+/*
+    padding-top: 48px;
+    display: block;
+    background: url(header-icon-sprite.png) no-repeat left top;
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #4f6877;
+    line-height: normal;
+    border-bottom: 0;
+*/
+
+    color: #000;
+    font-size: 13px;
+    font-weight: normal;
+    padding: 5px 0;
+    text-transform: uppercase;
+    text-shadow: none;
+    letter-spacing: .5px;
+font-family: Georgia, Serif;
+
+}
+div.header-departments-dropdown-left {
+    float: left;
+    margin-right: 30px;
+}
+div.header-departments-dropdown-right {
+    float: left;
+}
+span.header-departments-dropdown-header {
+    color: #2665ad;
+    font: bold 14px Arial, Helvetica, sans-serif;
+    display: block;
+}
+span.redtext, .redtext span{
+    color: #c00000;
+}
+.largeOrange span {
+color: #e8744f;
+}
+.smallmenu span {
+    color: #888;
+    font-size: 12px;
+    text-shadow: none;
+    font-weight: normal;
+}
+
+div.header-departments-dropdown div a {
+    color: #000;
+    display: block;
+    font: normal 12px Arial, Helvetica, sans-serif;
+    text-decoration: none;
+text-align: left;
+    margin: 9px 0 0 15px;
+}
+div.header-departments-dropdown div a span {
+    border-bottom: 1px solid #c0c9d0;
+}
+div.header-departments-dropdown div a:hover span {
+    border-bottom-color: #397abd;
+}
+div.header-departments-dropdown div div {
+    float: left;
+    margin-right: 25px;
+}
+div.header-departments-dropdown div .header-departments-dropdown-brands {
+    height: 112px;
+    margin: 20px 0 0;
+    position: relative;
+}
+#header-departments-container .header-departments-all-link {
+    padding: 0 16px 0 8px;
+    border: 1px solid #79aad4;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    color: #2576d4;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    background: url(../../base/desktop/img/header-6.0/header-images.png) no-repeat right -212px;
+}
+#header-departments-container .header-departments-all-link:hover {
+    border-color: #2576d4;
+    background-position: right -196px;
+}
+/* header-departments */
+.header-departments .header-departments-dropdown {
+    display: none;
+    position: absolute;
+    top: 180px;  /* adjust the drop down position */
+/*
+    left: 157px;
+*/
+    left:0;
+    right:0;
+    margin: 0 auto;
+    width: 1142px;
+
+    padding: 25px 20px 12px;
+    border: 1px solid #5798e0;
+    border-top-color: #2882e9;
+    background: #fafaf9 url(header-department-selected.gif) repeat-x left -75px;
+
+/*
+ box-shadow:  -1px 1px #5798e0,
+         -2px 2px #5798e0,
+         -3px 3px #5798e0,
+         -4px 4px #5798e0,
+         -5px 5px #5798e0;
+*/
+/* generated from http://sam-morrow.com/playground/css-cubes.py */
+box-shadow:  1px 1px rgb(77, 142, 214),
+		 2px 2px rgb(67, 132, 204),
+		 3px 3px rgb(57, 122, 194);
+    z-index: 10000;
+}
+/* deal-departments */
+.deal-departments .header-departments-dropdown {
+    display: none;
+    position: absolute;
+    top: 180px;  /* adjust the drop down position */
+/*
+    left: 157px;
+*/
+    left:0;
+    right:0;
+    margin: 0 auto;
+    width: 1192px;
+
+    padding: 25px 20px 12px;
+    border: 1px solid #c50000;
+    border-top-color: #c50000;
+    background: #fafaf9 url(header-deals-selected.gif) repeat-x left -75px;
+	box-shadow:  1px 1px rgb(187, 0, 0),
+		 2px 2px rgb(177, 0, 0),
+		 3px 3px rgb(167, 0, 0);
+    z-index: 10000;
+}
+.header-departments:hover .header-departments-dropdown , .deal-departments:hover .header-departments-dropdown {
+   display: block;
+}
+
+
+#header-departments-container a.header-brand-logos {
+    position: absolute;
+    margin: 0;
+    background: url(spacer.gif) repeat;
+}
+
+
+/* from gs */
+.bootstrap nav.bsTopMenu {
+/*
+    height: 2.3em;
+    margin-bottom: 0;
+    border: 0;
+    display: table;
+    width: 100%;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    box-shadow: none;
+    background-image: none;
+    font-family: Arial Narrow, sans-serif
+*/
+    height: 2.3em;
+    margin-bottom: 5px;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+    display: table;
+    width: 100%;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    box-shadow: none;
+    background-image: none
+}
+.bootstrap nav.bsTopMenu>ul>li {
+    padding: 10px 0
+}
+.bootstrap nav.bsTopMenu>ul.nav>li>a {
+    border-left: 1px solid #ddd;
+    padding: 2px 0
+}
+.bootstrap nav.bsTopMenu>ul.nav>li:first-child>a {
+    border-left: none
+}
+.bootstrap nav.bsTopMenu .nav {
+    display: table-row;
+    width: 100%;
+    float: none;
+    margin: auto
+}
+.bootstrap nav.bsTopMenu .nav>li {
+    display: table-cell;
+    float: none;
+    text-align: center;
+    width: 1%
+}
+.bootstrap nav.bsTopMenu .nav>li>.dropdown-menu:before {
+    left: 30px
+}
+.bootstrap nav.bsTopMenu .nav>li>.dropdown-menu:after {
+    left: 31px
+}
+.bootstrap nav.bsTopMenu .nav>li>a {
+    color: #000;
+    font-size: 18px;
+    padding: 5px 0;
+    text-transform: uppercase;
+    text-shadow: none;
+    letter-spacing: .5px
+}

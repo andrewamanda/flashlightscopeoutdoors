@@ -1,0 +1,59 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li><a href="{% url 'show_about' %}" class="">About</a></li><li><a href="{% url 'contact' %}" class="">Contact</a></li><li>Thank you for contacting us!</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+    <article about="/free-quote" typeof="sioc:Item foaf:Document" class="node node--webform node--full node--webform--full">
+  <header>
+
+          <h1 class="node__title">Remove from our mailing list</h1>
+      </header>
+
+  <div class="node__content">
+
+
+<h1>	{% if name %}
+		{{ name|capfirst }},
+	{% endif %}
+</h1>
+
+<p style="margin-bottom: 20px;">You have been successfully unsubscribed from our email list for newsletters. If you choose to join our mailing list again, you can sign up any time. </p>
+
+
+
+  </div>
+
+    </article>
+  </div>
+</div>
+          </div>
+
+      <aside class="l-region l-region--sidebar">
+    <div id="block-menu-block-3" class="block block--menu-block block--nav-submenu block--menu-block-3">
+        <div class="block__content">
+    <div class="menu-block-wrapper menu-block-3 menu-name-main-menu parent-mlid-0 menu-level-2">
+  <ul class="menu"><li class="first leaf menu-mlid-705"><a href="{% url 'leave_review' %}" class="menu-705">Leave a Review</a></li>
+<li class="leaf menu-mlid-847"><a href="{% url 'shipping' %}">Shipping</a></li>
+<li class="last leaf menu-mlid-848"><a href="{% url 'contact' %}">Contact</a></li>
+</ul></div>
+  </div>
+</div>
+
+   {% include "heartwoodandbeyond/left_panel.html" %}
+</aside>
+</div>
+{% endblock %}

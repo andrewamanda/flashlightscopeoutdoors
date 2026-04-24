@@ -1,0 +1,159 @@
+{% extends "base_withLeftFrame.html" %}
+{% load static %}
+
+{% block base_extra_css %}
+{{ block.super }}
+<link type="text/css" href="{% static 'multiselect-master/css/ui.multiselect.css' %}" rel="stylesheet" />
+<link type="text/css" href="{% static 'css/nameyourprice/viewalloffers.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block pre_view_specific_static %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/localisation/jquery.localisation-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/plugins/scrollTo/jquery.scrollTo-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'multiselect-master/js/ui.multiselect.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/select_product.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewalloffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/validation.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/viewoffers.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/wish_list.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/nameyourprice/cart_offer.js' %}"></script>
+{% endblock %}
+
+
+{% block breadcrumb %}
+	<li class="breadcrumbRight">
+	<a href="{% url 'nameyourprice' %}">Make an offer<a>
+	</li>
+{% endblock %}
+
+{% block content %}
+	<input type="hidden" name="b_id" value="{{bid.id}}" id="b_id" />
+
+    {% if request.user.is_authenticated %}
+	<h1 class="headingPageTitle2" id="PendingTitle">
+		{% if bid.status == 'WAIT4BUYER' %}
+			You received a counter offer
+		{% endif %}
+		{% if bid.status == 'WAIT4SELLER' %}
+			Pending seller's response
+		{% endif %}
+		{% if bid.status == 'BUYERACCEPTED' %}
+			You have accepted the offer
+		{% endif %}
+		{% if bid.status == 'SELLERACCEPTED' %}
+			Your offer has been accepted
+		{% endif %}
+	</h1>
+	<div class="clr"></div>
+	<div id="errorMsg">
+        {% if count %}
+                <ul class="errorlist">
+                        <li>You have <span style="font-weight:bold;" id="offer_count">{{ count }}</span> open offer(s) pending action</li>
+                </ul>
+        {% endif %}
+	</div>
+	<div class="box">
+ 	{% for p in products %}
+		<div><p style="margin-left:20px;color:#CC0000;">{{p.product.meta_description}}     Qty: {{p.qty_offered }}</p></div>
+	{% endfor %}
+	</div>
+
+	<div>
+		{% if bid.status == 'BUYERACCEPTED' or bid.status == 'SELLERACCEPTED' %}
+			{% include "nameyourprice/offer_accepted.html" %}
+		{% else %}
+			{% if bid.status == 'WAIT4BUYER' %}
+				{% include "nameyourprice/buyer_actions.html" %}
+			{% else %}
+				{% include "nameyourprice/cancel_action.html" %}
+			{% endif %}
+		{% endif %}
+		<div class="box">
+			<div><span style="font-size:14px;font-weight:bold;">Buy It Now price:</span><span style="font-size:14px;font-weight:bold;">  ${{ buyitnow_price }} </span></div>
+			<div style="font-size:14px;font-weight:bold;">
+	     			{% with offerhistories|first as curroffer %}
+					{% if bid.status == 'WAIT4BUYER' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }} 
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br><br><span class="text-color_1">Andrew's Counter Offer: ${{ curroffer.seller_offer_price }}</span>
+						{% if curroffer.seller_comment %}
+							<br><span class="text-color_1">Andrew's comment: {{curroffer.seller_comment }}</span>
+						{% endif %}
+					{% endif %}
+	
+					{% if bid.status == 'WAIT4SELLER' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }}
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br><br><span class="text-color_1 fr" id="Pending">Pending Andrew's response</span>
+						<br>
+
+					{% endif %}
+					{% if bid.status == 'BUYERACCEPTED' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }}
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br><br>
+						Andrew's Counter Offer: ${{ curroffer.seller_offer_price }}
+						{% if curroffer.seller_comment %}
+							<br>Andrew's comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.seller_comment }}</span>
+						{% endif %}
+						<br><br><span class="text-color_1" id="Pending">Final Deal Price: ${{curroffer.seller_offer_price}}. Proceed to checkout</span>
+					{% endif %}
+					{% if bid.status == 'SELLERACCEPTED' %}
+						Your Latest Offer: ${{ curroffer.buyer_offer_price }}
+						{% if curroffer.buyer_comment %}
+							<br>Your comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.buyer_comment }}</span>
+						{% endif %}
+						<br><br>
+						Andrew accepted your offer!
+						{% if curroffer.seller_comment %}
+							<br>Andrew's comment: <span style="font-size:14px;font-style:italic;font-weight:normal;">{{curroffer.seller_comment }}</span>
+						{% endif %}
+						<br><br><span class="text-color_1" id="Pending">Final Deal Price: ${{curroffer.buyer_offer_price}}. Proceed to checkout</span>
+					{% endif %}
+	     			{% endwith %}
+			</div>
+			<div style="font-size:14px;font-weight:bold;display:none;" id="CounterOfferMade"></div>
+		</div>
+	</div>
+	<br><br>
+	<h1 class="headingPageTitle2">Your Offer History</h1>
+	     <div class="box">
+		{% for offer in offerhistories %}
+			{% if not forloop.first %}
+			    <div>
+				<span style="font-size:14px;color: #CC0000;">{{ offer.buyer_offer_date }}:</span>
+				<br>
+				<span style="margin-left:20px;font-size:14px;color: #8E6C6C;">Your offered: ${{ offer.buyer_offer_price }}</span>
+				{% if offer.buyer_comment %}
+                                	<br><span style="margin-left:20px;font-size:14px;color: #8E6C6C;">Your comment: {{offer.buyer_comment }}</span>
+                        	{% endif %}
+				<br>
+				<span style="font-size:14px;color: #CC0000;">{{ offer.seller_offer_date }}:</span>
+                        	<br>   <span style="margin-left:20px;font-size:14px;color: #8E6C6C;">Andrew's Counter Offer: ${{ offer.seller_offer_price }}</span>
+                        	{% if curroffer.seller_comment %}
+                                	<br><span style="margin-left:20px;font-size:14px;color: #8E6C6C;">Andrew's comment: {{offer.seller_comment }}</span>
+                        	{% endif %}
+			   </div>
+
+			{% endif %}
+		{% endfor %}
+	    </div>
+		
+	<div class="clr"></div>
+
+	<div id="SellerOffer"></div>
+	<div id="BuyerOfferMade"></div>
+    {% else %}
+        <a id="add_question" class="productspecfont fr" href="{% url 'login' %}?next={{ request.path }}">
+                        Log in to ask a question
+        </a>
+    {% endif %}
+
+{% endblock %}

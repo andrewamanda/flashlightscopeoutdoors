@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load catalog_tags %}
+
+{% block site_wrapper %}
+
+	<div class="w100">
+		<div id="categoryTemplate1">
+
+			<div class="layoutWithRightColumn">
+
+				<div class="layoutCenterColumn">
+					<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+			
+					<div class="managedContent">
+						{% block content %}{% endblock %}
+					</div>
+				</div>
+				<div class="layoutRightColumn">
+					{% block right_column %}{% endblock %}
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

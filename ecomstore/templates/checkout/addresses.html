@@ -1,0 +1,188 @@
+{% extends "base_withRightFrame.html" %}
+
+{% load checkout_tags %}
+
+{% block zipcode_lookup %}
+
+	<!--
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" ></script>
+		<script src="//ziplookup.googlecode.com/git/zip-lookup/zip-lookup.min.js" type="text/javascript">
+	-->
+		<script src="/static/js/ziplookup/zipLookup.js" type="text/javascript">
+		</script>
+        <script type="text/javascript">
+            $(document).ready(function() {                                  // When the document loads,
+
+
+                $('[name=shipping_zip]').blur(function(){                        // Set on blur
+                    $.zipLookup(                                            // Do a Zip code Lookup
+                        $(this).val(),                                      // Zip code Field Value
+                        function(cityName, stateName, stateShortName){      // If Successful,
+                            $('input[name=shipping_city]').val(cityName);            // Set City name
+                            $('input[name=state_short]').val(stateName);    // Set State abbreviation
+                            $('input[name=shipping_state]').val(stateShortName);     // Set State name
+                            $('.message').html("Found Zipcode");            // Add a message
+                        },
+                        function(errMsg){                                   // If Zip couldn't be found,
+                            $('.message').html("Error: " + errMsg);         // Add an error message
+                        });
+                });
+                $('[name=billing_zip]').blur(function(){                        // Set on blur
+                    $.zipLookup(                                            // Do a Zip code Lookup
+                        $(this).val(),                                      // Zip code Field Value
+                        function(cityName, stateName, stateShortName){      // If Successful,
+                            $('input[name=billing_city]').val(cityName);            // Set City name
+                            $('input[name=state_short]').val(stateName);    // Set State abbreviation
+                            $('input[name=billing_state]').val(stateShortName);     // Set State name
+                            $('.message').html("Found Zipcode");            // Add a message
+                        },
+                        function(errMsg){                                   // If Zip couldn't be found,
+                            $('.message').html("Error: " + errMsg);         // Add an error message
+                        });
+                });
+
+            });
+        </script>
+
+
+{% endblock %}
+
+{% block content %}
+<form id="forvalidation_address" action="." method="post">{% csrf_token %}
+
+{% if not request.user.is_authenticated %}
+<div class="fr AddressPageLogin">
+	<a href="{% url 'login' %}?next={{ request.path }}">
+	Have an account?<br />Sign in now!
+	</a> Or <a href="{% url 'register' %}?next={{ request.path }}">Sign up</a>
+</div>
+<br />
+{% else %}
+<div class="fr">
+	<input type="checkbox" name="saveinfo" ><span> Save the information</span>
+</div>
+{% endif %}
+
+
+<h1 class="headingPageTitle2">Billing and Shipping Address</h1>
+{% if error_message %}
+	<ul class="errorlist">
+		<li>{{ error_message }}</li>
+	</ul>
+{% endif %}
+	<fieldset class="checkout">
+		<legend>Contact Info</legend>
+		<table>
+		{% form_table_row form.email %}
+		{% form_table_row form.phone %}
+		</table>
+	</fieldset>
+	<fieldset class="checkout">
+		<legend>Shipping Info</legend>
+		<div style="font-weight:bold;margin-left:100px;margin-bottom:10px;margin-top:20px;">
+			<span> Fill all the required fields(*)</span>
+		</div>
+		<div style="font-weight:bold;margin-left:100px;margin-bottom:30px;margin-top:10px;">
+			<span> If the state information is not required for your country, leave blank </span>
+		</div>
+
+		<table>
+
+		{% form_table_row form.shipping_country %}
+		{% form_table_row form.shipping_zip %}
+
+		</table>
+		<div style="font-weight:bold;margin-left:100px;margin-bottom:20px;margin-top:20px;">
+		</div>
+
+		<table>
+		{% form_table_row form.shipping_name %}
+		{% form_table_row form.shipping_address_1 %}
+		{% form_table_row form.shipping_address_2 %}
+		{% form_table_row form.shipping_city %}
+		{% form_table_row form.shipping_state %}
+		</table>
+	</fieldset>
+	<fieldset class="checkout">
+		<legend>Billing Info</legend>
+		<div style="font-weight:bold;margin-left:100px;margin-bottom:30px;margin-top:20px;">
+			<input type="checkbox" name="sameasshipping" value="yes"
+       		onClick="shipsame(this.form);" ><span> Same as Shipping Address</span>
+		</div>
+
+		<table>
+
+		{% form_table_row form.billing_country %}
+		{% form_table_row form.billing_zip %}
+
+		</table>
+		<div style="font-weight:bold;margin-left:100px;margin-bottom:20px;margin-top:20px;">
+		</div>
+
+
+		<table>
+		{% form_table_row form.billing_name %}
+		{% form_table_row form.billing_address_1 %}
+		{% form_table_row form.billing_address_2 %}
+		{% form_table_row form.billing_city %}
+		{% form_table_row form.billing_state %}
+		</table>
+	</fieldset>
+	{% if stage == 'account' %}
+	<div style="float:right;">
+
+	<input type="image" style="border:none;float:right;" src="/static/images/siteImg/submit.jpg" alt="Submit" />
+</div>
+    {% else %}
+	<div style="float:right;">
+
+		<a href="{% url 'catalog_home' %}"><img src="/static/images/siteImg/continueshopping.gif"></a>
+		<input type="image" style="border:none;" src="/static/images/siteImg/aimkon_checkout.jpg" title="Checkout" name="continueCheckout" value="Continue" alt="Proceed to checkout"/>
+
+<!--
+		<label><a href="{% url 'catalog_home' %}" style="margin-right:20px; font-size:18px; color:gray;">Continue Shopping <img src="/static/images/siteImg/arrow.gif"><a></label>
+
+		<input type="image" style="border:none; width:180px; height:30px;" src="/static/images/siteImg/checkout1.png" title="Checkout" name="continueCheckout" value="Continue" alt="Proceed to checkout" onMouseOver="change1 (this, 'checkout2.png')" onMouseOut="change2 (this, 'checkout1.png')"/>
+-->
+	</div>
+	{% endif %}
+
+
+</form>
+
+
+<script type="text/javascript">
+
+	function shipsame(form){
+
+		if(form.sameasshipping.checked){
+
+     			form.billing_name.value = form.shipping_name.value;
+     			form.billing_address_1.value = form.shipping_address_1.value;
+     			form.billing_address_2.value = form.shipping_address_2.value;
+     			form.billing_city.value = form.shipping_city.value;
+     			form.billing_state.value = form.shipping_state.value;
+     			form.billing_zip.value = form.shipping_zip.value;
+     			form.billing_country.value = form.shipping_country.value;
+
+     		}else{
+
+     			form.billing_name.value = "";
+     			form.billing_address_1.value = "";
+     			form.billing_address_2.value = "";
+     			form.billing_city.value = "";
+     			form.billing_state.value = "";
+     			form.billing_zip.value = "";
+     			form.billing_country.value = "";
+
+     		}
+	}
+
+</script>
+
+{% endblock %}
+
+{% block right_column %}
+	{% include 'tags/restAssured.html' %}
+	<br /><br />
+{% endblock %}

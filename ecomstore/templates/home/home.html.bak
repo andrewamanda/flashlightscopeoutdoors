@@ -1,0 +1,108 @@
+{% extends "base_withRightFrame.html" %}
+
+{% load catalog_tags %}
+{% load catalog_filters %}
+
+{% block fb_og %}
+<meta property="og:title" content="{{ site_name }}" />
+<meta property="og:type" content="company" />
+<meta property="og:url" content="{{ site_url }}" />
+<meta property="og:image" content="{{ site_url }}/static/images/siteImg/logo2.png" />
+<meta property="og:site_name" content="{{ site_name }}" />
+<meta property="fb:admins" content="100002250704805" />
+{% endblock %}
+
+
+{% block content %}
+
+    				<div class="billboard">
+					{% include "tags/sliders.html" %}
+
+          					<script type="text/javascript">
+        						$(window).load(function() {
+    								$('#slider').nivoSlider({
+        							effect:'random', //Specify sets like: 'fold,fade,sliceDown'
+        							slices:15,
+        							animSpeed:500, //Slide transition speed
+        							pauseTime:3000,
+        							startSlide:0, //Set starting Slide (0 index)
+        							directionNav:true, //Next &amp; Prev
+        							directionNavHide:true, //Only show on hover
+        							controlNav:true, //1,2,3...
+        							controlNavThumbs:false, //Use thumbnails for Control Nav
+        							controlNavThumbsFromRel:false, //Use image rel for thumbs
+        							controlNavThumbsSearch: '.jpg', //Replace this with...
+        							controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
+        							keyboardNav:true, //Use left &amp; right arrows
+        							pauseOnHover:true, //Stop animation while hovering
+        							manualAdvance:false, //Force manual transitions
+        							captionOpacity:0.8, //Universal caption opacity
+        							beforeChange: function(){},
+        							afterChange: function(){},
+        							slideshowEnd: function(){}, //Triggers after all slides have been shown
+        							lastSlide: function(){}, //Triggers when last slide is shown
+        							afterLoad: function(){} //Triggers when slider has loaded
+    							});
+        						});
+        					</script>
+   					 </div>  <!-- billboard -->
+
+
+<br />
+
+					<div class="cb"> </div>
+
+
+
+
+<!--
+{% include "tags/home_slide_promotions.html" %}
+{% include "tags/home_slide_activepromotions.html" %}
+
+{% include "tags/home_static_banner.html" %}
+-->
+{% active_todaysnews as todaysnews %}
+{% for p in todaysnews %}
+    {% include "tags/home_todaysnews.html" with news=p %}
+{% endfor %}
+
+{% include "tags/home_123_block.html" %}
+{% include "tags/home_social_block.html" %}
+<br><br>
+{% include "tags/home_slide_block_brands.html" %}
+{% include "tags/home_slide_block_newarrival.html" %}
+{% include "tags/home_slide_block_dealofday.html" %}
+<!--
+{% include "tags/home_slide_block_openbox.html" %}
+-->
+{% include "tags/home_slide_block_clearance.html" %}
+
+{% include "tags/home_slide_block_dealbanner.html" %}
+{% include "tags/home_message_day_block.html" %}
+<!--
+{% include "tags/home_slide_block.html" %}
+-->
+
+
+					<div class="cb"> </div>
+
+
+
+{% endblock %}
+
+{% block right_column %}
+{% include "tags/home_slide_block_department.html" %}
+
+<!--
+	<div id="greenbar">Deals of the day
+		<img src="/static/images/siteImg/money-back-guarantee.png" />
+		<div style="margin-left:17px;">
+			<img src="/static/images/siteImg/webexclusive.jpg" />
+		</div>
+	</div>
+	<div style="margin-top:50px;">
+		{% include 'tags/stayConnected.html' %}
+	</div>
+-->
+
+{% endblock %}

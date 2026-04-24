@@ -1,0 +1,33 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_tags %}
+{% load search_tags %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+        {% block content %}
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% include "mobile/home/pagefooter.html" %}
+
+  <fieldset class="ui-grid-a categoryThumbnails">
+        {% for p in results %}
+
+    <div class="ui-block-a" style="text-align:center;">
+
+
+<a href="{{ p.get_absolute_url }}"
+><img src="{% thumbnail_image_url p.image.url %}" alt="{{p.name}}" width="90%" border="0" /> <div class="categoryDescription" style="margin-top:6px; font-size:small;">{{ p.name }}</div>
+</a>    </div>
+    {% empty %}
+    	No products were found matching those search terms.
+        {% endfor %}
+
+  </fieldset>
+
+   <div class="clear:both;">&nbsp;</div>
+<div style="float:right;">
+{% pagination_links request paginator %}
+</div>
+
+        {% endblock %}

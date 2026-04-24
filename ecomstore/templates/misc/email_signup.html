@@ -1,0 +1,47 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% block content %}
+<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+<h1 class="headingPageTitle1">Sign up to receive our newsletters</h1>
+
+<p style="margin-bottom: 20px;">We will periodically send out email newsletters filled with deals, news, new arrivals, top-rated products, specials and more. </p>
+
+<form method="post" action="." class="cart">{% csrf_token %}
+	<div class="formArea">
+		<div class="formEntry">
+			<label for="name">Name:</label>
+			<input type="text" name="name" id="email" size="30" maxlength="25" />
+		</div>
+		<div class="formEntry">
+			<label for="email">E-Mail*:</label>
+			<input type="text" name="email" id="email" size="30"  maxlength="50" />
+		</div>
+		<div class="formEntry">
+			<label for="InterestedProducts">Products interested:</label>
+			<input type="text" name="InterestedProducts" id="InterestedProducts" size="30" maxlength="100" />(Separate the products by comma)
+		</div>
+		<div class="formEntry">
+			<p><span class="bold"> We do not share your email address with any thirdparties including our affiliates</p>
+		</div>
+		
+				<br>
+		<span style="font-weight:bold;color:#F00;font-style:italic;">{{ captcha_error }}</span>
+		<div class="formEntry">
+            	<input type="hidden" value="{{ imghash }}" name="imghash" id="imghash">
+			<label for="captcha">Captcha:</label>
+
+                  <input type="text" size="20" name="imgtext" style="width:200px;" /><br>
+			<label for="image"></label>
+			<img src="{{ imgpath }}">
+
+			<br /><br />
+
+		</div>
+		<div class="formButtons">
+			<input class="noBorder" name="submit" type="image" src="{{MEDIA_URL}}images/siteImg/btn-signUp.png" alt="Sign Up" />
+		</div>
+	</div>
+</form>
+
+
+{% endblock %}

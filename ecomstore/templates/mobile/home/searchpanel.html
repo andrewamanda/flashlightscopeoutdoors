@@ -1,0 +1,9 @@
+                <div style="clear:both;"></div>
+<br>
+<ul class="searchlist" id="searchInput" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Find a product..." data-inset="true" data-filter-theme="c" data-theme="e">
+	{% for p in products %}
+		<li data-icon="search"><a class="searchItem" id="searchItem{{forloop.counter}}" href="#"><p>{{p.name}}</p></a></li>
+	{% endfor %}
+
+</ul>
+

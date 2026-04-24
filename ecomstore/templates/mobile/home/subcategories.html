@@ -1,0 +1,25 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_tags %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+{% block content %}
+
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% include "mobile/home/pagefooter.html" %}
+
+  <fieldset class="ui-grid-a categoryThumbnails">
+	{% for u in active_submenu.all %}
+    		<div class="ui-block-a" style="text-align:center;">
+			<a href="{{ u.get_absolute_url }}" ><img src="{% if u.image %}{% thumbnail_image_url u.image.url %}{% endif %}" alt="{{ u.name }}" width="99%" border="0" />    
+				<div class="categoryDescription" style="margin-top:4px; font-size:small;" >{{ u.display_name }}</div>
+		</a>    </div>
+	{% endfor %}
+
+
+  </fieldset>
+
+
+{% endblock %}

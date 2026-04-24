@@ -1,0 +1,51 @@
+{% extends "catalog.html" %}
+
+{% load catalog_filters %}
+
+{% block content %}
+<h1 class="headingPageTitle2">Details for Order # {{ order.id }}</h1>
+
+	<table id="receipt">
+		<thead>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Price</th>
+			<th scope="col">Quantity</th>
+			<th class="right" scope="col">Total</th>
+		</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="4" class="right" style="height:30px;">
+				Order Total: {{ order.total|currency }}
+				</td>
+			</tr>
+		<!--
+			<tr>
+				<td colspan="4" class="right" style="height:30px;">
+				Click <span style="font-color: red;">{{ order.invoice }}</span> to get a copy of your invoice
+				</td>
+			</tr>
+		-->
+		</tfoot>
+		<tbody>
+		{% for item in order_items %}
+		<tr>
+			<td>
+				<a href="{{ item.get_absolute_url }}">
+					{{ item.name }}
+				{% if item.options %}
+					<br />
+					{{ item.options }}
+				{% endif %}
+
+				</a>
+			</td>
+			<td>{{ item.price|currency }}</td>
+			<td>{{ item.quantity }}</td>
+			<td class="right">{{ item.total|currency }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

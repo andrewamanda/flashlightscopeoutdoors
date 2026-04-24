@@ -1,0 +1,21 @@
+<div class="block testimonials_sidebar">
+	<div class="block-title">
+	<strong><span>Testimonials</span></strong>
+	</div>
+	<div class="block-content">
+		{% for t in testimonials %}		
+
+			<div class="testimonial_sidebar_box">
+				<div class="testimonial_sidebar_text">{{ t.comment }}</div>
+				<div class="testimonial_sidebar_name">{{ t.name }}</div>
+			</div>
+		{% endfor %}
+
+		
+		<div style="text-align: right;">
+		<a href="{% url 'testimonial' %}">Write/View All Testimonials</a>
+		</div>
+
+    </div>
+</div>
+

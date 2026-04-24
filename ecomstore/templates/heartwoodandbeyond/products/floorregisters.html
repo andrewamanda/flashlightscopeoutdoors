@@ -1,0 +1,39 @@
+{% extends "heartwoodandbeyond/products/product_base.html" %}
+
+{% block product_item %}
+Reclaimed Floor Registers
+{% endblock %}
+
+{% block product_header %}
+
+<h1 class="node__title">Reclaimed Floor Registers</h1>
+{% endblock %}
+
+{% block product_content %}
+<div class="field field--name-field-image field--type-image field--label-hidden">
+  <div class="field__items">
+    <div class="field field--name-field-image field--type-image field--label-hidden">
+      <div class="field__items">
+        <div class="field__item even">
+        <img typeof="foaf:Image" src="{{MEDIA_URL}}/heartwoodbeyond/gallery/floorregister_2.jpeg" width="800" height="400" alt="" />
+      </div>
+    </div>
+  </div>
+  <div class="field field--name-body field--type-text-with-summary field--label-hidden">
+    <div class="field__items"><div class="field__item even" property="content:encoded">
+      <div class="rtecenter" style="margin-bottom: 20px;">
+        <a href="#block-views-services-front-all">VIEW RECLAIMED FLOOR REGISTERS GALLERY</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="field field--name-body field--type-text-with-summary field--label-hidden">
+  <div class="field__items">
+    <div class="field__item even" property="content:encoded">
+                    <p style="text-align: left;">Step back in time with our Historic Reclaimed Wood Beams. Every beam tells a story, capturing epochs gone by, bearing the markings and patina of past ages. As a leading reclaimed wood manufacturer, we responsibly source timeworn beams from historic structures, preserving their integrity and ensuring they get a renewed life in your spaces. When you choose our historic reclaimed beams, you're not just opting for sustainability; you're embedding a piece of history into your modern home.</p></div>
+</div>
+</div>
+<hr>
+{% include "heartwoodandbeyond/galleries/floorregisters.html" %}
+{% include "heartwoodandbeyond/galleries/gallery_styles.html" %}
+{% endblock %}

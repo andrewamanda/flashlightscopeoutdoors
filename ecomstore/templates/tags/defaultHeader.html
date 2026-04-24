@@ -1,0 +1,45 @@
+{% load catalog_tags %}
+{% load search_tags %}
+
+
+
+<div class="header_container">
+	<div class="header_logo"> 
+    <a href="/">
+    <img style="float:left; clear:left;" src="{{ MEDIA_URL }}images/siteImg/logo_224x70.jpg" 
+    alt="{{ site_name }}&reg; &gt; Hunting, Fishing, Camping, and Outdoor Gear &amp; Equipment : We Live Outdoors&reg;"
+    title="{{ site_name }}&reg; &gt; Hunting, Fishing, Camping, and Outdoor Gear &amp; Equipment : We Live Outdoors&reg;" 
+      /></a>
+ 
+
+    </div>
+
+    
+    <div class="header_links">
+
+    	  <a class="{% navactive request 'customer_service' %}" href="{% url 'customer_service' %}" >Customer Service</a>&nbsp; 
+        <span style="color:#CCC">|</span> &nbsp;
+<!--
+        <a class="{% navactive request 'return_policy' %}" href="{% url 'return_policy' %}" >Store Policies</a>&nbsp; <span style="color:#CCC">|</span> &nbsp;
+-->
+        <a class="{% navactive request 'secure_shopping' %}" href="{% url 'secure_shopping' %}" >Secure Shopping</a>&nbsp; <span style="color:#CCC">|</span> &nbsp;
+        <a class="{% navactive request 'my_account' %}" href="{% url 'my_account' %}" >My Account</a>&nbsp; <span style="color:#CCC">|</span> &nbsp;
+        <a class="{% navactive request 'testimonial' %}" href="{% url 'testimonial' %}" >Testimonial</a>&nbsp; <span style="color:#CCC">|</span> &nbsp;
+
+
+	  {% cart_box request %}
+
+       </div>
+	{% search_box request %}
+
+	
+
+   <div class="header_checkout">
+	<a href="{% url 'show_cart' %}" ><img src="/static/images/siteImg/checkout-icon.jpg"></a>
+   </div>
+
+
+</div>
+
+
+

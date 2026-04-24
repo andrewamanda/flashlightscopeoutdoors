@@ -1,0 +1,54 @@
+{% extends "mobile/home/base.html" %}
+{% load catalog_tags %}
+
+
+	{% block pageheader %}{{ page_title }} {% endblock %}
+	{% block content %}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <script type="text/javascript">
+               /*<![CDATA[*/
+                 var rotSize = {{ new_arrivals|length }} + 1;
+                 var rotImages = new Array(rotSize);
+                 var rotHrefs = new Array(rotSize);
+                 var rotTitle = new Array(rotSize);
+                 var rotIndex = 0;
+
+                 {% with new_arrivals|first as p %}
+                 rotImages[rotIndex] = "{% large_image_url p.image.url %}";
+                 rotHrefs[rotIndex] = "{% url 'newarrival' %}";
+                 rotTitle[rotIndex] = "New Arrivals";
+		 {% endwith %}
+
+		curIndex = rotIndex + 1;
+		{% for p in new_arrivals %}
+                   		rotImages[curIndex] = "{% large_image_url p.image.url %}";
+                   		rotHrefs[curIndex] = "{{ p.get_absolute_url }}";
+                   		rotTitle[curIndex] = "{{ p.name }}";
+		   		curIndex += 1;
+
+		{% endfor %}
+
+               /*]]>*/
+            </script>
+            <center>
+               <div id="mainImage">
+                  <a href="javascript:doRotatingMainLink()">
+                 {% with new_arrivals|first as p %}
+               		<img src="{% large_image_url p.image.url %}" id="rotateImage" style="max-width:798px;" width="100%" name="rotateImage" />
+		 {% endwith %}
+
+
+		</a>
+               </div>
+            </center>
+            <center class="mainImageControls">
+               <div data-role="controlgroup" data-type="horizontal" style="margin-top:0.5em">
+                  <a href="javascript:doRotateMain(-1)" data-role="button" data-icon="arrow-l" data-theme="d">&nbsp;</a>
+                  <a href="javascript:doRotatingMainLink()" data-role="button" data-theme="d" id="categoryTitle" name="categoryTitle">
+                  <span class="ui-btn-text">New Arrivals</span>
+                  </a>
+                  <a href="javascript:doRotateMain(1)" data-role="button" data-icon="arrow-r" data-iconpos="right" data-theme="d">&nbsp;</a>
+               </div>
+            </center>
+
+	{% endblock %}

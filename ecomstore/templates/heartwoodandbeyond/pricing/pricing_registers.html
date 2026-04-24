@@ -1,0 +1,117 @@
+{% extends "heartwoodandbeyond/pricing/pricing_base.html" %}
+
+
+
+{% block pricing_item %}
+Floor Register Pricing
+{% endblock %}
+
+{% block pricing_header %}
+
+<h1 class="node__title">Floor Register Pricing</h1>
+{% endblock %}
+
+
+
+{% block pricing_table %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+              <style>
+                .grid-table {
+                  display: grid;
+                  grid-template-columns: 1fr; /* Single column to hold all rows */
+                  width: 100%;
+                  max-width: 1000px; /* Adjust the max width as necessary */
+                  border: 1px solid #ddd;
+                  border-radius: 10px;
+                  overflow: hidden;
+                }
+
+                .grid-header, .grid-row {
+                  display: grid;
+                  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+                  text-align: left;
+                }
+
+                .grid-cell {
+                  padding: 8px;
+                  border-bottom: 1px solid #ddd;
+                  word-break: break-word;
+                }
+
+                .grid-header {
+                  background-color: #4E5D6C;
+                  color: #FFFFFF;
+                  font-weight: bold;
+                }
+
+                /* Apply the alternating background colors */
+                .grid-row-container:nth-child(odd) .grid-row {
+                  background-color: #f2f2f2;
+                }
+
+                .grid-row-container:nth-child(even) .grid-row {
+                  background-color: #ffffff;
+                }
+
+                /* Detail row styling */
+                .details {
+                  display: none; /* Initially hidden */
+                  grid-column: 1 / -1; /* Span across all columns */
+                  background-color: #eee;
+                  padding: 8px;
+                  border-top: 1px solid #ddd;
+                }
+
+                .show {
+                  display: grid; /* Show the details */
+                }
+
+              </style>
+
+
+              <div class="grid-table">
+                <!-- Header -->
+                <div class="grid-header">
+                  <div class="grid-cell">Reclaimed Floor Registers</div>
+                  <div class="grid-cell">Standard Price (per piece)</div>
+                  <div class="grid-cell">Volume Price ({{f_usagetype.tier_1_volume}})</div>
+                  <div class="grid-cell">Volume Price ({{f_usagetype.tier_2_volume}})</div>
+                  <div class="grid-cell">Volume Price ({{f_usagetype.tier_3_volume}})</div>
+                </div>
+                        {% for b in registers %}
+                <!-- Rows -->
+                <div class="grid-row-container">
+                <div class="grid-row">
+                  <div class="grid-cell"  onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</div>
+                  <div class="grid-cell">${{ b.pretax_price }}</div>
+                  <div class="grid-cell">${{ b.tier_1_price }}</div>
+                  <div class="grid-cell">${{ b.tier_2_price }}</div>
+                  <div class="grid-cell">${{ b.tier_3_price }}</div>
+                </div>
+                <div class="details" id="offerhistory_{{b.id}}">
+  <!-- Detailed information for Item 1 -->
+                  Detailed information goes here...
+                </div>
+                </div>
+                {% endfor %}
+
+                <!-- Continue adding rows here -->
+              </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+      {% endblock %}

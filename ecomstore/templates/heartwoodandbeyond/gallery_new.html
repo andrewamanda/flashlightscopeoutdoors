@@ -1,0 +1,26 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<body class="html front not-logged-in page-node page-node- page-node-25 node-type-page no-sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+<div class="l-preface">
+
+  <div class="l-breadcrumb">
+  <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li>Gallery</li></ul>    </div>
+  {% include 'heartwoodandbeyond/tags/l-region-rustic.html' %}
+
+
+
+
+
+
+
+{% endblock hwp_main %}
+
+{% block page_footscript %}
+{% include 'heartwoodandbeyond/tags/footscript.html' %}
+{% endblock page_footscript %}

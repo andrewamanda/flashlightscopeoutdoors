@@ -1,0 +1,73 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% block content %}
+
+ <a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+<h1 class="headingPageTitle1">Dealer Program</h1>
+<div style="float: left; padding-bottom: 15px; font-size: 20px; font-family: "Courier New"; color="#333333">
+
+<p style="margin-bottom: 20px;">Sign up to become an Olight Dealer. We will review your application and contact you. Once approved, we will send you a dealer exclusive login id and password. </p>
+
+<form method="post" action="." class="cart">
+	<div class="formArea">
+		<div class="formEntry">
+			<label for="name">Business Name:</label>
+			<input type="text" name="business_name" id="name" size="50"  maxlength="50" value="{{ business_name }}"/>
+
+		</div>
+		<div class="formEntry">
+			<label for="email">Business Address:</label>
+			<textarea id="line1" name="location" type="textarea" value="" COLS=50 ROWS=6></textarea>
+
+		</div>
+		<div class="formEntry">
+			<label for="name">Business Contact:</label>
+			<input type="text" name="contact" id="name" size="50"  maxlength="50" value="{{ contact }}"/>
+
+		</div>
+		<div class="formEntry">
+			<label for="name">Business Email:</label>
+			<input type="text" name="email" id="name" size="30"  maxlength="30" value="{{ email }}"/>
+
+		</div>
+		<div class="formEntry">
+			<label for="name">Business Phone:</label>
+			<input type="text" name="phone" id="name" size="15"  maxlength="15" value="{{ phone }}"/>
+
+		</div>
+		<div class="formEntry">
+			<label for="name">Business Website:</label>
+			<input type="text" name="website" id="name" size="50"  maxlength="50" value="{{ message }}"/>
+
+		</div>
+		<div class="formEntry">
+			<label for="email">Your message:</label>
+			<textarea id="line1" name="message" type="textarea" value="" COLS=50 ROWS=6></textarea>
+
+		</div>
+
+
+
+
+		<div class="formEntry">
+            	<input type="hidden" value="{{ imghash }}" name="imghash" id="imghash">
+			<label for="captcha">Captcha:</label>
+                  <input type="text" size="20" name="imgtext" style="width:200px;">
+                  <span style="font-weight:bold;color:#F00;font-style:italic;">{{ captcha_error }}</span><br />
+			<label for="image"></label>
+			<img src="{{ imgpath }}">
+
+
+		</div>
+
+
+		<div class="formButtons">
+			<input class="noBorder" name="submit" type="image" src="{{MEDIA_URL}}images/siteImg/signup.jpg" alt="Sign Up" />
+		</div>
+	</div>
+</form>
+
+</div>
+
+
+{% endblock %}

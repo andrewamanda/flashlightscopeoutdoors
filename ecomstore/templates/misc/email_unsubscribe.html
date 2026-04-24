@@ -1,0 +1,41 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% block content %}
+<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+<h1 class="headingPageTitle1">Remove from our mailing list</h1>
+
+<p style="margin-bottom: 20px;">We periodically send out email newsletters filled with deals, news, new arrivals, top-rated products, specials and more. If you do not wish to receive our newsletters, please enter your email address to unsubscribe </p>
+
+<form method="post" action="." class="cart">{% csrf_token %}
+	<div class="formArea">
+		<div class="formEntry">
+			<p><span class="bold"> Enter your email address to unsubscribe from our mailing list</p>
+		</div>
+
+		<div class="formEntry">
+			<label for="email">E-Mail*:</label>
+			<input type="text" name="email" id="email" size="30"  maxlength="50" />
+		</div>
+		
+		
+				<br>
+		<span style="font-weight:bold;color:#F00;font-style:italic;">{{ captcha_error }}</span>
+		<div class="formEntry">
+            	<input type="hidden" value="{{ imghash }}" name="imghash" id="imghash">
+			<label for="captcha">Captcha:</label>
+
+                  <input type="text" size="20" name="imgtext" style="width:200px;" /><br>
+			<label for="image"></label>
+			<img src="{{ imgpath }}">
+
+			<br /><br />
+
+		</div>
+		<div class="formButtons">
+			<input class="noBorder" name="submit" type="image" src="{{MEDIA_URL}}images/siteImg/unsubscribe.jpg" alt="Sign Up" />
+		</div>
+	</div>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "2023/base.html" %}
+{% load cache %}
+{% load catalog_tags %}
+
+{% block title %}
+    <title>Andrew & Amanda Outdoors Home</title>
+{% endblock %}
+
+{% block additional_meta %}
+
+{% endblock %}
+
+{% block breadcrum %}
+<div class="l-breadcrumb">
+<ul class="breadcrumb"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'home' %}">Pricing Structures</a></li><li>{% block pricing_item %}{% endblock %}</li></ul>    </div>
+{% endblock %}
+
+{% block main_area %}
+
+    <main>
+<section class="prod-select-sec">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="prod-sel-head">
+                    <h6>Filter By:</h6>
+                </div>
+            </div>
+            {% include "2023/catalog/category_leftpanel.html" %}
+            {% include "2023/catalog/category_mainpanel.html" %}
+
+
+
+<div class="col-lg-12">
+    <div class="prod-page">
+       <ul>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#"><img src="{{ MEDIA_URL }}/2023/images/prod-slider-arrow-left.svg"><img src="{{ MEDIA_URL }}/2023/images/prod-slider-arrow-left.svg"></a></li>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#"><img src="{{ MEDIA_URL }}/2023/images/prod-slider-arrow-left.svg"></a></li>
+        <li><a class="active-page" href="https://html.weavers-web.com/Wangming-Ye/product-listing#">1</a></li>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#">2</a></li>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#">3</a></li>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#">4</a></li>
+        <li>......</li>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#">15</a></li>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#"><img src="{{ MEDIA_URL }}/2023/images/prod-slider-arrow-right.svg"></a></li>
+        <li><a href="https://html.weavers-web.com/Wangming-Ye/product-listing#"><img src="{{ MEDIA_URL }}/2023/images/prod-slider-arrow-right.svg"><img src="{{ MEDIA_URL }}/2023/images/prod-slider-arrow-right.svg"></a></li>
+</ul>
+    </div>
+  </div>
+</div></div></section>
+    </main>
+
+{% endblock %}

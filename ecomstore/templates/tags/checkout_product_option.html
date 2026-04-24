@@ -1,0 +1,19 @@
+{% load cache %}
+{% load checkout_tags %}
+
+{% if description == 'description' %}
+	{% for c in cio %}
+		<br />
+		{{ c.title }} - {{ c.option }}
+		{% if c.price > 0 %}
+			(${{c.price}})</b>
+		{% endif %}
+	{% endfor %}
+
+{% else %}
+	{% if availability == "Soldout" %}
+		In back order
+	{% else %}
+		In stock
+	{% endif %}
+{% endif %}

@@ -1,0 +1,98 @@
+{% extends "mobile/home/base.html" %}
+
+        {% block pageheader %}{{ page_title }} {% endblock %}
+
+
+{% block content %}
+
+
+{% if form.errors %}
+  <div class="messages ui-body ui-body-e ui-corner-all">
+    <div class="errorMessageHeader">Login error occurred:</div>
+    <ul class="errorList">
+	{% for error in form.non_field_errors %}
+        <li class="errorMessage">{{ error }}</li>
+	{% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+  <div class="password_reset_done ui-body ui-body-e ui-corner-all" style="display:none;">
+    <div class="errorMessageHeader">Password reset email sent</div>
+    <ul class="errorList">
+	<li>Please follow the instruction in your email to reset the password</li>
+    </ul>
+   </div>
+
+<div class="ui-body ui-body-c ui-corner-all">
+	<form method="post" action="{% url 'login' %}">
+	{% csrf_token %}
+		<table summary="Login" id="login">
+			<caption>Login</caption>
+			<tr>
+				<td>{{ form.username.label_tag }}</td>
+				<td>{{ form.username }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.password.label_tag }}</td>
+				<td>{{ form.password }}</td>
+			</tr>
+		</table>
+		<input type="hidden" name="next" value="{{ next }}" />
+		<input type="submit" value="Sign In" data-icon="check" data-theme="b" class="ui-btn-hidden" data-disabled="false">
+	</form>
+ 	<fieldset class="ui-grid-a">
+		<div class="ui-block-a">
+  			<input type="hidden" name="reset_password" value="0">
+  				<a href="#" class="password_reset"><span>Reset password</span></a>
+		</div>
+
+		<div class="ui-block-b">
+			<a href="/accounts/register" title="Sign Up Now!"><span style="text-align:right;">Create a new account</span></a>
+			<br />
+		</div>
+	</fieldset>
+
+</div>
+
+<div class="line-wrapper">
+	<div class="line">&nbsp;</div>
+	<small>OR</small>
+</div>
+
+<div class="ui-body ui-body-c ui-corner-all ui-icon-nodisc">
+       			<a href="{% url 'social:begin' 'amazon' %}?next={{ request.GET.next }}" data-role="button" data-icon="amazon" data-theme="c" data-disabled="false" rel="external">Login with Amazon</a>
+       			<a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.GET.next }}" data-role="button" data-icon="google" data-theme="c" data-disabled="false" rel="external">Sign in with Google</a>
+       			<a href="{% url 'social:begin' 'facebook' %}?next={{ request.GET.next }}" data-role="button" data-icon="facebook" data-theme="c" data-disabled="false" rel="external">Sign in with Facebook</a>
+<!--
+			<a href="{% url 'social:begin' 'twitter' %}?next={{ request.GET.next }}" data-role="button" data-icon="twitter" data-theme="c" data-disabled="false" rel="external">Sign in with Twitter</a>
+-->
+			<a href="{% url 'social:begin' 'yahoo' %}?next={{ request.GET.next }}" data-role="button" data-icon="yahoo" data-theme="c" data-disabled="false" rel="external">Sign in with Yahoo!</a>
+       			<a href="{% url 'social:begin' 'linkedin-oauth2' %}?next={{ request.GET.next }}" data-role="button" data-icon="linkedin" data-theme="c" data-disabled="false" rel="external">Login with LinkedIn</a>
+
+</div>
+
+
+<div class="clr"></div>
+
+<script type="text/javascript">
+                                $(document).delegate('.password_reset', 'click', function() {
+                                        $('<div>').simpledialog2({
+                                                mode: 'button',
+                                                headerText: 'Reset your password',
+                                                headerClose: true,
+                                                buttonInput: true,
+                                                buttonPrompt: 'Enter your email',
+                                                buttons : {
+                                                        'OK': {
+                                                                click: function () {
+
+                                                                        email = $.mobile.sdLastInput;
+                                                                        Password_Reset(email);
+                                                                }
+                                                        },
+                                                }
+                                        })
+                                });
+</script>
+{% endblock %}

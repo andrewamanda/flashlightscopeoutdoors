@@ -1,0 +1,84 @@
+{% extends "heartwoodandbeyond/base.html" %}
+
+{% block page_body %}
+<!--<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">-->
+  <body class="html front not-logged-in page-node page-node- page-node-25 node-type-page no-sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li>Reclaimed Wood Product Collections</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+          <article about="/heartpine-products" typeof="foaf:Document" class="node node--page node--full node--page--full">
+            <header>
+              <h1 class="node__title">Introducing Our Collections</h1>
+
+              <p style="text-align: left;">At 'Tar Heel Reclaimed', our passion is rooted deep within the grains of history. Every piece of reclaimed wood tells a story, and we are proud to breathe new life into these tales. Our diverse collections, each with its unique narrative, are meticulously crafted to bring both the rugged beauty of the past and the refined sophistication of the present into your spaces. Explore our offerings and let the timeless elegance of reclaimed wood transform your world.</p>
+            </header>
+<br><br>
+            <div class="node__content">
+              <div class="field field--name-body field--type-text-with-summary field--label-hidden">
+                <div class="field__items">
+                  <div class="field__item even" property="content:encoded">
+                    <h2>Reclaimed Wood Flooring<img alt="" src="{{MEDIA_URL}}/heartwoodbeyond/ourphotos/floor.jpeg" style="float:right; height:375px; margin-left:5px; margin-right:5px; width:250px" />
+                    </h2>
+                    <p style="text-align: left;">Walking on history has never been so literal. Our Reclaimed Wood Flooring brings the whispers of bygone eras right to your feet. Each plank holds the essence of its original environment, whether it be from century-old barns, historic mills, or storied warehouses. Rich in character and timeless in charm, our flooring not only adds warmth and beauty to your spaces but also stands as a testament to sustainability and preservation. Experience the perfect blend of rustic allure and modern durability with every step you take.</p>
+<a class="button" href="{% url 'product_floors' %}">View More</a>
+                    <h2>Reclaimed Wood Stair Treads<img alt="" src="{{MEDIA_URL}}/heartwoodbeyond/ourphotos/stairs.jpeg" style="float:left; height:233px; margin:5px; width:350px" /></h2>
+                    <p style="text-align: left;">Elevate every step of your journey with our Reclaimed Wood Stair Treads. Crafted from timbers with tales to tell, these treads merge the rich narratives of their past with the design needs of the present. Each piece resonates with the markings, patinas, and character from its previous life, ensuring that no two treads are alike. Infuse your staircases with a touch of history and a whole lot of elegance, combining sustainability with timeless design. Ascend through your spaces on steps that echo with stories.</p>
+<a class="button" href="{% url 'product_stairs' %}">View More</a>
+                    <h2>Reclaimed Counter Tops and  Table Tops<img alt="" src="{{MEDIA_URL}}/heartwoodbeyond/ourphotos/kitchentop.jpeg" style="float:right; height:233px; margin:5px; width:350px" />
+                    </h2>
+                    <p style="text-align: left;">We can build your countertops or tabletops with our stock lumber. All you need to do is bring in your dimensions and we can work with you or your builder to design a custom heartwood pine countertop for your kitchen, bathroom, wine room. </p>
+                    <p style="text-align: left;">We can help with the right selection of the grade of wood that you want in order to get the look you are trying to achieve, be it rustic or vertical grain.
+                    </p>
+                    <a class="button" href="{% url 'product_tabletops' %}">View More</a>
+                                        <p></p><p></p><br>
+                    <h2>Reclaimed Fireplace Mantels
+                      <img alt="" src="{{MEDIA_URL}}/heartwoodbeyond/ourphotos/mantel1.jpeg" style="float:left; height:238px; margin-left:5px; margin-right:5px; width:350px" />
+                    </h2>
+                    <p style="text-align: left;">Warm up your living spaces with our Reclaimed Fireplace Mantels, where history meets hearth. Each mantel, handcrafted from authentic, time-weathered wood, brings a unique narrative, showcasing the beautiful imperfections, knots, and grains from its storied past. These mantels not only serve as a rustic centerpiece for your fireplace but also as a testament to timeless beauty and sustainability. Whether you're igniting a roaring fire or simply enjoying a quiet moment, our mantels add a touch of warmth and historical charm to your cozy gatherings.</p>
+                    <a class="button" href="{% url 'product_mantels' %}">View More</a>
+                    <p></p><p></p><br>
+
+                    <h2>Reclaimed Wall Panels & Ceilings
+                      <img alt="" src="{{MEDIA_URL}}/heartwoodbeyond/ourphotos/panel.jpeg" style="float:right; height:238px; margin-left:5px; margin-right:5px; width:350px" />
+                    </h2>
+                    <p style="text-align: left;">Elevate your interiors with the enchanting allure of our Reclaimed Wall Panels. Crafted from genuine, seasoned wood, each panel tells a tale of its own, echoing the whispers of its previous life. The rich textures and authentic patinas infuse spaces with a character that's both rustic and refined. Our panels effortlessly transform ordinary walls into captivating focal points, embodying a blend of history, artistry, and sustainability. Step into a world where each wall becomes a canvas, bearing the marks of time in the most elegant way.</p>
+                    <a class="button" href="{% url 'product_panels' %}">View More</a>
+
+                    <h2>Historic Wood Beams
+                      <img alt="" src="{{MEDIA_URL}}/heartwoodbeyond/ourphotos/beam1.jpeg" style="float:left; height:238px; margin-left:5px; margin-right:5px; width:350px" />
+                    </h2>
+                    <p style="text-align: left;">Step back in time with our Historic Reclaimed Wood Beams. Every beam tells a story, capturing epochs gone by, bearing the markings and patina of past ages. As a leading reclaimed wood manufacturer, we responsibly source timeworn beams from historic structures, preserving their integrity and ensuring they get a renewed life in your spaces. When you choose our historic reclaimed beams, you're not just opting for sustainability; you're embedding a piece of history into your modern home.</p>
+                    <a class="button" href="{% url 'product_beams' %}">View More</a>
+
+                    <h2>Floor Registers from Reclaimed Wood
+                      <img alt="" src="{{MEDIA_URL}}/heartwoodbeyond/gallery/floorregister_2.jpeg" style="float:right; height:238px; margin-left:5px; margin-right:5px; width:350px" />
+                    </h2>
+                    <p style="text-align: left;">Elevate your living spaces with our eco-friendly floor registers crafted from reclaimed wood. Merging functionality with rustic charm, these registers not only regulate airflow but also add a touch of vintage elegance. Sustainably sourced and meticulously designed, our reclaimed wood registers are a testament to timeless beauty and modern sustainability.</p>
+                    <a class="button" href="{% url 'product_floorregisters' %}">View More</a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </article>
+        </div>
+      </div>
+    </div>
+</div>
+          {% endblock %}

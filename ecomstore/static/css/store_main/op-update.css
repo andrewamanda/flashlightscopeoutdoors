@@ -1,0 +1,16 @@
+/* header-departments */
+.header-departments .header-departments-dropdown {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    padding: 25px 20px 12px;
+    border: 1px solid #5798e0;
+    border-top-color: #2882e9;
+    background: #fff url(header-department-selected.gif) repeat-x left -75px;
+    z-index: 2;
+}
+.header-departments:hover .header-departments-dropdown {
+   display: block;
+
+}
+

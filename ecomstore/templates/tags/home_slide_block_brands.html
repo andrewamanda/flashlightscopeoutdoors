@@ -1,0 +1,27 @@
+{% load catalog_tags %}
+
+{% if new_arrivals|length > 0 %}
+<div class="block">
+<div class="block-title yuinavfont"><strong><span>Shop By Brands</span></strong>
+        <div style="float:right;padding-top:5px;"> <a href="{% url 'allbrands' %}"><img src="/static/images/siteImg/viewall_button.gif" /></a></div>
+</div>
+<div class="block-content">
+<br />
+	<div class="MagicScroll" id="newarrivals">
+		{% for p in active_brands %}
+                <div>
+                        <a href="{{ p.get_absolute_url }}">
+                                <img src="{% if p.image %}{% thumbnail_image_url p.image.url %}{% endif %}" alt="{{ p.name }}" loading="lazy" decoding="async" />
+
+                        </a>
+                </div>
+		{% endfor %}
+
+	</div>
+<div class="cb"><br /></div>
+</div>
+</div>
+
+
+
+{% endif %}

@@ -1,0 +1,12 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% block content %}
+<h1>	{% if name %} 
+		{{ name|capfirst }}, 
+	{% endif %}
+</h1>
+
+<p style="margin-bottom: 20px;">You have been successfully unsubscribed from our email list for newsletters. If you choose to join our mailing list again, you can sign up any time. </p>
+
+
+{% endblock %}

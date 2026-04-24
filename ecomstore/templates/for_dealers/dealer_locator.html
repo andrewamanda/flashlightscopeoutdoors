@@ -1,0 +1,21 @@
+{% extends "base_withLeftFrame.html" %}
+{% block content %}
+
+<h1 class="headingPageTitle2">Dealer Locator</h1>
+<div style="float: left; padding-bottom: 15px; font-size: 20px; font-family: "Courier New"; color="#333333">
+
+Our dealer network is steadily growing. We serve many dealers who regularly attend gun shows. We also serve dealers who excel in online retailing. The following is our largest online retailer:
+
+<br /><br />
+
+<a href="{{ site_url }}"><img src="/static/images/siteImg/logo2.png">{{ site_name }}</img></a> <br />
+PO Box 1247<br />
+Morrisville, NC 27516<br /><br />
+email: sales@aimkon.com<br />
+web site: <a href="{{ site_url }}">{{ site_url }}</a>
+
+
+<br /><br />
+<a href="{% url dealer_enroll %}"><font color="FF00CC">Join our dealer network!</font></a>
+</div>
+{% endblock %}

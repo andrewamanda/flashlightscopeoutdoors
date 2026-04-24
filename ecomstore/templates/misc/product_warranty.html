@@ -1,0 +1,38 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% block content %}
+<a class="skipLink" name="skipNavigation" id="skipNavigation"></a>
+
+<h1 class="headingPageTitle2">PRODUCT WARRANTY</h1>
+<br />
+<div class="flatpage_paragraph">
+<p>
+One of {{ site_name }}'s most intrinsic philosophies is simple: if you stand behind the products we sell, we will, too. 
+</p>
+<br />
+Every product we sold is brand new and covered by the factory warranty(please see your product documentation for product-specific warranty information). 
+Customers will contact {{ site_name }} at <b>{{EMAIL_ORDER}}</b> for warranty service by providing their warranty card number, and a valid purchase invoice or receipt from {{ site_name }}. <strong>Note a {{ site_name }} order number or purchase receipt is required for all warranty service.</strong>
+
+</p>
+<p>
+<br /><br />
+<b>Warranty terms:</b>
+<br /><br />
+
+<ul class="withRoman">
+<li>Removal and/or Defacing of Serial/Part number sticker(s) on a product will void all warranty</li>
+<li>All products must be returned in the originally sold condition. Products received by {{ site_name }} for replacement that include 3rd-party attachments will be returned to the address on the package.</li>
+<li>There must be no physical damage to any component that is caused by:
+	<ul style="margin-left:30px;">
+	   	<li>inadequate or improper repairs carried out by any person or entity which is not authorized by the manufacturer to perform warranty service on its behalf</li>
+		<li>negligence, accidents, modifications, defective installation or misuse and use of inappropriate spare parts</li>
+		<li>Damage caused by battery leakage</li>
+		<li>Failure or damage caused by fire, drops, or unauthorized modification or reconstruction</li>
+		<li>Without valid product warranty card, purchase invoice or receipt</li>
+	</ul>
+</ul>
+
+
+</div>
+
+{% endblock %}

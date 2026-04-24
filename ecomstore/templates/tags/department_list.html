@@ -1,0 +1,58 @@
+{% load cache %}
+{% load catalog_tags %}
+
+<div id="leftnav_department" class="leftnav_innercontainer">
+
+{% if 'category' in request_path %}
+
+	<div class="facet-category"><a href="#/" onClick='toggleFacet("ShopByCategory")'><img id="facetTwisty_ShopByCategory" src="/static/images/siteImg/expanded_dark.gif" hspace="1"/>&nbsp;Shop by Categories</a></div>
+
+
+	<div id="ShopByCategory" style="display:block;">
+
+{% else %}
+	<div class="facet-category"><a href="#/" onClick='toggleFacet("ShopByCategory")'><img id="facetTwisty_ShopByCategory" src="/static/images/siteImg/collapsed_dark.gif" hspace="1"/>&nbsp;Shop by Categories</a></div>
+
+
+	<div id="ShopByCategory" style="display:none;">
+
+{% endif %}
+
+<br />
+<ul id="categories">
+{% with active_categories as cats %}
+	{% for c in cats %}
+		<li>
+		{% if c.get_absolute_url == request_path %}
+			{% if c.slug != 'gift-certificate' %}
+				<a href="{{ c.get_absolute_url }}" class="active" >{{ c.name }}</a>
+			{% else %}
+				<a href="/catalog/product/gift-certificate" class="active" >{{ c.name }}</a>
+			{% endif %}
+			{% subcategory_list request_path c %} <!-- move this to the line after the endifequal if the hover effect is wanted -->
+		{% else %}
+			{% if c.slug != 'gift-certificate' %}
+				<a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+			{% else %}
+				<a href="/catalog/product/gift-certificate">{{ c.name }}</a>
+			{% endif %}
+		{% endif %}
+
+
+		</li>
+	{% endfor %}
+{% endwith %}
+
+</ul>
+  <div class="bottom_padding"></div>
+
+</div>
+</div>
+
+{% if not 'catalog' in request_path or 'category' in request_path %}
+  <div id="out_bottom_padding" style="display:none;"></div>
+{% else %}
+  <div id="out_bottom_padding" style="display:block;"></div>
+{% endif %}
+
+

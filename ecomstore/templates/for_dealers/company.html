@@ -1,0 +1,25 @@
+{% extends "base_withLeftFrame.html" %}
+
+{% block content %}
+
+<h1 class="headingPageTitle2">About Us</h1>
+<div style="float: left; padding-bottom: 15px; font-size: 20px; font-family: "Courier New"; color="#333333">
+
+<b>{{ DISTRIBUTOR_NAME }}</b> is an authorized distributor of the Olight LED flashlights in the United States. 
+
+Do you sell Olight products online, gun shows or in a store? <b>{{ DISTRIBUTOR_NAME }}</b> provides a wholesale and vendor program that is available to all companies who purchase and sell LED flashlights!
+<br /><br />
+Our wholesale/vendor program allows your business to purchase our products at a discounted price. As a vendor you can purchase by credit card, purchase order, check, wire transfer, money order and cashier's check. Having a dealer account will allow you to easily purchase our products.
+<br /><br />
+Please fill out the <a href="{% url dealer_enroll %}">enrollment</a> form to join our dealer network!
+
+<br /><br />
+Thanks for choosing <b>{{ DISTRIBUTOR_NAME }}</b>! <b>{{ DISTRIBUTOR_NAME }}</b> will make its best attempt to offer the best pricing and service available to you.
+
+<br /><br />
+
+<p><div style="font-weight: bold;">Email Us</div>Email your questions, comments and feedback and we will get back to you within one business day. sales@olightoutlet.com </p><br /><br />
+
+<p><div style="font-weight: bold;">Phone Us</div>For Customer assistance or to order by phone, call us toll free at 1-855-246-5668.</p><br /><br />
+</div>
+{% endblock %}

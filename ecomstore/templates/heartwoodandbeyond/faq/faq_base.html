@@ -1,0 +1,49 @@
+{% extends "heartwoodandbeyond/base.html" %}
+{% block page_body %}
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+
+
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li><a href="{% url 'show_why' %}">Frequently Asked Questions</a></li><li>{% block faq_item %}{% endblock %}</li></ul>    </div>
+
+
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+    <article about="/why-heartpine" typeof="foaf:Document" class="node node--page node--full node--page--full">
+  <header>
+
+          {% block faq_header %}{% endblock %}
+      </header>
+
+  <div class="node__content">
+    {% block faq_content %}{% endblock %}
+
+
+</div>
+
+    </article>
+  </div>
+</div>
+          </div>
+
+
+<aside class="l-region l-region--sidebar">
+
+{% include "heartwoodandbeyond/faq/faq_sidepanel.html" %}
+
+</aside>
+</div>
+{% endblock %}

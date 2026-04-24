@@ -1,0 +1,15 @@
+{% load catalog_tags %}
+
+
+<div class="MagicSlideshow" data-options="width: auto; height: auto; arrows:true; autoplay: false; selectors: bottom; selectors-style: thumbnails;fullscreen: false;" id="zoom-slideshow">
+	
+        	<div data-thumb-image="{% thumbnail_image_url p.image.url %}"><a href="{% super_image_url p.image.url %}" class="MagicZoomPlus" rel="zoom-position: inner"><img src="{% large_image_url p.image.url %}" /></a>
+	</div>
+        {% for i in more_images %}
+        		<div data-thumb-image="{% thumbnail_image_url i.a_image.url %}"><a href="{% super_image_url i.a_image.url %}" class="MagicZoomPlus" rel="zoom-position: inner"><img src="{% large_image_url i.a_image.url %}" /></a>
+		</div>
+        {% endfor %}
+</div>
+
+
+<div class="cb"></div>

@@ -1,0 +1,35 @@
+{% load catalog_tags %}
+<div class="header-departments-dropdown-right">
+      <span class="header-departments-dropdown-header">All Brands</span>
+	<table>
+ 	{% with active_brands as cats %}
+       {% for c in cats %}
+		{% if forloop.counter0|divisibleby:"3" %}
+			<tr>
+		{% endif %}
+                 <td><a href="{{ c.get_absolute_url }}"><img src="{% thumbnail_image_url c.image.url %}" height="80px;" /></a></td>
+		<td></td>
+		<td></td>
+		{% if forloop.counter|divisibleby:"3" %}
+			</tr>
+		{% endif %}
+        {% endfor %}
+ 	{% endwith %}
+	</table>
+
+</div>
+
+<!-- this section is for the gs style navigation
+<a href="#" class="dropDownLink">By Brands</a>
+<div class="dropdown-menu">
+ {% with active_brands as cats %}
+       {% for c in cats %}
+                    <div class="dropdown-menu-item">
+                            <a href="{{ c.get_absolute_url }}" class="dropDownLink">{{ c.name }}</a>
+                    </div>
+        {% endfor %}
+ {% endwith %}
+</div>
+-->
+
+

@@ -1,0 +1,25 @@
+{% load cache %}
+{% load catalog_tags %}
+
+{% with active_brands as brands %}
+	{% for c in brands %}
+
+		<li>
+			{% if c.series_set.all.count > 0 %}
+				<a href="{{ c.get_absolute_url }}"  class="fly" >{{ c.name }}</a>
+				<ul>
+					{% for sub in c.series_set.all %}
+					    {% if sub.is_active %}
+						<li><a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></li>
+					    {% endif %}
+ 					{% endfor %}
+				</ul>
+			{% else %}
+				<a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+			{% endif %}
+		</li>
+	{% endfor %}
+{% endwith %}
+
+
+

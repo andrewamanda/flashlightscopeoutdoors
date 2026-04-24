@@ -1,0 +1,30 @@
+ {% with active_categories as cats %}
+       {% for c in cats %}
+	<div class="header-departments-dropdown-left">
+              <span class="header-departments-dropdown-header">{{ c.name }}</span>
+              {% for sub in c.subcategory_set.all %}
+                   {% if sub.is_active %}
+                             <a href="{{ sub.get_absolute_url }}"><span>{{ sub.display_name }}</span></a>
+		   {% endif %}
+	      {% endfor %}
+	</div>
+        {% endfor %}
+ {% endwith %}
+
+
+<!-- this section is for the gs style navigation
+ {% with active_categories as cats %}
+       {% for c in cats %}
+             <a href="{{ c.get_absolute_url }}" class="dropDownLink">{{ c.name }}</a>
+                    <div class="dropdown-menu">
+                           {% for sub in c.subcategory_set.all %}
+                                  {% if sub.is_active %}
+                                         <div class="dropdown-menu-item">
+                                                <a href="{{ sub.get_absolute_url }}" class="dropDownLink">{{ sub.display_name }}</a>
+                                         </div>
+                                  {% endif %}
+                           {% endfor %}
+		   </div>
+        {% endfor %}
+ {% endwith %}
+--> 

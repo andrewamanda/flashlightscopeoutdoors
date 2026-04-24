@@ -1,0 +1,179 @@
+{% extends "heartwoodandbeyond/base.html" %}
+{% block page_body %}
+
+        	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+          	<script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery.cookie.js"></script>
+<body class="html not-front not-logged-in page-node page-node- page-node-28 node-type-page section-about sidebar">
+{% endblock %}
+
+
+{% block hwp_main %}
+
+
+  <div class="l-preface">
+                  </div>
+
+      <div class="l-breadcrumb">
+      <ul class="breadcrumb"><li><a href="{% url 'hpwhome' %}">Home</a></li><li>Your pricing</li></ul>    </div>
+
+  <div class="l-main">
+    <div class="l-content">
+      <a id="main-content"></a>
+                        <div id="block-system-main" class="block block--system block--system-main">
+        <div class="block__content">
+
+      <h1 class="headingPageTitle2">Reclaimed Wood Flooring</h1>
+    	<div class="clr"></div>
+	<div class="box_700">
+		{% for b in floors %}
+
+			<div>
+                        	<p style="inline-size: 65%;float:left;color:#CC0000;font-weight:bold;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</a></p>
+                        	<p style="display:inline;font-weight:bold;"><span>{% if b.pretax_price == 0.00 %} Call For Price {% else %}${{ b.pretax_price }}/per {{b.unit_of_measurement}}  {% endif %}</span></p>
+
+
+                          <p style="display:inline;margin-left: 10%;text-decoration: underline;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';"><span id="{{b.id}}">View Detail<span> </p>
+
+			</div>
+			<div id="offerhistory_{{b.id}}"></div>
+		{% endfor %}
+	</div>
+
+  <h1 class="headingPageTitle2">Reclaimed Stairs</h1>
+  <div class="clr"></div>
+<div class="box_700">
+{% for b in stairs %}
+
+  <div>
+                      <p style="inline-size: 65%;float:left;color:#CC0000;font-weight:bold;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</a></p>
+
+                      <p style="display:inline;font-weight:bold;"><span>${{ b.pretax_price }}/per {{b.unit_of_measurement}}</span></p>
+
+                      <p style="display:inline;margin-left: 10%;text-decoration: underline;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';"><span id="{{b.id}}">View Detail<span> </p>
+
+  </div>
+  <div id="offerhistory_{{b.id}}"></div>
+{% endfor %}
+</div>
+
+<h1 class="headingPageTitle2">Rustic Wall Panels</h1>
+<div class="clr"></div>
+<div class="box_700">
+{% for b in panels %}
+
+<div>
+                    <p style="inline-size: 65%;float:left;color:#CC0000;font-weight:bold;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</a></p>
+
+                    <p style="display:inline;font-weight:bold;"><span>${{ b.pretax_price }}/per {{b.unit_of_measurement}}</span></p>
+
+                    <p style="display:inline;margin-left: 10%;text-decoration: underline;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';"><span id="{{b.id}}">View Detail<span> </p>
+
+</div>
+<div id="offerhistory_{{b.id}}"></div>
+{% endfor %}
+</div>
+
+
+<h1 class="headingPageTitle2">Heartpine Registers</h1>
+<div class="clr"></div>
+<div class="box_700">
+{% for b in registers %}
+
+<div>
+                    <p style="inline-size: 65%;float:left;color:#CC0000;font-weight:bold;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';">{{ b.name }}</a></p>
+
+                    <p style="display:inline;font-weight:bold;"><span>{% if b.pretax_price == 0.00 %} Call For Price {% else %}${{ b.pretax_price }}/per {{b.unit_of_measurement}}  {% endif %}</span></p>
+
+                    <p style="display:inline;margin-left: 10%;text-decoration: underline;" onClick="QueryOffer({{b.id}})" onmouseover="this.style.cursor='pointer';"><span id="{{b.id}}">View Detail<span> </p>
+
+</div>
+<div id="offerhistory_{{b.id}}"></div>
+{% endfor %}
+</div>
+
+
+</div></div></div></div>
+
+<meta name="viewport" content=
+    "width=device-width, initial-scale=1.0">
+<style>
+  .headingPageTitle2 { width: 100%; background: url({{ MEDIA_URL }}assets/images/bkg/bkg-headingPageTitle2.png) repeat-x bottom left; color: #c86319; padding-bottom: 15px; text-transform: uppercase; line-height: 1; font-size: 22px; margin-bottom: 20px; }
+  .headingPageTitle3 { width: 100%; background: url({{ MEDIA_URL }}assets/images/bkg/bkg-headingPageTitle2.png) repeat-x bottom left; color: #c86319; padding-bottom: 15px; text-transform: uppercase; line-height: 1; font-size: 18px; margin-bottom: 20px; }
+
+  .box{
+      //margin:1%;
+      border: 1% solid #eee;
+      font-family: arial;
+      font-size: 12px;
+      width: 100%;
+  }
+  .box div{ padding:1%; }
+  .box div:nth-child(odd)         { background-color:#fff; }
+  .box div:nth-child(even)                { background-color:#eee; }
+
+  .box_700{
+      margin:1%;
+      border: 1% solid #eee;
+      font-family: arial;
+      font-size: 16px;
+      width: 100%;
+  }
+  .box_700 div{ padding:1%; }
+  .box_700 div:nth-child(odd)             { background-color:#fff; }
+  .box_700 div:nth-child(even)            { background-color:#eee; }
+
+  .box_400{
+      //margin:10px;
+      border: 1% solid #eee;
+      font-family: arial;
+      font-size: 12px;
+      width: 400px;
+      text-align:right;
+  }
+  .box_400 div{ padding:5%; }
+  .box_400 div:nth-child(odd)             { background-color:#fff; }
+  .box_400 div:nth-child(even)            { background-color:#eee; }
+
+</style>
+
+		<script type="text/javascript">
+      function QueryOffer(id) {
+
+              $.ajaxSetup({
+                      type: 'POST',
+                      timeout: 30000,
+                      beforeSend: function(xhr, settings) {
+                              if (!this.crossDomain) {
+                                      xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                              }
+                      },
+                      error: function(xhr) {
+                              alert('Error: ' + xhr.status + ' ' + xhr.statusText);
+                     }
+              })
+
+              var bid = {
+                      b_id: id,
+              };
+              if(jQuery("#"+id).text() == "Close Detail") {
+                      jQuery("#offerhistory_"+id).toggle();
+                      jQuery("#"+id).text("View Detail");
+              }
+              else {
+                jQuery.post("/heartwoodbeyond/getproductdetails/", bid,
+                      function(response){
+                              // evaluate the "success" parameter
+                              if(response.success == "True"){
+                              // disable the submit button to prevent duplicates
+                                      jQuery("#offerhistory_"+id).html(response.html).slideDown();
+                                      jQuery("#"+id).text("Close Detail");
+                              }
+                              else{
+                              }
+                      }, "json");
+              }
+
+      }
+
+   </script>
+  {% endblock %}

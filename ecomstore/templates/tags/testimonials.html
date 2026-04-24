@@ -1,0 +1,27 @@
+{% load catalog_tags %}
+
+
+<div id="block-views-testimonials-random" class="block block--views block--views-testimonials-random">
+   <h2 class="block__title">What Our Customers Are Saying</h2>
+   <div class="block__content">
+		 <ul style="margin: 0; padding: 0; font-style: italic">
+			 {% for t in active_testimonials %}
+				 <li style="background-color: transparent;
+				         background-image: url('/static/images/siteImg/quotation_mark.gif');
+				         background-position: 1px;
+				         background-repeat: no-repeat;
+				         list-style-type: none;
+				         margin: 0;
+				         padding-bottom: 30px;
+				         padding-left: 0;
+				         padding-right: 0;
+				         padding-top: 15px;">
+					 <p align="justify">{{ t.comment }}</p>
+					 <p align="right">{{ t.name }}</p>
+				 </li>
+			 {% endfor %}
+		 </ul>
+
+
+         </div>
+      </div>

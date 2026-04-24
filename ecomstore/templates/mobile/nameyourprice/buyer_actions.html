@@ -1,0 +1,161 @@
+<a href="#" id="acceptbutton" data-role="button" data-theme="b">Accept Offer</a>
+<div class="ui-grid-a" id="counterordecline">
+      <div class="ui-block-a">
+	<a href="#" id="counterofferbutton" data-role="button" data-theme="a">Counter</a>
+      </div>
+      <div class="ui-block-b">
+	<a href="#" id="declineofferbutton" data-role="button" data-theme="c">Decline</a>
+      </div>
+</div>
+<a href="/nameyourprice/makeoffer" id="makenewoffer" data-role="button" data-theme="b" style="display:none;">Make a New Offer</a>
+<a href="/nameyourprice/checkoutauction/" id="postacceptbutton" data-role="button" data-theme="b" style="display:none;">Make Payment</a>
+<a href="#" id="cancelpostacceptbutton" data-role="button" style="display:none;">Request for cancel</a>
+<a href="/" id="postdecline" data-role="button" data-theme="a" style="display:none;">Continue Shopping</a>
+
+
+
+                        <script type="text/javascript">
+                                $(document).delegate('#acceptbutton', 'click', function() {
+                                        $('<div>').simpledialog2({
+                                                mode: 'button',
+                                                headerText: 'Accept??',
+                                                headerClose: true,
+                                                buttonInput: true,
+                                                buttonPrompt: 'Enter a comment(optional)',
+                                                buttons : {
+                                                        'OK': {
+                                                                click: function () {
+
+                                                                        bid = jQuery("#b_id").val();
+                                                                        comment = $.mobile.sdLastInput;
+									ConfirmAcceptOffer(bid, comment);
+								}
+							},
+						}
+					})
+				});
+                                $(document).delegate('#counterofferbutton', 'click', function() {
+        				$('<div>').simpledialog2({
+            					mode: 'blank',
+            					headerText: 'Counter Offer',
+            					headerClose: true,
+            					width: "90%",
+            					themeDialog: "b",
+            					themeHeader: "b",
+            					blankContent: '<div class="sdCont"><label for="inp1">Your counter offer price:</label><input id="inp1" type="text" value="" placeholder="integer or decimal only" onkeypress="return isNumber(event)" /><label for="inp2">Enter your comment:</label><input id="inp2" type="text" value="" placeholder="Optional comment..." /><div class="ui-grid-a"><div class="ui-block-a"><button id="btnCounterOfferOK" data-inline->OK</button></div><div class="ui-block-b"><button id="btnCancel" data-theme="c" data-icon="delete" rel="close">Cancel</button></div></div></div>'
+
+        				});
+
+    				});
+    
+    				$(document).on("click", "#btnCounterOfferOK", function(){
+
+                                         bid = jQuery("#b_id").val();
+			        	 price = $("#inp1").val();
+			        	 comment = $("#inp2").val();
+					 result = ConfirmCounterOffer(bid, price, comment);
+                                         $('#offerstatus').text("Your counter offer has been sent");
+					 $("#acceptbutton").hide();
+					 $("#counterofferbutton").hide();
+					 window.location = "/nameyourprice/makeoffer";
+					 $.mobile.sdCurrentDialog.close();
+    				});
+
+                                $(document).delegate('#declineofferbutton', 'click', function() {
+        				$('<div>').simpledialog2({
+            					mode: 'blank',
+            					headerText: 'Decline Offer',
+            					headerClose: true,
+            					width: "90%",
+            					themeDialog: "b",
+            					themeHeader: "b",
+            					blankContent: '<div class="sdCont"><label for="inp1">Enter your comment:</label><input id="inp1" type="text" value="" placeholder="Decline reason(optional)..." /><div class="ui-grid-a"><div class="ui-block-a"><button id="btnDeclineOfferOK" data-inline->OK</button></div><div class="ui-block-b"><button id="btnCancel" data-theme="c" data-icon="delete" rel="close">Cancel</button></div></div></div>'
+
+        				});
+
+    				});
+    
+    				$(document).on("click", "#btnDeclineOfferOK", function(){
+
+                                         bid = jQuery("#b_id").val();
+			        	 comment = $("#inp1").val();
+					 result = ConfirmDeclineOffer(bid, comment);
+                                         $('#offerstatus').text("You have declined your offer");
+					 $("#acceptbutton").hide();
+					 $("#counterofferbutton").hide();
+					 $("#declineofferbutton").hide();
+					 $(".errorList").hide();
+					 $("#makenewoffer").show();
+					 $("#postdecline").show();
+					 $.mobile.sdCurrentDialog.close();
+    				});
+
+                                $(document).delegate('#cancelpostacceptbutton', 'click', function() {
+        				$('<div>').simpledialog2({
+            					mode: 'blank',
+            					headerText: 'Request For Cancel',
+            					headerClose: true,
+            					width: "90%",
+            					themeDialog: "b",
+            					themeHeader: "b",
+            					blankContent: '<div class="sdCont"><label for="inp1">Enter your comment:</label><input id="inp1" type="text" value="" placeholder="Cancel reason(optional)..." /><div class="ui-grid-a"><div class="ui-block-a"><button id="btnCancelPostAcceptOK" data-inline->OK</button></div><div class="ui-block-b"><button id="btnCancel" data-theme="c" data-icon="delete" rel="close">Cancel</button></div></div></div>'
+
+        				});
+
+    				});
+    
+    				$(document).on("click", "#btnCancelPostAcceptOK", function(){
+
+                                         bid = jQuery("#b_id").val();
+			        	 comment = $("#inp1").val();
+					 result = ConfirmCancelOffer(bid, comment);
+                                         $('#offerstatus').text("You have cancelled your offer");
+					 $("#acceptbutton").hide();
+					 $("#counterofferbutton").hide();
+					 $("#declineofferbutton").hide();
+					 $(".errorList").hide();
+					 $("#postacceptbutton").hide();
+					 $("#cancelpostacceptbutton").hide();
+					 $("#makenewoffer").show();
+					 $("#postdecline").show();
+					 $.mobile.sdCurrentDialog.close();
+    				});
+				function ConfirmAcceptOffer(bid, comment) {
+
+                                        $.ajaxSetup({
+                                                type: 'POST',
+                                                timeout: 30000,
+                                                beforeSend: function(xhr, settings) {
+                                                        if (!this.crossDomain) {
+                                                                xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                                                        }
+                                                },
+                                                error: function(xhr) {
+                                                        alert('Error: ' + xhr.status + ' ' + xhr.statusText);
+                                                }
+                                        })
+
+                                        var bid = {
+                                                b_id: bid,
+                                                comment: comment,
+                                        };
+        				jQuery.post("/nameyourprice/acceptoffer/", bid,
+                				function(response){
+                        				// evaluate the "success" parameter
+                        				if(response.success == "True"){
+                        				// disable the submit button to prevent duplicates
+                                                        	$('#offerstatus').text("You have accepted the offer");
+                                                                $(".errorList").hide();
+								$("#acceptbutton").hide();
+								$("#counterordecline").hide();
+								$("#postacceptbutton").show();
+								$("#cancelpostacceptbutton").show();
+                        				}
+                        				else{
+                        				}
+                				}, "json");
+
+
+				}
+
+			</script>

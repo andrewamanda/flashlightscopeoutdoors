@@ -1,0 +1,350 @@
+{% load catalog_filters %}
+{% load catalog_tags %}
+
+
+
+<table align="center" border="0" style="border-spacing: 0px; width: 100%;">
+<tr>
+<td>
+<div id="ds_div">
+
+
+<title>Untitled Document</title>
+<style type="text/css">
+					<!--
+						.ftxt {
+							color: #666;
+						}
+
+						.btxt {
+							color: #CCCCCC;
+						}
+						.style1 {font-weight: bold}
+						.style2 {
+							color: #000000;
+							font-weight: bold;
+						}
+						.style3 {color: #000000}
+						.style4 {font-style: italic}
+						.style5 {
+							font-weight: bold;
+							color: rgb(128, 0, 0);
+						}
+						.stylemaintitle {
+							font-size: 30px;
+						}
+						.stylesectionheader {
+							font-size: 25px;
+						}
+						.styledescription {
+							font-size: 20px;
+						}
+						.stylesubtitle {
+							font-size: 15px;
+						}
+						.stylecenter {
+							text-align: center;
+						}
+						/* Left Column: Category list style */
+
+						/* menu styles */
+						ul.cssmenu {
+							list-style: none;
+							padding: 0px;
+						}
+						.displace {
+							position: absolute;
+							left: -5000px;
+						}
+						.categoryfont {
+							font-family:Sans-serif;
+							font-size:20px;
+							font-weight: bold;
+							color: white;
+
+						}
+						.brandfont {
+							font-family:"Times New Roman";
+							font-size:15px;
+							#font-weight: bold;
+							color: blue;
+							underline: none;
+						}
+
+
+						ul.cssmenu li {
+							float: left;
+						}
+						ul.cssmenu li a {
+							display: block;
+							text-align: center;
+							vertical-align: middle;
+							line-height: 44px;
+							width: 150px;
+							height: 44px;
+							text-decoration:none;
+							background: url('https://www.andrew-amanda.com/static/images/eBay/sprite_bg.gif');
+						}
+						/*
+						*    Normal Links
+						*/
+						ul.cssmenu li.home a {
+							background-position: 0 0;
+						}
+						ul.cssmenu li.blog a {
+							background-position: -150px 0;
+						}
+						ul.cssmenu li.contact a {
+							background-position: -300px 0;
+						}
+						ul.cssmenu li.home2 a {
+							background-position: 0 -132px;
+						}
+						ul.cssmenu li.blog2 a {
+							background-position: -150px -132px;
+						}
+						ul.cssmenu li.contact2 a {
+							background-position: -300px -132px;
+						}
+
+						/*  Hover Links*/
+						ul.cssmenu li.home a:hover {
+							background-position: 0 -44px;
+						}
+						ul.cssmenu li.blog a:hover {
+							background-position: -150px -44px;
+						}
+						ul.cssmenu li.contact a:hover {
+							background-position: -300px -44px;
+						}
+						ul.cssmenu li.home2 a:hover {
+							background-position: 0 -88px;
+						}
+						ul.cssmenu li.blog2 a:hover {
+							background-position: -150px -88px;
+						}
+						ul.cssmenu li.contact2 a:hover {
+							background-position: -300px -88px;
+						}
+
+						/*    Clicked Links*/
+						ul.cssmenu li.home a:active {
+							background-position: 0 -88px;
+						}
+						ul.cssmenu li.blog a:active {
+							background-position: -150px -88px;
+						}
+						ul.cssmenu li.contact a:active {
+							background-position: -300px -88px;
+						}
+						ul.cssmenu li.home2 a:active {
+							background-position: 0 -44px;
+						}
+						ul.cssmenu li.blog2 a:active {
+							background-position: -150px -44px;
+						}
+						ul.cssmenu li.contact2 a:active {
+							background-position: -300px -44px;
+						}
+
+						/*
+						*    Selected/Active Links
+						*/
+						ul.cssmenu li.home a.selected {
+							background-position: 0 -132px;
+						}
+						ul.cssmenu li.blog a.selected {
+							background-position: -150px -132px;
+						}
+						ul.cssmenu li.contact a.selected {
+							background-position: -300px -132px;
+						}
+						ul.cssmenu li.home2 a.selected {
+							background-position: 0 0px;
+						}
+						ul.cssmenu li.blog2 a.selected {
+							background-position: -150px 0px;
+						}
+						ul.cssmenu li.contact2 a.selected {
+							background-position: -300px 0px;
+						}
+
+						ul#cssnav {
+							margin:0 0 2em 17px;
+							padding:0;
+							list-style-type:none;
+						}
+						ul#cssnav li {
+							position:relative;
+							font-family: arial, verdana, helvetica, sans-serif;
+							background: url(https://www.andrew-amanda.com/static/images/eBay/rollover2.gif) no-repeat left top;/* over state of image*/
+							float:left;
+							width: 8em;
+							height: 2em;
+							line-height:2em;
+							text-align:center;
+							margin-left:-17px;
+						}
+						#cssnav li a {
+							display:block;
+							width: 8em;
+							height: 2em;
+							display: block;
+							color: #FFF;
+							text-decoration: none;
+							background: url(https://www.andrew-amanda.com/static/images/eBay/rolloff2.gif) no-repeat left top;/* normal state of image*/
+						}
+						#cssnav li a:hover,#cssnav li.current a {background:transparent;color:#000} /* hide anchor on hover (and set current tab)*/
+
+					-->
+				</style>
+<!-- ///// Begin Template ///// -->
+<div style="vertical-align: baseline; text-align: center;">
+<div align="left" id="wrapper" style="border: 0px solid rgb(51, 153, 204); font-size: 1.1em; margin: auto; overflow: hidden; width: 1024px; color: rgb(0, 0, 0); line-height: 108%; font-family: Myriad Pro,Sans-Serif; text-align: left;">
+<!-- ///// Begin Logo/Banner Header///// -->
+<div style="clear:both;"></div>
+<!-- ///// End Logo/Banner Header ///// -->
+<!-- ///// Begin Item Info Section - title, description, images, features, benefits, etc. ///// --><!-- ///// Begin Item Title ///// -->
+<!-- ///// End Item Title ///// -->
+<!-- ///// Begin Category Tabs ///// -->
+<div id="Boxes" style="margin: 0pt 0pt 10px 0px; width: 1024px; border-bottom: 1px solid rgb(51, 153, 204); position: relative;">
+<table bgcolor="#4186bc" border="0" cellpadding="0" cellspacing="0" width="1024">
+<tbody>
+<tr>
+<td align="left" bgcolor="#4186bc" height="30px" style="padding-left: 10px; padding-top: 3px; padding-bottom: 1px" width="70%">
+<form action="https://stores.ebay.com/flashlight-scope-outdoors/_i.html" id="form1" method="get" name="form1" style="margin: 0px; padding: 0px;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td style="vertical-align: middle" width="39%">
+<table cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td><img src="https://www.andrew-amanda.com/static/images/eBay/left.png"/></td>
+<td><input class="btxt" id="search" name="_nkw" size="50" style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; border: 0" type="text" value="Search Flashlight-Scope-Outdoors eBay Store"/></td>
+<td><img src="https://www.andrew-amanda.com/static/images/eBay/right.png"/></td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align="left" style="vertical-align: bottom; padding-left: 5px" width="61%"><label> <input id="go" name="go" src="https://www.andrew-amanda.com/static/images/eBay/go.png" type="image"/>
+</label> <input name="LH_TitleDesc" type="hidden" value="1"/>
+</td>
+</tr>
+</tbody>
+</table>
+</form>
+</td>
+<td align="right" style="padding-right: 10px; padding-bottom: 2px" width="30%"><img align="absmiddle" alt="Andrew-Amanda-Outdoors" border="0" class="sh-vs-img" height="15" src="https://www.andrew-amanda.com/static/images/eBay/favus.png" width="15"/>
+<a href="https://stores.ebay.com/flashlight-scope-outdoors?_trksid=p2047675.l2568" style="color: #FFFFFF; font-size: 11px; text-decoration: none; font-family: Verdana, Geneva, sans-serif">Visit my eBay store </a>
+</td>
+<td align="right" style="padding-right: 2px; padding-bottom: 2px" width="30%">
+<img align="absmiddle" alt="Flashlight-Scope-Outdoors" border="0" class="sh-vs-img" height="15" src="https://www.andrew-amanda.com/static/images/eBay/smiley_smile.png" width="15"/>
+<a href="https://my.ebay.com/ws/eBayISAPI.dll?AcceptSavedSeller&amp;sellerid=flashlight_scope_outdoors" style="color: #FFFFFF; font-size: 11px; text-decoration: none; font-family: Verdana, Geneva, sans-serif">Sign up for newsletter</a>
+</td>
+<td align="right" style="padding-right: 10px; padding-bottom: 2px" width="30%"><img align="absmiddle" alt="favus" height="15" src="https://www.andrew-amanda.com/static/images/eBay/24_heart_gold.png" width="15"/><a href="https://my.ebay.com/ws/eBayISAPI.dll?AcceptSavedSeller&amp;sellerid=flashlight_scope_outdoors&amp;ssPageName=STRK:MEFS:ADDSTR" style="color: #FFFFFF; font-size: 11px; text-decoration: none; font-family: Verdana, Geneva, sans-serif">
+												Add my store to favorites </a></td>
+<td align="right" style="padding-right: 2px; padding-bottom: 2px" width="30%"><img align="absmiddle" alt="Andrew-Amanda-Outdoors" border="0" class="sh-vs-img" height="15" src="https://www.andrew-amanda.com/static/images/eBay/question.png" width="15"/>
+<div id="askaquestion"></div>
+</td>
+</tr>
+<tr>
+<td align="center" bgcolor="#FFFFFF" colspan="6"><img height="6" src="https://www.andrew-amanda.com/static/images/eBay/shadow.jpg" width="1024"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ///// End Category Tabs ///// -->
+<table align="left" border="0">
+<tr>
+<td background="https://www.andrew-amanda.com/static/images/eBay/paper-background-sm.jpg" valign="top">
+<div id="left-column" style="float: left; margin: 0pt; overflow: hidden; width: 714px; height: auto;">
+<div id="condition" style="margin: 0pt 0px; overflow: hidden; width: 714px; position: relative; height: auto;">
+<div align="center" id="condition-header" style="border: 1px solid rgb(204, 204, 204); font-size: 1em; margin: 0pt; overflow: hidden; color: rgb(54, 54, 54); line-height: 160%; background-color: rgb(51, 153, 204); text-align: center;">
+<h4 class="style1" style="padding: 0pt; font-size: 100%; margin: 0pt;">
+<!-- ///// $title ///// -->
+<div id="itemTitle">{{title}}</div>
+</h4>
+</div>
+<span class="style2 style4">
+<!-- ///// Begin Images ///// -->
+<div id="includes" style="font-size: 0.8em; margin: 0pt 0pt 20px 10px; overflow: hidden; line-height: 20px; font-family: Arial,Helvetica,sans-serif; height: auto;">
+</div>
+</span>
+</div>
+<!-- ///// End Images ///// -->
+<div class="style2 style4 styledescription stylecenter" id="comments"></div><br/>
+<!-- ///// Begin Specifications Lists ///// -->
+<div id="specs" style="font-size: 0.8em; margin: 0pt 0px; overflow: hidden; width: 714px; font-family: Arial,Helvetica,sans-serif; position: relative; height: auto;">
+<div align="center" id="specs-header" style="border: 1px solid rgb(204, 204, 204); padding: 5px; font-size: 1em; margin: 0pt; overflow: hidden; color: rgb(54, 54, 54); line-height: 150%; background-color: rgb(51, 153, 204); text-align: center;">
+<h4 class="style2" style="padding: 0pt; font-size: 100%; margin: 0pt;">Specifications &amp; Description</h4>
+</div>
+<div class="desc-content" style="padding: 0pt; margin: 10px; font-family: Arial,Helvetica,sans-serif; height: auto;">
+<!-- ///// $desc ///// -->
+<p align="left" class="styledescription"><strong>The package includes:</strong></p>
+<div align="left" class="styledescription" id="packageincludes">{{packageincludes|safe}}</div>
+<div>
+<div>
+<div>
+<div class="stylesubtitle" id="itemSubTitle">{{comments|safe}}</div>
+<br/>
+<br/>
+													{{description|safe}}
+												<hr/>
+</div>
+<p>
+<strong>Need Batteries </strong> <em><strong>or </strong> </em><strong>&amp; Charger?</strong>
+</p>
+<ul>
+<li><a href="https://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&amp;rd=1&amp;item=190868461846" target="_blank">Nitecore RCR123A Li-ion Rechargeable Battery 650mAh 3.7V 2.4Wh</a></li>
+<li><a href="https://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&amp;item=200974301870" target="_blank">Nitecore 18650 Li-ion Rechargeable Battery</a></li>
+<li><a href="https://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&amp;item=200963613415&amp;ssPageName=STRK:MESE:IT" target="_blank">Nitecore Intellicharger i2</a></li>
+<li><a href="https://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&amp;item=190855529820&amp;ssPageName=STRK:MESE:IT" target="_blank">Nitecore Intellicharger i4</a></li>
+<li><a href="https://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&amp;item=191238472272&amp;ssPageName=STRK:MESE:IT" target="_blank">Nitecore DigiCharger D2</a></li>
+<li><a href="https://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&amp;item=201116629089&amp;ssPageName=STRK:MESE:IT" target="_blank">Nitecore DigiCharger D4</a></li>
+</ul>
+<p><em>Buy together and save on shipping!</em></p>
+<p class="style1"> </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</td>
+<td valign="top">
+<div id="right-column" style="float: right; margin: 0pt 1px 0pt 0pt; border-left: 1px solid rgb(51, 153, 204); width: 304px; border-bottom: 1px solid rgb(51, 153, 204); height: auto;">
+<div id="communication1" style="font-size: 0.6em; margin: 0pt 10px 10px; overflow: hidden; width: 300px; position: relative; height: auto;">
+<img src="https://www.andrew-amanda.com/static/images/eBay/news1.png">
+</img></div>
+<div id="communication2" style="font-size: 0.6em; margin: 0pt 10px 10px; overflow: hidden; width: 300px; position: relative; height: auto;">
+<img src="https://www.andrew-amanda.com/static/images/eBay/news2.png">
+</img></div>
+<strong>
+<!-- ///// Begin Communication Box Content ///// -->
+</strong>
+<div id="communication3" style="font-size: 0.6em; margin: 0pt 10px 10px; overflow: hidden; width: 300px; position: relative; height: auto;">
+<img src="https://www.andrew-amanda.com/static/images/eBay/poster1.png">
+</img></div>
+<div id="communication4" style="font-size: 0.6em; margin: 0pt 10px 10px; overflow: hidden; width: 300px; position: relative; height: auto;">
+<img src="https://www.andrew-amanda.com/static/images/eBay/poster2.png">
+</img></div>
+<div id="communication5" style="font-size: 0.6em; margin: 0pt 10px 10px; overflow: hidden; width: 300px; position: relative; height: auto;">
+<img src="https://www.andrew-amanda.com/static/images/eBay/poster3.png">
+</img></div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<strong>
+<!-- ///// End Right-Hand Boxes Content ///// -->
+<!-- ///// Begin Seller Reference ///// -->
+<div align="center" id="SellerReference" style="clear: both; font-size: 0.8em; margin: auto; font-family: Arial,Helvetica,sans-serif;"></div>
+<!-- ///// End Seller Reference ///// -->
+</strong>
+</td>
+</tr>
+</table>
+<span id="closeHtml"></span>
