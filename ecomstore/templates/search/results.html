@@ -1,47 +1,76 @@
 {% extends "base.html" %}
-
 {% load catalog_tags %}
 {% load search_tags %}
 {% load pagination_tags %}
 
-
 {% block site_wrapper %}
+<div class="search-results-page">
+    <h1>Search Result for '{{ q }}'</h1>
 
-<table class="categoryThumbnails" width="100%">
-        <tr>
-                <td valign="top" id="mainColumn">
-                        <table border="0" width="100%" cellpadding="3">
-                                <tr>
-                                        <td colspan="2">
-                                                <h1> <b>Search Result for '{{ q }}'</b> </h1>
-                                        </td>
-                                </tr>
-				{% if not results %}
-				<tr>
-                                        <td align="left" valign="top" width="0">
-                                                <p>No products were found matching those search terms.. Try another keyword </p>
-                                        </td>
-                                </tr>
-				{% endif %}
-                        </table>
-<br />
-<!--
-<div style="float:right;">
-{% pagination_links request paginator %}
+    {% if not matching %}
+        <p>No products were found matching those search terms. Try another keyword.</p>
+    {% endif %}
+
+    {% if use_grouped_search %}
+        {% if primary_results %}
+            <section class="search-result-section search-result-section-primary">
+                <h2>Best match</h2>
+                <p class="search-result-section-note">The original product matching your search.</p>
+                {% g_searchresult primary_results %}
+            </section>
+        {% endif %}
+
+        {% if combo_results %}
+            <section class="search-result-section search-result-section-combos">
+                <h2>Combo offers for {{ q }}</h2>
+                <p class="search-result-section-note">Bundles and package offers built around this model.</p>
+                {% g_searchresult combo_results %}
+            </section>
+        {% endif %}
+
+        {% if other_results %}
+            <section class="search-result-section search-result-section-other">
+                <h2>Other matching products</h2>
+                {% g_searchresult other_results %}
+            </section>
+        {% endif %}
+    {% else %}
+        {% autopaginate matching 20 %}
+        {% paginate 5 %}
+        {% g_searchresult results %}
+        {% paginate 5 %}
+    {% endif %}
 </div>
--->
-                        {% autopaginate matching 20 %}
-                        {% paginate 5 %}
 
-			{% g_searchresult results %}
-                        {% paginate 5 %}
-<!--
-<div style="float:right;">
-{% pagination_links request paginator %}
-</div>
--->
-                </td>
-        </tr>
-</table>
-
+<style>
+.search-results-page h1 {
+    margin-bottom: 18px;
+}
+.search-result-section {
+    clear: both;
+    margin: 0 0 34px;
+    padding: 0 0 22px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.search-result-section h2 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    line-height: 1.3;
+    color: #222;
+}
+.search-result-section-note {
+    margin: 0 0 14px;
+    color: #666;
+    font-size: 13px;
+}
+.search-result-section-primary {
+    padding: 16px 14px 22px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fafafa;
+}
+.search-result-section-combos h2 {
+    color: #2f5d23;
+}
+</style>
 {% endblock %}
