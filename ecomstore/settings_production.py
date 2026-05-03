@@ -15,7 +15,7 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'roadtamerus_1',
+        'NAME': 'roadtamerus__11',
         'USER': 'roadtamerus_1',
         'PASSWORD': 'Wei6ming$$',
         'HOST': 'localhost',

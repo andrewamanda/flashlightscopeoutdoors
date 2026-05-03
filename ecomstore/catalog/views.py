@@ -42,6 +42,29 @@ from .forms import AdditionalImagesForm
 from django.contrib import messages
 import logging
 logger = logging.getLogger(__name__)
+
+def safe_cache_set(key, value, timeout=CACHE_TIMEOUT, request=None):
+    """
+    Safely set cache values.
+
+    Memcached pickles values before storing them. Some Django model/queryset objects
+    containing StdImageFieldFile can fail during pickling with errors like:
+    "'StdImageFieldFile' object has no attribute 'super'" or "'large'".
+
+    This helper prevents safe_cache_set() failures from causing 500 errors.
+    """
+    try:
+        cache.set(key, value, timeout)
+    except Exception as e:
+        print(
+            f"\n[CACHE SKIPPED - views]\n"
+            f"Key: {key}\n"
+            f"Path: {getattr(request, 'path', 'N/A')}\n"
+            f"Value Type: {type(value).__name__ if value is not None else 'None'}\n"
+            f"Value Repr: {repr(value)[:200] if value is not None else 'None'}\n"
+            f"Error: {e}\n"
+        )
+
 from django.shortcuts import redirect
 
 def test_image_upload(request):
@@ -74,7 +97,7 @@ def index(request, template_name="catalog/index.html"):
     if not featured:
         featured = Product.featured.all()[0:PRODUCTS_PER_ROW]
         try:
-            cache.set(featured_cache_key, featured, CACHE_TIMEOUT)
+            safe_cache_set(featured_cache_key, featured, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -89,7 +112,7 @@ def index(request, template_name="catalog/index.html"):
     if not new_arrivals:
         new_arrivals = Product.new_arrivals.all()[0:NUM_OF_NEW_ARRIVALS]
         try:
-            cache.set(new_arrivals_cache_key, new_arrivals, CACHE_TIMEOUT)
+            safe_cache_set(new_arrivals_cache_key, new_arrivals, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -101,7 +124,7 @@ def index(request, template_name="catalog/index.html"):
     if not clearance_products:
         clearance_products = Product.clearance_products.all()[0:NUM_OF_NEW_ARRIVALS]
         try:
-            cache.set(clearance_products_cache_key, clearance_products, CACHE_TIMEOUT)
+            safe_cache_set(clearance_products_cache_key, clearance_products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     page_title = SITE_NAME + ' | Hunting supplies for hunting enthusiasts'
@@ -140,7 +163,7 @@ def show_alldepartments(request, template_name="catalog/all_departments.html"):
     if not departments:
         departments = Department.active.filter(is_active=True).order_by('ranking')
         try:
-            cache.set(departments_cache_key, departments, CACHE_TIMEOUT)
+            safe_cache_set(departments_cache_key, departments, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -156,7 +179,7 @@ def show_alldepartments(request, template_name="catalog/all_departments.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -165,7 +188,7 @@ def show_alldepartments(request, template_name="catalog/all_departments.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -188,7 +211,7 @@ def show_allbundles(request, template_name="catalog/category.html"):
     if not products:
         products = Product.active.filter(categories__in=bundle_categories)
         try:
-            cache.set(bundles_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(bundles_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     page_title = "All bundles"
@@ -203,7 +226,7 @@ def show_allbundles(request, template_name="catalog/category.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
          brand_cache_key = 'active_brand_link_list'
@@ -211,7 +234,7 @@ def show_allbundles(request, template_name="catalog/category.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -242,7 +265,7 @@ def show_category(request, category_slug, template_name="catalog/category.html")
     if not page_subjects:
         page_subjects = get_object_or_404(Category.active, slug=category_slug)
         try:
-            cache.set(category_cache_key, page_subjects, CACHE_TIMEOUT)
+            safe_cache_set(category_cache_key, page_subjects, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     sortby = request.GET.get('sortby','titleAsc')
@@ -267,7 +290,7 @@ def show_category(request, category_slug, template_name="catalog/category.html")
         else:
             products = page_subjects.product_set.filter(is_active=True).order_by(sortby)
         try:
-            cache.set(list_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(list_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     page_title = page_subjects.name
@@ -284,7 +307,7 @@ def show_category(request, category_slug, template_name="catalog/category.html")
     if not active_submenu:
         active_submenu = page_subjects.subcategory_set.filter(is_active=True).order_by('ranking')
         try:
-            cache.set(subcategory_cache_key, active_submenu, CACHE_TIMEOUT)
+            safe_cache_set(subcategory_cache_key, active_submenu, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     url = request.path
@@ -312,7 +335,7 @@ def show_category(request, category_slug, template_name="catalog/category.html")
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
          brand_cache_key = 'active_brand_link_list'
@@ -320,7 +343,7 @@ def show_category(request, category_slug, template_name="catalog/category.html")
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -347,7 +370,7 @@ def show_subcategory(request, category_slug, subcategory_slug, template_name="ca
     if not page_subjects:
         page_subjects = get_object_or_404(SubCategory.active, slug=subcategory_slug)
         try:
-            cache.set(subcategory_cache_key, page_subjects, CACHE_TIMEOUT)
+            safe_cache_set(subcategory_cache_key, page_subjects, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     #products = page_subjects.product_set.filter(is_active=True).order_by('ranking')
@@ -363,7 +386,7 @@ def show_subcategory(request, category_slug, subcategory_slug, template_name="ca
     if not c:
         c = get_object_or_404(Category.active, slug=category_slug)
         try:
-            cache.set(category_cache_key, c, CACHE_TIMEOUT)
+            safe_cache_set(category_cache_key, c, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     subcategory_cache_key = 'active_subcategory_link_list_' + category_slug
@@ -374,7 +397,7 @@ def show_subcategory(request, category_slug, subcategory_slug, template_name="ca
     if not active_submenu:
         active_submenu = c.subcategory_set.filter(is_active=True).order_by('ranking')
         try:
-            cache.set(subcategory_cache_key, active_submenu, CACHE_TIMEOUT)
+            safe_cache_set(subcategory_cache_key, active_submenu, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     sortby = request.GET.get('sortby','titleAsc')
@@ -398,7 +421,7 @@ def show_subcategory(request, category_slug, subcategory_slug, template_name="ca
         else:
             products = c.product_set.filter(is_active=True).filter(subcategory__slug=subcategory_slug).order_by(sortby)
         try:
-            cache.set(list_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(list_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     url = request.path
@@ -424,7 +447,7 @@ def show_subcategory(request, category_slug, subcategory_slug, template_name="ca
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -433,7 +456,7 @@ def show_subcategory(request, category_slug, subcategory_slug, template_name="ca
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -461,7 +484,7 @@ def show_brand(request, brand_slug, template_name="catalog/category.html"):
     if not page_subjects:
         page_subjects = get_object_or_404(Brand.active, slug=brand_slug)
         try:
-            cache.set(brand_cache_key, page_subjects, CACHE_TIMEOUT)
+            safe_cache_set(brand_cache_key, page_subjects, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -486,7 +509,7 @@ def show_brand(request, brand_slug, template_name="catalog/category.html"):
         else:
             products = page_subjects.product_set.filter(is_active=True).order_by(sortby)
         try:
-            cache.set(list_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(list_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache key: {e}")
 
@@ -503,7 +526,7 @@ def show_brand(request, brand_slug, template_name="catalog/category.html"):
     if not active_submenu:
         active_submenu = page_subjects.series_set.filter(is_active=True).order_by('ranking')
         try:
-            cache.set(series_cache_key, active_submenu, CACHE_TIMEOUT)
+            safe_cache_set(series_cache_key, active_submenu, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -530,7 +553,7 @@ def show_brand(request, brand_slug, template_name="catalog/category.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -539,7 +562,7 @@ def show_brand(request, brand_slug, template_name="catalog/category.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -567,7 +590,7 @@ def show_series(request, brand_slug, series_slug, template_name="catalog/categor
     if not page_subjects:
         page_subjects = get_object_or_404(Series.active, slug=series_slug)
         try:
-            cache.set(series_cache_key, page_subjects, CACHE_TIMEOUT)
+            safe_cache_set(series_cache_key, page_subjects, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     #products = page_subjects.product_set.filter(is_active=True).order_by('ranking')
@@ -585,7 +608,7 @@ def show_series(request, brand_slug, series_slug, template_name="catalog/categor
     if not b:
         b = get_object_or_404(Brand.active, slug=brand_slug)
         try:
-            cache.set(brand_cache_key, b, CACHE_TIMEOUT)
+            safe_cache_set(brand_cache_key, b, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     series_cache_key = 'active_series_link_list_' + brand_slug
@@ -596,7 +619,7 @@ def show_series(request, brand_slug, series_slug, template_name="catalog/categor
     if not active_submenu:
         active_submenu = b.series_set.filter(is_active=True).order_by('ranking')
         try:
-            cache.set(series_cache_key, active_submenu, CACHE_TIMEOUT)
+            safe_cache_set(series_cache_key, active_submenu, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -620,7 +643,7 @@ def show_series(request, brand_slug, series_slug, template_name="catalog/categor
         else:
             products = page_subjects.product_set.filter(is_active=True).order_by(sortby)
         try:
-            cache.set(list_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(list_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -635,7 +658,7 @@ def show_series(request, brand_slug, series_slug, template_name="catalog/categor
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -647,7 +670,7 @@ def show_series(request, brand_slug, series_slug, template_name="catalog/categor
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -687,7 +710,7 @@ def show_pricerange(request, priceranges_slug, template_name="catalog/category.h
     if not page_subjects:
         page_subjects = get_object_or_404(PriceRange.active, slug=priceranges_slug)
         try:
-            cache.set(price_cache_key, page_subjects, CACHE_TIMEOUT)
+            safe_cache_set(price_cache_key, page_subjects, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -713,7 +736,7 @@ def show_pricerange(request, priceranges_slug, template_name="catalog/category.h
         else:
             products = Product.active.filter(brand__department__slug__contains='flashlight',price__gte=page_subjects.min_price).exclude(price__gte=page_subjects.max_price).order_by(sortby)
         try:
-            cache.set(list_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(list_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -731,7 +754,7 @@ def show_pricerange(request, priceranges_slug, template_name="catalog/category.h
     if not active_flashlight_brands:
         active_flashlight_brands = Brand.active.filter(department__slug__contains='flashlight').order_by('ranking')
         try:
-            cache.set(active_flashlight_brands_cache_key, active_flashlight_brands, CACHE_TIMEOUT)
+            safe_cache_set(active_flashlight_brands_cache_key, active_flashlight_brands, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -770,7 +793,7 @@ def show_brightnessrange(request, brightnessranges_slug, template_name="catalog/
     if not page_subjects:
         page_subjects = get_object_or_404(BrightnessRange.active, slug=brightnessranges_slug)
         try:
-            cache.set(brightness_cache_key, page_subjects, CACHE_TIMEOUT)
+            safe_cache_set(brightness_cache_key, page_subjects, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -797,7 +820,7 @@ def show_brightnessrange(request, brightnessranges_slug, template_name="catalog/
         else:
             products = Product.active.filter(brand__department__slug__contains='flashlight',max_lumens__gte=page_subjects.min_lumens).exclude(max_lumens__gte=page_subjects.max_lumens).order_by(sortby)
         try:
-            cache.set(list_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(list_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -815,7 +838,7 @@ def show_brightnessrange(request, brightnessranges_slug, template_name="catalog/
     if not active_flashlight_brands:
         active_flashlight_brands = Brand.active.filter(department__slug__contains='flashlight').order_by('ranking')
         try:
-            cache.set(active_flashlight_brands_cache_key, active_flashlight_brands, CACHE_TIMEOUT)
+            safe_cache_set(active_flashlight_brands_cache_key, active_flashlight_brands, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -840,7 +863,7 @@ def show_brightnessrange(request, brightnessranges_slug, template_name="catalog/
         active_submenu = active_submenu.exclude(slug__in=excludes)
 
         try:
-            cache.set(brands_cache_key, active_submenu, CACHE_TIMEOUT)
+            safe_cache_set(brands_cache_key, active_submenu, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -886,7 +909,7 @@ def show_store(request, department_slug, template_name="catalog/store.html"):
     if not d:
         d = get_object_or_404(Department.active, slug=department_slug)
         try:
-            cache.set(department_cache_key, d, CACHE_TIMEOUT)
+            safe_cache_set(department_cache_key, d, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -898,7 +921,7 @@ def show_store(request, department_slug, template_name="catalog/store.html"):
     if not active_categories:
         active_categories = d.category_set.filter(is_active=True).order_by('ranking')
         try:
-            cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+            safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -910,7 +933,7 @@ def show_store(request, department_slug, template_name="catalog/store.html"):
     if not active_brands:
         active_brands = d.brand_set.filter(is_active=True).order_by('ranking')
         try:
-            cache.set(brand_list_cache_key, active_brands, CACHE_TIMEOUT)
+            safe_cache_set(brand_list_cache_key, active_brands, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -982,7 +1005,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
         p = get_object_or_404(Product.active, slug=product_slug)
         # store item in cache for next time
         try:
-            cache.set(product_cache_key, p, CACHE_TIMEOUT)
+            safe_cache_set(product_cache_key, p, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
     product_category_cache_key = 'product_category_list_' + p.slug
@@ -993,7 +1016,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     if not categories:
         categories = p.categories.filter(is_active=True)
         try:
-            cache.set(product_category_cache_key, categories)
+            safe_cache_set(product_category_cache_key, categories)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1011,7 +1034,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
             features_str = "Click to see the product details page"
        features = features_str.split(';')
        try:
-           cache.set(feature_cache_key, features)
+           safe_cache_set(feature_cache_key, features)
        except Exception as e:
            print(f"Invalid Cache Key: {e}")
 
@@ -1023,7 +1046,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     if not new_arrivals:
         new_arrivals = Product.new_arrivals.all()[0:NUM_OF_NEW_ARRIVALS]
         try:
-            cache.set(new_arrivals_cache_key, new_arrivals, CACHE_TIMEOUT)
+            safe_cache_set(new_arrivals_cache_key, new_arrivals, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1108,7 +1131,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     if not more_choices:
         more_choices = p.optionalchoices_set.all()
         try:
-            cache.set(more_choices_cache_key, more_choices)
+            safe_cache_set(more_choices_cache_key, more_choices)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1120,7 +1143,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
     if not more_images:
         more_images = p.additionalimages_set.all()
         try:
-            cache.set(more_images_cache_key, more_images)
+            safe_cache_set(more_images_cache_key, more_images)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1146,7 +1169,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
                     'items': items,
                 })
         try:
-            cache.set(accessory_groups_cache_key, accessory_groups)
+            safe_cache_set(accessory_groups_cache_key, accessory_groups)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1178,7 +1201,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -1190,7 +1213,7 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
     return render(request, template_name, locals())
@@ -1256,7 +1279,7 @@ def show_deal(request, template_name="catalog/category.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
          brand_cache_key = 'active_brand_link_list'
@@ -1267,7 +1290,7 @@ def show_deal(request, template_name="catalog/category.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -1311,7 +1334,7 @@ def show_clearance(request, template_name="catalog/category.html"):
     if not products:
         products = Product.clearance_products.all()
         try:
-            cache.set(clearance_products_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(clearance_products_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1337,7 +1360,7 @@ def show_clearance(request, template_name="catalog/category.html"):
         active_submenu = active_submenu.exclude(slug__in=excludes)
 
         try:
-            cache.set(brands_cache_key, active_submenu, CACHE_TIMEOUT)
+            safe_cache_set(brands_cache_key, active_submenu, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1352,7 +1375,7 @@ def show_clearance(request, template_name="catalog/category.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
          brand_cache_key = 'active_brand_link_list'
@@ -1363,7 +1386,7 @@ def show_clearance(request, template_name="catalog/category.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
     return render(request, template_name, locals())
@@ -1410,7 +1433,7 @@ def show_promotion(request, template_name="catalog/category.html"):
     #products = cache.get(promotion_products_cache_key)
     #if not products:
     #    products = Product.clearance_products.all()
-    #    cache.set(promotion_products_cache_key, products, CACHE_TIMEOUT)
+    #    safe_cache_set(promotion_products_cache_key, products, CACHE_TIMEOUT)
 
 
 
@@ -1425,7 +1448,7 @@ def show_promotion(request, template_name="catalog/category.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
          brand_cache_key = 'active_brand_link_list'
@@ -1436,7 +1459,7 @@ def show_promotion(request, template_name="catalog/category.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
     return render(request, template_name, locals())
@@ -1480,7 +1503,7 @@ def show_newarrival(request, template_name="catalog/category.html"):
     if not products:
         products = Product.new_arrivals.all()
         try:
-            cache.set(newarrivals_products_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(newarrivals_products_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1495,7 +1518,7 @@ def show_newarrival(request, template_name="catalog/category.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
          brand_cache_key = 'active_brand_link_list'
@@ -1506,7 +1529,7 @@ def show_newarrival(request, template_name="catalog/category.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
     return render(request, template_name, locals())
@@ -1550,7 +1573,7 @@ def show_open_box(request, template_name="catalog/category.html"):
     if not products:
         products = Product.openbox.all()
         try:
-            cache.set(openbox_products_cache_key, products, CACHE_TIMEOUT)
+            safe_cache_set(openbox_products_cache_key, products, CACHE_TIMEOUT)
         except Exception as e:
             print(f"Invalid Cache Key: {e}")
 
@@ -1565,7 +1588,7 @@ def show_open_box(request, template_name="catalog/category.html"):
          if not active_categories:
              active_categories = Category.active.all().order_by('ranking')
              try:
-                 cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+                 safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
 
@@ -1577,7 +1600,7 @@ def show_open_box(request, template_name="catalog/category.html"):
          if not active_brands:
              active_brands = Brand.active.all().order_by('ranking')
              try:
-                 cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+                 safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
              except Exception as e:
                  print(f"Invalid Cache Key: {e}")
     return render(request, template_name, locals())

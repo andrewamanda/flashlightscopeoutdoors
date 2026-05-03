@@ -19,12 +19,34 @@ from ecomstore.settings import CACHE_TIMEOUT, NUM_OF_NEW_ARRIVALS, DISTRIBUTOR_B
 
 from django.shortcuts import get_object_or_404
 
+def safe_cache_set(key, value, timeout=CACHE_TIMEOUT):
+    """
+    Safely set cache values.
+
+    Memcached pickles values before storing them. Some Django model/queryset objects
+    containing StdImageFieldFile can fail during pickling with errors like:
+    "'StdImageFieldFile' object has no attribute 'super'" or "'large'".
+
+    This helper prevents template tags from causing 500 errors because of safe_cache_set().
+    """
+    try:
+        cache.set(key, value, timeout)
+    except Exception as e:
+        print(
+            f"\n[CACHE SKIPPED - catalog_tags]\n"
+            f"Key: {key}\n"
+            f"Value Type: {type(value).__name__ if value is not None else 'None'}\n"
+            f"Value Repr: {repr(value)[:200] if value is not None else 'None'}\n"
+            f"Error: {e}\n"
+        )
+
+
 def util_brands_in_department(d):
     list_cache_key = CACHE_PREFIX + 'active_brands_link_list_4_' + d.slug
     brands = cache.get(list_cache_key)
     if not brands:
         brands = Brand.active.filter(department__slug = d.slug) | Brand.active.filter(department_2__slug = d.slug) | Brand.active.filter(department_3__slug = d.slug) | Brand.active.filter(department_4__slug = d.slug)
-        cache.set(list_cache_key, brands, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, brands, CACHE_TIMEOUT)
     return brands
 
 
@@ -54,7 +76,7 @@ def nav_category_list(request_path, department):
     if not active_categories:
         #active_categories = Category.active.all().order_by('ranking')
         active_categories = department.category_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
     return {
         'active_categories': active_categories,
         'request_path': request_path
@@ -74,7 +96,7 @@ def g_nav_category_list(request_path, department):
     if not active_categories:
         #active_categories = Category.active.all().order_by('ranking')
         active_categories = department.category_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
     return {
         'active_categories': active_categories,
         'request_path': request_path
@@ -90,7 +112,7 @@ def active_departments():
     departments = cache.get(list_cache_key)
     if not departments:
         departments = Department.active.all().order_by('ranking')
-        cache.set(list_cache_key, departments, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, departments, CACHE_TIMEOUT)
     return departments
 
 @register.simple_tag
@@ -100,7 +122,7 @@ def active_categories():
 
     if not categories:
         categories = Category.active.all().order_by('ranking')
-        cache.set(list_cache_key, categories, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, categories, CACHE_TIMEOUT)
     return categories
 
 
@@ -111,7 +133,7 @@ def active_categories_4d(department):
     active_categories_4d = cache.get(list_cache_key)
     if not active_categories_4d:
         active_categories_4d = department.category_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_categories_4d, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_categories_4d, CACHE_TIMEOUT)
     return active_categories_4d
 
 @register.simple_tag
@@ -120,7 +142,7 @@ def active_subcategory_list(category):
     active_subcategories = cache.get(list_cache_key)
     if not active_subcategories:
         active_subcategories = category.subcategory_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_subcategories, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_subcategories, CACHE_TIMEOUT)
     return active_subcategories
 
 @register.inclusion_tag("tags/category_list.html")
@@ -137,7 +159,7 @@ def category_list(request_path, department):
     if not active_categories:
         #active_categories = Category.active.all().order_by('ranking')
         active_categories = department.category_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_categories, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_categories, CACHE_TIMEOUT)
     return {
         'active_categories': active_categories,
         'department': department,
@@ -150,7 +172,7 @@ def subcategory_list(request_path, category):
     active_subcategories = cache.get(list_cache_key)
     if not active_subcategories:
         active_subcategories = category.subcategory_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_subcategories, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_subcategories, CACHE_TIMEOUT)
     return {
         'active_subcategories': active_subcategories,
         'request_path': request_path
@@ -162,7 +184,7 @@ def g_subcategory_list(request_path, category):
     active_subcategories = cache.get(list_cache_key)
     if not active_subcategories:
         active_subcategories = category.subcategory_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_subcategories, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_subcategories, CACHE_TIMEOUT)
     return {
         'active_subcategories': active_subcategories,
         'request_path': request_path
@@ -218,7 +240,7 @@ def nav_brand_list(request_path, department):
     #active_brands = cache.get(list_cache_key)
     #if not active_brands:
     #    active_brands = department.brand_set.filter(is_active=True).order_by('ranking')
-    #    cache.set(list_cache_key, active_brands, CACHE_TIMEOUT)
+    #    safe_cache_set(list_cache_key, active_brands, CACHE_TIMEOUT)
     return {
         'active_brands': active_brands,
         'request_path': request_path
@@ -239,7 +261,7 @@ def g_nav_brand_list(request_path, department):
     #active_brands = cache.get(list_cache_key)
     #if not active_brands:
     #    active_brands = department.brand_set.filter(is_active=True).order_by('ranking')
-    #    cache.set(list_cache_key, active_brands, CACHE_TIMEOUT)
+    #    safe_cache_set(list_cache_key, active_brands, CACHE_TIMEOUT)
     return {
         'active_brands': active_brands,
         'request_path': request_path
@@ -261,7 +283,7 @@ def brand_list(request_path, department):
     #active_brands = cache.get(list_cache_key)
     #if not active_brands:
     #    active_brands = department.brand_set.filter(is_active=True).order_by('ranking')
-    #    cache.set(list_cache_key, active_brands, CACHE_TIMEOUT)
+    #    safe_cache_set(list_cache_key, active_brands, CACHE_TIMEOUT)
     return {
         'active_brands': active_brands,
         'department': department,
@@ -274,7 +296,7 @@ def series_list(request_path, brand):
     active_series = cache.get(list_cache_key)
     if not active_series:
         active_series = brand.series_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_series, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_series, CACHE_TIMEOUT)
     return {
         'active_series': active_series,
         'request_path': request_path
@@ -294,7 +316,7 @@ def price_range(request_path):
     active_prices = cache.get(list_cache_key)
     if not active_prices:
         active_prices = PriceRange.active.all().order_by('min_price')
-        cache.set(list_cache_key, active_prices, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_prices, CACHE_TIMEOUT)
     return {
         'active_prices': active_prices,
         'request_path': request_path
@@ -317,7 +339,7 @@ def series_in_brand(request_path):
     active_series = cache.get(list_cache_key)
     if not active_series:
         active_series = brand.series_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_series, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_series, CACHE_TIMEOUT)
     return {
         'active_series': active_series,
         'request_path': request_path
@@ -331,7 +353,7 @@ def slide_list_all_in_brand(request):
     active_series = cache.get(list_cache_key)
     if not active_series:
         active_series = brand.series_set.filter(is_active=True).order_by('ranking')
-        cache.set(list_cache_key, active_series, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_series, CACHE_TIMEOUT)
 
     products = brand.product_set.all()
 
@@ -353,7 +375,7 @@ def max_output_list(request_path):
     max_output_list = cache.get(list_cache_key)
     if not max_output_list:
         max_output_list = BrightnessRange.active.all().order_by('min_lumens')
-        cache.set(list_cache_key, max_output_list, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, max_output_list, CACHE_TIMEOUT)
     return {
         'max_outputs': max_output_list,
         'request_path': request_path
@@ -375,7 +397,7 @@ def nav_price_list(request_path):
     active_prices = cache.get(list_cache_key)
     if not active_prices:
         active_prices = PriceRange.active.all().order_by('min_price')
-        cache.set(list_cache_key, active_prices, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_prices, CACHE_TIMEOUT)
     return {
         'active_prices': active_prices,
         'request_path': request_path
@@ -395,7 +417,7 @@ def g_nav_price_list(request_path):
     active_prices = cache.get(list_cache_key)
     if not active_prices:
         active_prices = PriceRange.active.all().order_by('min_price')
-        cache.set(list_cache_key, active_prices, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_prices, CACHE_TIMEOUT)
     return {
         'active_prices': active_prices,
         'request_path': request_path
@@ -415,7 +437,7 @@ def nav_brightness_list(request_path):
     active_brightnesses = cache.get(list_cache_key)
     if not active_brightnesses:
         active_brightnesses = BrightnessRange.active.all().order_by('min_lumens')
-        cache.set(list_cache_key, active_brightnesses, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_brightnesses, CACHE_TIMEOUT)
     return {
         'active_brightnesses': active_brightnesses,
         'request_path': request_path
@@ -435,7 +457,7 @@ def g_nav_brightness_list(request_path):
     active_brightnesses = cache.get(list_cache_key)
     if not active_brightnesses:
         active_brightnesses = BrightnessRange.active.all().order_by('min_lumens')
-        cache.set(list_cache_key, active_brightnesses, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, active_brightnesses, CACHE_TIMEOUT)
     return {
         'active_brightnesses': active_brightnesses,
         'request_path': request_path
@@ -448,8 +470,8 @@ def feature_list(product):
     attribute_cache_key = CACHE_PREFIX + 'product_top_attribute_list_' + product.slug
     top_attributes = cache.get(attribute_cache_key)
     if not top_attributes:
-        top_attributes = list(product.topattributes_set.all())
-        cache.set(attribute_cache_key, top_attributes, CACHE_TIMEOUT)
+        top_attributes = product.topattributes_set.all()
+        safe_cache_set(attribute_cache_key, top_attributes, CACHE_TIMEOUT)
 
     features_8th = []
     if not top_attributes:
@@ -460,7 +482,7 @@ def feature_list(product):
             if not features_str:
                 features_str = "Click to see the product details page"
             features = features_str.split(';')
-            cache.set(feature_cache_key, features)
+            safe_cache_set(feature_cache_key, features)
         features_8th = features[0:5]
 
     return { 'features': features_8th,
@@ -472,8 +494,8 @@ def individual_choices(optionalchoices):
     list_cache_key = CACHE_PREFIX + 'individual_choices_list_' + optionalchoices.product.slug + optionalchoices.title_normalize
     ic = cache.get(list_cache_key)
     if not ic:
-        ic = list(optionalchoices.individualchoice_set.all())
-        cache.set(list_cache_key, ic, CACHE_TIMEOUT)
+        ic = optionalchoices.individualchoice_set.all()
+        safe_cache_set(list_cache_key, ic, CACHE_TIMEOUT)
 
     return { 'individual_choices': ic }
 
@@ -493,7 +515,7 @@ def all_brands_tag():
     active_brands = cache.get(brand_cache_key)
     if not active_brands:
         active_brands = Brand.active.all().order_by('ranking')
-        cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+        safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
     return { 'active_brands': active_brands }
 
 @register.inclusion_tag("tags/newarrivals_nav.html")
@@ -502,7 +524,7 @@ def newarrivals_tag():
     new_arrivals = cache.get(newarrivals_cache_key)
     if not new_arrivals:
           new_arrivals = Product.new_arrivals.all()
-          cache.set(newarrivals_cache_key, new_arrivals, CACHE_TIMEOUT)
+          safe_cache_set(newarrivals_cache_key, new_arrivals, CACHE_TIMEOUT)
     return { 'active_newarrivals': new_arrivals }
 
 @register.inclusion_tag("tags/dealoftheday_nav.html")
@@ -515,7 +537,7 @@ def dealoftheday_tag():
         for d in deals:
             product = d.product
             dealoftheday.append(product)
-            cache.set(deals_cache_key, dealoftheday, CACHE_TIMEOUT)
+            safe_cache_set(deals_cache_key, dealoftheday, CACHE_TIMEOUT)
 
     return { 'active_deals': dealoftheday }
 
@@ -525,7 +547,7 @@ def all_active_brands():
     active_brands = cache.get(brand_cache_key)
     if not active_brands:
         active_brands = Brand.active.all().order_by('ranking')
-        cache.set(brand_cache_key, active_brands, CACHE_TIMEOUT)
+        safe_cache_set(brand_cache_key, active_brands, CACHE_TIMEOUT)
     return active_brands
 
 
@@ -539,7 +561,7 @@ def dealoftheday_all():
         for d in deals:
             product = d.product
             dealoftheday.append(product)
-            cache.set(deals_cache_key, dealoftheday, CACHE_TIMEOUT)
+            safe_cache_set(deals_cache_key, dealoftheday, CACHE_TIMEOUT)
 
     return dealoftheday
 
@@ -550,7 +572,7 @@ def active_promotion():
     if not promos or len(promos) == 0:
         curr = datetime.now()
         promos = Promotion.objects.filter(valid_until__gte=curr).exclude(valid_from__gte=curr).exclude(title__isnull=True).exclude(title__exact='')
-        cache.set(promotion_cache_key, promos, CACHE_TIMEOUT)
+        safe_cache_set(promotion_cache_key, promos, CACHE_TIMEOUT)
 
     return promos
 
@@ -561,7 +583,7 @@ def active_todaysnews():
     if not todaysnews or len(todaysnews) == 0:
         curr = datetime.now()
         news = TodaysNews.objects.filter(valid_until__gte=curr).exclude(valid_from__gte=curr).exclude(title__isnull=True).exclude(title__exact='').order_by('order')
-        cache.set(todaysnews_cache_key, news, CACHE_TIMEOUT)
+        safe_cache_set(todaysnews_cache_key, news, CACHE_TIMEOUT)
 
     return news
 
@@ -722,7 +744,7 @@ def get_seo_tags(context):
                         "og_title": not_null(p.seo_og_title, p.meta_description),
                         "og_description": not_null(p.seo_og_description, p.meta_description),
                         "h1_tag": not_null(p.seo_h1_tag, p.meta_description)}
-                cache.set(tag_cache_key, tags, CACHE_TIMEOUT)
+                safe_cache_set(tag_cache_key, tags, CACHE_TIMEOUT)
             return tags
         except Exception:
             pass
@@ -739,7 +761,7 @@ def get_seo_tags(context):
                         "og_title": not_null(p.seo_og_title, p.meta_description),
                         "og_description": not_null(p.seo_og_description, p.meta_description),
                         "h1_tag": not_null(p.seo_h1_tag, p.meta_description)}
-                cache.set(tag_cache_key, tags, CACHE_TIMEOUT)
+                safe_cache_set(tag_cache_key, tags, CACHE_TIMEOUT)
             return tags
         except Exception:
             pass
@@ -757,7 +779,7 @@ def get_seo_tags(context):
                         "og_title": not_null(p.seo_og_title, p.meta_description),
                         "og_description": not_null(p.seo_og_description, p.meta_description),
                         "h1_tag": not_null(p.seo_h1_tag, p.meta_description)}
-                cache.set(tag_cache_key, tags, CACHE_TIMEOUT)
+                safe_cache_set(tag_cache_key, tags, CACHE_TIMEOUT)
             return tags
         except Exception:
             pass
@@ -774,7 +796,7 @@ def get_seo_tags(context):
                         "og_title": not_null(p.seo_og_title, p.meta_description),
                         "og_description": not_null(p.seo_og_description, p.meta_description),
                         "h1_tag": not_null(p.seo_h1_tag, p.meta_description)}
-                cache.set(tag_cache_key, tags, CACHE_TIMEOUT)
+                safe_cache_set(tag_cache_key, tags, CACHE_TIMEOUT)
             return tags
         except Exception:
             pass
@@ -792,7 +814,7 @@ def get_seo_tags(context):
                         "og_title": not_null(p.seo_og_title, p.meta_description),
                         "og_description": not_null(p.seo_og_description, p.meta_description),
                         "h1_tag": not_null(p.seo_h1_tag, p.meta_description)}
-                cache.set(tag_cache_key, tags, CACHE_TIMEOUT)
+                safe_cache_set(tag_cache_key, tags, CACHE_TIMEOUT)
             return tags
         except Exception:
             pass
@@ -810,7 +832,7 @@ def get_seo_tags(context):
                         "og_title": not_null(p.seo_og_title, p.meta_description),
                         "og_description": not_null(p.seo_og_description, p.meta_description),
                         "h1_tag": not_null(p.seo_h1_tag, p.meta_description)}
-                cache.set(tag_cache_key, tags, CACHE_TIMEOUT)
+                safe_cache_set(tag_cache_key, tags, CACHE_TIMEOUT)
             return tags
         except Exception:
             pass
@@ -824,7 +846,7 @@ def get_seo_tags(context):
                 "og_title": SITE_SEO_OG_TITLE,
                 "og_description": SITE_SEO_OG_DESCRIPTION,
                 "h1_tag": SITE_SEO_H1_TAG}
-        cache.set(tag_cache_key, tags, CACHE_TIMEOUT)
+        safe_cache_set(tag_cache_key, tags, CACHE_TIMEOUT)
     return tags
 
 @register.inclusion_tag("tags/testimonials.html")
@@ -833,7 +855,7 @@ def testimonials_tag():
     testimonials = cache.get(testimonials_cache_key)
     if not testimonials:
           testimonials = Testimonial.objects.all()
-          cache.set(testimonials_cache_key, testimonials, CACHE_TIMEOUT)
+          safe_cache_set(testimonials_cache_key, testimonials, CACHE_TIMEOUT)
     return { 'active_testimonials': testimonials }
 
 
@@ -844,5 +866,5 @@ def active_blogs():
     print (blogs)
     if not blogs:
         blogs = Reclaimed_Blog.active.all().order_by('ranking')
-        cache.set(list_cache_key, blogs, CACHE_TIMEOUT)
+        safe_cache_set(list_cache_key, blogs, CACHE_TIMEOUT)
     return blogs

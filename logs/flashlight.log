@@ -1975,3 +1975,5 @@ Watching for file changes with StatReloader
 "GET /admin/jsi18n/ HTTP/1.1" 200 3343
 "GET /admin/catalog/product/3357/change/ HTTP/1.1" 200 96604
 "GET /admin/jsi18n/ HTTP/1.1" 200 3343
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
