@@ -2916,3 +2916,9 @@ Watching for file changes with StatReloader
 "GET /static/images/siteImg/checkout-icon.jpg HTTP/1.1" 404 6338
 "GET /static/images/products/main/EDC27-main_2eEY0rQ.thumbnail.jpg HTTP/1.1" 404 6422
 "GET /static/images/brands/main/klarus.thumbnail.png HTTP/1.1" 404 6366
+Watching for file changes with StatReloader
+"GET /admin/ HTTP/1.1" 200 99224
+"GET /admin/checkout/stripepaymentattempt/ HTTP/1.1" 200 46879
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /admin/checkout/stripepaymentattempt/add/ HTTP/1.1" 200 852754
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343

@@ -27,7 +27,6 @@ urlpatterns = [
 
     url(r'^create-payment-intent', myviews.createpayment, {'SSL': settings.ENABLE_SSL},name="create-payment-intent"),
     url(r'^payment-complete', myviews.paymentcomplete, {'SSL': settings.ENABLE_SSL}, 'payment-complete'),
-    url(r'^stripe-webhook', myviews.stripe_webhook, {'SSL': False}, 'stripe-webhook'),
 
     url(r'^makeapayment', myviews.makeapayment, {'SSL': settings.ENABLE_SSL}, 'makeapayment'),
     url(r'^makeapaymentcomplete', myviews.makeapaymentcomplete, {'SSL': settings.ENABLE_SSL}, 'makeapayment-complete'),

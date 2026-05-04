@@ -35,3 +35,4 @@ else:
      PAYPAL_DEBUG = False
 
 
+STRIPE_WEBHOOK_SECRET = 'whsec_eN01j5wwko9a1HLZOJB0VDUsfN4gCC2X'

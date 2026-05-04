@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.template import RequestContext
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponse, QueryDict
+from django.http import HttpResponseRedirect, HttpResponse
 
 from ecomstore.checkout.forms import CreditCardForm, AddressForm
-from ecomstore.checkout.models import Order, OrderItem, ShippingMethod, Promotion, ProductOnlyPromotion, referral, GiftCertificate, StripePaymentAttempt
+from ecomstore.checkout.models import Order, OrderItem, ShippingMethod, Promotion, ProductOnlyPromotion, referral, GiftCertificate
 from ecomstore.checkout import *
 from ecomstore.checkout.checkout import save_order_details
 from ecomstore.cart import cart
@@ -43,11 +43,10 @@ from ecomstore import settings
 from ecomstore.accounts import profile
 from django.core.mail import send_mail
 from ecomstore.settings import EMAIL_ORDER
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User
 
 from ecomstore.utils.models import base_country
 import traceback
-from types import SimpleNamespace
 from ecomstore.utils.email import send_mail_async
 
 
@@ -938,352 +937,91 @@ from django.views.decorators.csrf import csrf_exempt
 import stripe
 import json
 from ecomstore.cart.cart import CART_ID_SESSION_KEY
-
-
-def _stripe_audit(request, stage, message, status='Success'):
-    try:
-        checkout_audit._audit(request, stage, message)
-    except Exception:
-        # Auditing must never interrupt checkout/payment recovery.
-        pass
-
-
-def _safe_json_dumps(value):
-    return json.dumps(value, default=str)
-
-
-def _session_snapshot(request):
-    """Return a JSON-safe copy of the current checkout session."""
-    snapshot = {}
-    for key, value in request.session.items():
-        try:
-            json.dumps(value)
-            snapshot[key] = value
-        except TypeError:
-            snapshot[key] = str(value)
-    return snapshot
-
-
-def _get_request_ip(request):
-    forwarded = request.META.get('HTTP_X_FORWARDED_FOR', '')
-    if forwarded:
-        return forwarded.split(',')[0].strip()
-    return request.META.get('REMOTE_ADDR', '127.0.0.1')
-
-
-def _get_request_flavour(request):
-    return getattr(request, 'flavour', '') or request.session.get('flavour', '') or 'full'
-
-
-def _build_payment_attempt(request, amount, currency):
-    session_data = _session_snapshot(request)
-    user = request.user if getattr(request, 'user', None) and request.user.is_authenticated else None
-    return StripePaymentAttempt.objects.create(
-        cart_id=request.session.get(CART_ID_SESSION_KEY, ''),
-        user=user,
-        amount=int(amount),
-        currency=(currency or 'usd').lower(),
-        email=request.session.get('email', ''),
-        ip_address=_get_request_ip(request),
-        flavour=_get_request_flavour(request),
-        session_data=_safe_json_dumps(session_data),
-        status=StripePaymentAttempt.STATUS_CREATED,
-    )
-
-
-def _request_from_attempt(attempt):
-    session_data = {}
-    if attempt.session_data:
-        try:
-            session_data = json.loads(attempt.session_data)
-        except Exception:
-            session_data = {}
-    if attempt.cart_id and not session_data.get(CART_ID_SESSION_KEY):
-        session_data[CART_ID_SESSION_KEY] = attempt.cart_id
-
-    post = QueryDict('', mutable=True)
-    user = attempt.user or AnonymousUser()
-    meta = {'REMOTE_ADDR': attempt.ip_address or '127.0.0.1'}
-    return SimpleNamespace(session=session_data, POST=post, META=meta, user=user, flavour=attempt.flavour or 'full')
-
-
-def _get_attempt_for_payment_intent(payment_intent):
-    attempt = None
-    pi_id = payment_intent.get('id') if isinstance(payment_intent, dict) else payment_intent.id
-    metadata = payment_intent.get('metadata', {}) if isinstance(payment_intent, dict) else getattr(payment_intent, 'metadata', {})
-    attempt_id = None
-    try:
-        attempt_id = metadata.get('stripe_payment_attempt_id')
-    except Exception:
-        attempt_id = None
-
-    if attempt_id:
-        attempt = StripePaymentAttempt.objects.filter(id=attempt_id).first()
-    if not attempt:
-        attempt = StripePaymentAttempt.objects.filter(payment_intent_id=pi_id).first()
-    return attempt
-
-
-def _generate_invoice_number_for_order(request, order):
-    now = datetime.now()
-    scramble_order_id = order.id + random.randint(1, 10)
-    order_number = str(now.year) + str(now.month) + str(now.day) + '-' + str(scramble_order_id) + '-' + str(random.randint(1, 1000000))
-    if getattr(request, 'flavour', '') == 'mobile':
-        order_number = "M{}".format(order_number)
-    return order_number
-
-
-def _finalize_paid_order(request, order):
-    """Generate invoice number and send receipt email once.
-
-    The normal receipt page still displays the order.  This helper makes the
-    webhook path complete the order without requiring the customer's browser to
-    come back successfully.
-    """
-    if order.invoice_number:
-        return order
-
-    total_amt_due = request.session.get('total_amt_due', None)
-    shipping_charge = request.session.get('shipping_charge', '0')
-    try:
-        effective_final = Decimal(total_amt_due) - Decimal(shipping_charge)
-    except Exception:
-        effective_final = order.total
-
-    order_number = _generate_invoice_number_for_order(request, order)
-    order.invoice_number = order_number
-    order.note = request.session.get('note', '')
-    order.isItAuction = is_auction(request)
-    order.auction_price = effective_final
-    order.save()
-
-    if is_auction(request):
-        try:
-            Auction_Paid(request)
-        except Exception:
-            checkout_audit._audit(request, 'Stripe webhook', 'Auction_Paid failed for order {}'.format(order.id))
-
-    subject = "Your order with " + settings.SITE_NAME + " " + order_number
-    dst_email = request.session.get('email', None) or order.email
-    src_email = settings.EMAIL_ORDER
-
-    try:
-        email_msg = "Greetings, \n\n"
-        email_msg += "You have successfully placed an order with order number: "
-        email_msg += str(order_number)
-        email_msg += "\n\nYour order will be processed within one business day. Thank you for your business. "
-        email_msg += "\n\n" + settings.SITE_NAME + " Sales Team\n\n"
-        email_msg += "Attached is your invoice. To open the invoice, you need Adobe Reader installed. Adobe Reader is "
-        email_msg += "a free software that lets you view and print PDF files. If you do not have Adobe Reader on your computer, you can download it at:\n\n"
-        email_msg += "http://get.adobe.com/reader/"
-
-        pdf = generate_invoice(order)
-        EmailMsg = EmailMessage(subject, email_msg, src_email, [dst_email, EMAIL_ORDER], headers={'Reply-To': src_email})
-        EmailMsg.attach(str(order_number) + '.pdf', pdf, 'application/pdf')
-        EmailMsg.send()
-    except Exception:
-        tb = traceback.format_exc()
-        checkout_audit._audit(request, "Stripe receipt error", " {}".format(tb))
-        error_msg = "Generating Stripe receipt error: {}".format(tb)
-        admin_emails = [v for k, v in settings.ADMINS]
-        send_mail_async("An exception occured during Stripe check out", error_msg, settings.EMAIL_ORDER, admin_emails, fail_silently=False, html='')
-
-        fallback_msg = "Greetings, \n\n"
-        fallback_msg += "You have successfully placed an order with order number: "
-        fallback_msg += str(order_number)
-        fallback_msg += ". Please login to your account on " + settings.SITE_URL + " to check the order detail, shipping status and view your invoice."
-        fallback_msg += " If you do not have an account with us, you may write to us with your order number to request a copy of the invoice."
-        email.send_email(dst_email, src_email, subject, fallback_msg)
-
-    try:
-        referralCode = request.session.get('referralCode', '')
-        if referralCode:
-            referrals = referral.objects.filter(referralCode=referralCode)
-            if referrals:
-                referralObj = referrals[0]
-                referral_email = referralObj.email
-                referralObj.orders.add(order)
-                referralObj.save()
-                email.send_email(referral_email, src_email, "Order referral", "Thank you for your referral for order " + order_number)
-    except Exception:
-        checkout_audit._audit(request, 'Stripe receipt', 'Referral handling failed for order {}'.format(order.id))
-
-    try:
-        valid_giftcode = request.session.get('valid_giftcode', '')
-        if valid_giftcode != '':
-            giftcert = GiftCertificate.objects.filter(code=valid_giftcode)[0]
-            if giftcert:
-                giftcert.value_in_cart = 0
-                giftcert.orders_redeemed.add(order)
-                giftcert.save()
-    except Exception:
-        checkout_audit._audit(request, 'Stripe receipt', 'Gift certificate handling failed for order {}'.format(order.id))
-
-    checkout_audit._audit(request, 'Stripe receipt', 'Order receipt sent for order {}'.format(order.id))
-    return order
-
-
-def _complete_stripe_payment_intent(payment_intent_id, request=None, source='browser'):
-    stripe.api_key = settings.STRIPE_SECRET_KEY
-    payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
-    if payment_intent.status != 'succeeded':
-        return None, 'Stripe PaymentIntent {} is {}'.format(payment_intent_id, payment_intent.status)
-
-    existing_order = Order.objects.filter(transaction_id=payment_intent_id).first()
-    attempt = _get_attempt_for_payment_intent(payment_intent)
-
-    if existing_order:
-        if attempt and not attempt.order_id:
-            attempt.order = existing_order
-            attempt.status = StripePaymentAttempt.STATUS_COMPLETED
-            attempt.save(update_fields=['order', 'status', 'updated_at'])
-        return existing_order, None
-
-    if not attempt and request is not None:
-        attempt = _build_payment_attempt(request, payment_intent.amount, payment_intent.currency)
-        attempt.payment_intent_id = payment_intent_id
-        attempt.status = StripePaymentAttempt.STATUS_SUCCEEDED
-        attempt.save()
-
-    if not attempt:
-        return None, 'No StripePaymentAttempt found for {}'.format(payment_intent_id)
-
-    payment_request = request or _request_from_attempt(attempt)
-
-    try:
-        order = checkout.create_order(payment_request, payment_intent_id)
-        _finalize_paid_order(payment_request, order)
-        attempt.order = order
-        attempt.status = StripePaymentAttempt.STATUS_COMPLETED
-        attempt.error_message = ''
-        attempt.save(update_fields=['order', 'status', 'error_message', 'updated_at'])
-        return order, None
-    except Exception:
-        tb = traceback.format_exc()
-        attempt.status = StripePaymentAttempt.STATUS_FAILED
-        attempt.error_message = tb
-        attempt.save(update_fields=['status', 'error_message', 'updated_at'])
-        admin_emails = [v for k, v in settings.ADMINS]
-        send_mail_async(
-            "Stripe payment succeeded but order creation failed",
-            "PaymentIntent: {}\nSource: {}\n\n{}".format(payment_intent_id, source, tb),
-            settings.EMAIL_ORDER,
-            admin_emails,
-            fail_silently=False,
-            html='',
-        )
-        return None, tb
-
-
 # below are for Stripe integration
 @csrf_exempt
 def createpayment(request):
+
       stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
       data = json.loads(request.body)
-      amount = int(data['total'])
-      currency = data.get('currency', 'usd')
-      attempt = _build_payment_attempt(request, amount, currency)
-
+      print ("data = ", data)
+      # Create a PaymentIntent with the order amount and currency
+      intent = stripe.PaymentIntent.create(
+        amount=data['total'],
+        currency=data['currency'],
+        metadata={'integration_check': 'accept_a_payment'},
+        )
       try:
-          intent = stripe.PaymentIntent.create(
-              amount=amount,
-              currency=currency,
-              receipt_email=request.session.get('email', None) or None,
-              metadata={
-                  'stripe_payment_attempt_id': str(attempt.id),
-                  'cart_id': request.session.get(CART_ID_SESSION_KEY, ''),
-                  'email': request.session.get('email', ''),
-              },
-          )
-          attempt.payment_intent_id = intent.id
-          attempt.save(update_fields=['payment_intent_id', 'updated_at'])
-
-          if 'shipping_zip' in request.session:
-              zip = request.session['shipping_zip']
-          else:
-              zip = "00000"
-          checkout_audit._audit(request, 'stripe_createpayment', 'User:{}, Cart ID:{}, Zip:{}, Attempt:{}, Payload:{}'.format(request.user, request.session.get(CART_ID_SESSION_KEY,''), zip, attempt.id, data))
-          return JsonResponse({
-              'publishableKey': settings.STRIPE_PUBLISHABLE_KEY,
-              'hidePostalCodeInput': settings.STRIPE_HIDE_POSTALCODE_INPUT,
-              'shippingPostalCode': zip,
-              'receipt_email': request.session.get('email', None) or settings.RECEIPT_EMAIL,
-              'clientSecret': intent.client_secret,
-          })
+        if 'shipping_zip' in request.session:
+            zip = request.session['shipping_zip']
+        else:
+            zip = "00000"
+        checkout_audit._audit(request, 'stripe_createpayment', 'User:{}, Cart ID:{}, Zip:{}, Payload:{}'.format(request.user, request.session.get(CART_ID_SESSION_KEY,''),zip,data))
+        return JsonResponse({'publishableKey':
+          settings.STRIPE_PUBLISHABLE_KEY, 'hidePostalCodeInput': settings.STRIPE_HIDE_POSTALCODE_INPUT,
+          'shippingPostalCode': zip, 'receipt_email': settings.RECEIPT_EMAIL, 'clientSecret': intent.client_secret})
       except Exception as e:
-          attempt.status = StripePaymentAttempt.STATUS_FAILED
-          attempt.error_message = traceback.format_exc()
-          attempt.save(update_fields=['status', 'error_message', 'updated_at'])
-          print ("********* Error: ", str(e))
-          return JsonResponse({'error':str(e)}, status=403)
-
+        print ("********* Error: ", str(e))
+        return JsonResponse({'error':str(e)},status= 403)
 
 @csrf_exempt
 def paymentcomplete(request):
-  if request.method == "POST":
-    try:
-        data = json.loads(request.POST.get("payload"))
-    except Exception:
-        checkout_audit._audit(request, 'stripe_paymentcomplete_failed', 'Invalid payload: {}'.format(request.POST.get("payload")))
-        return HttpResponse("Invalid Stripe payment payload", status=400)
+  if request.method=="POST":
+    data = json.loads(request.POST.get("payload"))
+    #print ("***** payload = ", data)
+    #print ("paymentcomplete request.user=", request.user)
+    #print ("Paymentcomplete cart id =", request.session.get(CART_ID_SESSION_KEY,''))
 
-    checkout_audit._audit(request, 'stripe_paymentcomplete', 'User:{}, Cart ID:{}, Payload:{}'.format(request.user, request.session.get(CART_ID_SESSION_KEY,''), data))
+    checkout_audit._audit(request, 'stripe_paymentcomplete', 'User:{}, Cart ID:{}, Payload:{}'.format(request.user, request.session.get(CART_ID_SESSION_KEY,''),data))
 
-    payment_intent_id = data.get('id')
-    if not payment_intent_id:
-        return HttpResponse("Missing Stripe payment id", status=400)
+    """
+    payload =  {'id': 'pi_3MUvYRAgCDAW1h3t1PbEm4gu',
+                'object': 'payment_intent',
+                'amount': 350,
+                'amount_details': {'tip': {}},
+                'automatic_payment_methods': None,
+                'canceled_at': None,
+                'cancellation_reason': None,
+                'capture_method': 'automatic',
+                'client_secret': 'pi_3MUvYRAgCDAW1h3t1PbEm4gu_secret_XRZhJrl1JjGCphErH0WWkA8n9',
+                'confirmation_method': 'automatic',
+                'created': 1674839855,
+                'currency': 'usd',
+                'description': None,
+                'last_payment_error': None,
+                'livemode': False,
+                'next_action': None,
+                'payment_method': 'pm_1MUvYhAgCDAW1h3tIBXoKaiQ',
+                'payment_method_types': ['card'],
+                'processing': None,
+                'receipt_email': None,
+                'setup_future_usage': None,
+                'shipping': None,
+                'source': None,
+                'status': 'succeeded'}
+    """
 
-    order, error = _complete_stripe_payment_intent(payment_intent_id, request=request, source='browser')
-    if order:
-        request.session['order_number'] = order.id
-        receipt_url = reverse('checkout_receipt_mobile') if getattr(request, 'flavour', '') == 'mobile' else reverse('checkout_receipt')
-        return HttpResponseRedirect(receipt_url)
+    if data["status"] == "succeeded":
+        checkout_audit._audit(request, 'stripe_paymentcomplete:', request.POST.get("payload"))
 
-    checkout_audit._audit(request, 'checkout_stripe_payment failed', error or payment_intent_id)
-    return HttpResponse("Payment was received, but order creation is pending. Please contact customer service with payment id {}.".format(payment_intent_id), status=202)
+        order = checkout.create_order(request, data['id'])
 
-  return HttpResponse("Method not allowed", status=405)
+        order_number = order.id
+        if order_number:
+            request.session['order_number'] = order_number
+            receipt_url = reverse('checkout_receipt')
+            return HttpResponseRedirect(receipt_url)
+        else:
+            checkout_audit._audit(request, 'checkout_stripe_payment failed, checkout.create_order failed to return an order id')
+    else:
+        checkout_audit._audit(request, 'checkout_stripe_payment failed, id = :', data['id'])
 
 
-@csrf_exempt
-def stripe_webhook(request):
-    stripe.api_key = settings.STRIPE_SECRET_KEY
-    webhook_secret = getattr(settings, 'STRIPE_WEBHOOK_SECRET', '')
-    payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
 
-    if not webhook_secret:
-        return HttpResponse("STRIPE_WEBHOOK_SECRET is not configured", status=400)
-
-    try:
-        event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
-    except ValueError:
-        return HttpResponse("Invalid payload", status=400)
-    except stripe.error.SignatureVerificationError:
-        return HttpResponse("Invalid signature", status=400)
-
-    event_type = event.get('type')
-    payment_intent = event.get('data', {}).get('object', {})
-    payment_intent_id = payment_intent.get('id')
-
-    if event_type == 'payment_intent.succeeded' and payment_intent_id:
-        order, error = _complete_stripe_payment_intent(payment_intent_id, request=None, source='webhook')
-        if error:
-            # Return 200 so Stripe does not endlessly retry for problems that
-            # need manual/admin attention; the attempt is marked failed and an
-            # admin email is sent by _complete_stripe_payment_intent().
-            return JsonResponse({'received': True, 'order_created': False, 'error': error})
-        return JsonResponse({'received': True, 'order_created': True, 'order_id': order.id})
-
-    if event_type == 'payment_intent.payment_failed' and payment_intent_id:
-        attempt = _get_attempt_for_payment_intent(payment_intent)
-        if attempt:
-            attempt.status = StripePaymentAttempt.STATUS_FAILED
-            attempt.error_message = json.dumps(payment_intent.get('last_payment_error', {}), default=str)
-            attempt.save(update_fields=['status', 'error_message', 'updated_at'])
-
-    return JsonResponse({'received': True})
+    if data["status"] == "succeeded":
+      # save purchase here/ setup email confirmation
+      return render(request, "main/payment-complete.html")
 
 @csrf_exempt
 def makeapayment(request, template_name='checkout/payment_standalone.html'):

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load catalog_tags %}
+{% load search_tags %}
+{% load pagination_tags %}
+
+
+{% block site_wrapper %}
+
+<table class="categoryThumbnails" width="100%">
+        <tr>
+                <td valign="top" id="mainColumn">
+                        <table border="0" width="100%" cellpadding="3">
+                                <tr>
+                                        <td colspan="2">
+                                                <h1> <b>Search Result for '{{ q }}'</b> </h1>
+                                        </td>
+                                </tr>
+				{% if not results %}
+				<tr>
+                                        <td align="left" valign="top" width="0">
+                                                <p>No products were found matching those search terms.. Try another keyword </p>
+                                        </td>
+                                </tr>
+				{% endif %}
+                        </table>
+<br />
+<!--
+<div style="float:right;">
+{% pagination_links request paginator %}
+</div>
+-->
+                        {% autopaginate matching 20 %}
+                        {% paginate 5 %}
+
+			{% g_searchresult results %}
+                        {% paginate 5 %}
+<!--
+<div style="float:right;">
+{% pagination_links request paginator %}
+</div>
+-->
+                </td>
+        </tr>
+</table>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from ecomstore.checkout.models import Order, OrderItem, ShippingMethod, Promotion, ProductOnlyPromotion, checkout_audit, referral, GiftCertificate, StripePaymentAttempt
+from ecomstore.checkout.models import Order, OrderItem, ShippingMethod, Promotion, ProductOnlyPromotion, checkout_audit, referral, GiftCertificate
 import requests
 import json
 from ecomstore.checkout.order_management import *
@@ -120,13 +120,3 @@ class ReferalAdmin(admin.ModelAdmin):
     filter_horizontal = ('orders',)
 
 admin.site.register(referral, ReferalAdmin)
-
-
-class StripePaymentAttemptAdmin(admin.ModelAdmin):
-    list_display = ('created_at', 'payment_intent_id', 'status', 'email', 'amount', 'currency', 'cart_id', 'order')
-    list_filter = ('status', 'currency', 'created_at')
-    search_fields = ('payment_intent_id', 'email', 'cart_id', 'error_message')
-    readonly_fields = ('created_at', 'updated_at', 'session_data', 'error_message')
-    list_per_page = 25
-
-admin.site.register(StripePaymentAttempt, StripePaymentAttemptAdmin)

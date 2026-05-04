@@ -619,50 +619,6 @@ class OrderItem(models.Model):
 
 
 
-class StripePaymentAttempt(models.Model):
-    """Server-side record for a Stripe PaymentIntent checkout.
-
-    This lets Stripe webhooks complete the order even if the customer's
-    browser/mobile device never returns to /checkout/payment-complete/.
-    """
-    STATUS_CREATED = 'created'
-    STATUS_SUCCEEDED = 'succeeded'
-    STATUS_COMPLETED = 'completed'
-    STATUS_FAILED = 'failed'
-
-    STATUS_CHOICES = (
-        (STATUS_CREATED, 'Created'),
-        (STATUS_SUCCEEDED, 'Stripe payment succeeded'),
-        (STATUS_COMPLETED, 'Order created'),
-        (STATUS_FAILED, 'Failed'),
-    )
-
-    payment_intent_id = models.CharField(max_length=100, unique=True, blank=True, null=True)
-    cart_id = models.CharField(max_length=100, blank=True, null=True)
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.SET_NULL)
-    amount = models.PositiveIntegerField(default=0, help_text='Amount in the smallest currency unit, e.g. cents')
-    currency = models.CharField(max_length=10, default='usd')
-    email = models.EmailField(max_length=100, blank=True, null=True)
-    ip_address = models.CharField(max_length=50, blank=True, null=True)
-    flavour = models.CharField(max_length=20, blank=True, null=True)
-    session_data = models.TextField(blank=True, null=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_CREATED)
-    error_message = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'stripe_payment_attempts'
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return self.payment_intent_id or 'Stripe payment attempt #%s' % self.id
-
-    def __unicode__(self):
-        return self.__str__()
-
-
 class checkout_audit(models.Model):
     """ model class for storing the shipping methods """
 
