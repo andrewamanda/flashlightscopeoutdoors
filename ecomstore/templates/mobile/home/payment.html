@@ -309,5 +309,30 @@ If you require your order to be shipped to an address different from the billing
       </script>
       <!-- beginning of Stripe Integration -->
      {% include 'tags/stripeJS.html' %}
+     <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const collapsible = document.querySelector('[data-role="collapsible"]');
+
+    if (!collapsible) return;
+
+    let mounted = false;
+
+    collapsible.addEventListener("click", function () {
+        if (!mounted) {
+            setTimeout(function () {
+                try {
+                    if (typeof card !== "undefined") {
+                        card.mount("#card-element");
+                        mounted = true;
+                    }
+                } catch (e) {
+                    console.log("Stripe mount retry:", e);
+                }
+            }, 300);
+        }
+    });
+});
+</script>
+
       <!-- end of Stripe Integration -->
 {% endblock %}
