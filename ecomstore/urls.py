@@ -99,3 +99,16 @@ if not settings.PRODUCTION:
 
 handler404 = 'ecomstore.views.file_not_found_404'
 handler500 = 'ecomstore.views.server_error_500'
+
+
+from django.urls import path
+from django.conf import settings
+
+def test_500_email(request):
+    if request.GET.get("key") != "Prevouscoffee610":
+        raise Http404()
+    raise Exception("Test production exception email")
+
+urlpatterns += [
+    path("test-500-email/", test_500_email),
+]
