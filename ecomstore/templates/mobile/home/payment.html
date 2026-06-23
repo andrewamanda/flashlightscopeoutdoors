@@ -196,7 +196,7 @@
         </div>
 </form>
 
-<form action="{% url 'payment' %}" method="post" name="paymentForm" class="PaypalForm">{% csrf_token %}
+<form action="{% url 'payment' %}" method="post" name="paymentForm" class="PaypalDirectForm" data-ajax="false">{% csrf_token %}
        <input type="hidden" name="total_amt_due"  value="{{ total_amt_due }}"/>
        <input type="hidden" name="shipping_description"  value="{{ shipping_description }}"/>
        <input type="hidden" name="shipping_method_name"  value="{{ shipping_method_name }}"/>
@@ -205,6 +205,7 @@
        <input type="hidden" name="discount"  value="{{ discount }}"/>
 
        <input type="hidden" name="payment_type"  value="PaypalOrder"/>
+       <input type="hidden" name="paypal_direct_redirect" value="1"/>
 
 	<button type="submit" id="paypalBtn" data-theme="b" value="PaypalOrder">Checkout with Paypal</button>
 

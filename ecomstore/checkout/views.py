@@ -407,6 +407,15 @@ def checkout_payment(request, return_url, cancel_url, error_url, template_name='
 
             # send him/her to the PayPal website to check his/her order details out
             redirect_url = driver.paypal_url()
+            # For the mobile PayPal checkout, use a normal browser redirect instead of
+            # the old AJAX/JSON handoff. The AJAX path was fragile on mobile devices:
+            # the Set-Cookie/session update from this response could be missed before
+            # the browser left for PayPal, so PayPal sometimes received incomplete
+            # amount/address/session details. A direct 302 keeps the server session
+            # and PayPal handoff in the normal checkout flow.
+            if request.flavour == 'mobile' and request.POST.get('paypal_direct_redirect') == '1':
+                 return HttpResponseRedirect(redirect_url)
+
             if request.flavour == 'mobile':
                  response = simplejson.dumps({'paypal_url':redirect_url})
                  return HttpResponse(response,
