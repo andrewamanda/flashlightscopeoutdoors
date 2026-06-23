@@ -3,6 +3,25 @@ from django.core.cache import cache
 from django.http import JsonResponse
 import time
 
+
+def _is_checkout_request(request):
+    """Do not run bot/attack blocking on normal checkout/payment POSTs.
+
+    Mobile Safari and some privacy tools may omit Referer or send slightly
+    different headers. The security middlewares below were treating those
+    normal checkout POSTs as suspicious and returning a fake JSON success
+    response, which appears to the customer as a blank/hanging page after
+    selecting a shipping method.
+    """
+    path = getattr(request, "path", "") or ""
+    safe_prefixes = (
+        "/checkout/",
+        "/mobile/",
+        "/cart/",
+        "/accounts/",
+    )
+    return path.startswith(safe_prefixes)
+
 class RateLimitMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -311,8 +330,8 @@ class FingerprintBlockerMiddleware:
         ]
         
     def __call__(self, request):
-        # Skip fingerprinting for GET requests to reduce overhead
-        if request.method != 'POST':
+        # Skip fingerprinting for GET requests and normal checkout/mobile posts.
+        if request.method != 'POST' or _is_checkout_request(request):
             return self.get_response(request)
             
         fingerprint = self.create_comprehensive_fingerprint(request)
@@ -530,6 +549,9 @@ class PatternBlockerMiddleware:
         ]
         
     def __call__(self, request):
+        if _is_checkout_request(request):
+            return self.get_response(request)
+
         if self.is_malicious_request(request):
             return JsonResponse({'status': 'success'}, status=200)
         
@@ -571,6 +593,9 @@ class RobustIPMiddleware:
         self.suspicious_patterns = re.compile(r'@@|YuAIi|script|alert|union|select', re.IGNORECASE)
         
     def __call__(self, request):
+        if _is_checkout_request(request):
+            return self.get_response(request)
+
         client_ips = self.get_valid_ips(request)
         
         # Check all extracted IPs

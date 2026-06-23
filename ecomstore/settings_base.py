@@ -4,7 +4,8 @@ import os
 from ecomstore.settings_env import CURRENT_PATH
 
 ADMINS = [
-    ('Wangming Ye', 'admin@andrew-amanda.com'),
+    ('Wangming Ye', 'wangming.ye@gmail.com'),
+    ('Store Error Alerts', 'sales@eco-sensa.com'),
 ]
 
 MANAGERS = ADMINS

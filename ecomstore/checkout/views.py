@@ -536,7 +536,30 @@ def checkout_payment(request, return_url, cancel_url, error_url, template_name='
     cart_subtotal = cart.cart_subtotal(request)
 
     shipping_method_name = request.session.get('shippingLevel','')
-    shippingmethod = ShippingMethod.objects.filter(name=shipping_method_name)[0]
+    shippingmethod = ShippingMethod.objects.filter(name=shipping_method_name).first()
+    if shippingmethod is None:
+        # Production-safe guard: the mobile shipping form can arrive without the
+        # expected shippingLevel value if a browser/privacy setting or middleware
+        # interferes with the POST. Previously this raised IndexError and caused
+        # a 500/blank page. Send the customer back to shipping selection and log
+        # enough context for debugging.
+        checkout_audit._audit(request, 'checkout_payment', 'Invalid or missing shippingLevel in session: {}'.format(shipping_method_name))
+        try:
+            subject = 'Checkout error: missing/invalid shipping method'
+            message = 'Path: {}\nSession shippingLevel: {}\nPOST: {}\nUser-Agent: {}\nIP: {}'.format(
+                request.path,
+                shipping_method_name,
+                dict(request.POST),
+                request.META.get('HTTP_USER_AGENT', ''),
+                request.META.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR', ''),
+            )
+            admin_emails = [v for k, v in settings.ADMINS]
+            send_mail_async(subject, message, settings.SERVER_EMAIL, admin_emails, fail_silently=True, html='')
+        except Exception:
+            pass
+        messages.error(request, 'Please select a shipping method before continuing to payment.')
+        return HttpResponseRedirect(reverse('shipping_method'))
+
     shipping_charge = cart.shipping_charge(request)
     shipping_description = shippingmethod.description
 
